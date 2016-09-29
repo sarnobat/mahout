@@ -156,7 +156,14 @@ public class MahoutTermFinder {
 				System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
+        System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
+        System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
+        System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
+        System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
+        System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
+        System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
+        System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
+        System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
 				
 		};
 		for (String path : files) {
