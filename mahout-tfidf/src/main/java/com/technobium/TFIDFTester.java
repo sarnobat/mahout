@@ -19,41 +19,15 @@ import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 
 public class TFIDFTester {
 
-	String outputFolder;
-	Configuration configuration;
-	FileSystem fileSystem;
-	Path documentsSequencePath;
-	Path tokenizedDocumentsPath;
-	Path tfidfPath;
-	Path termFrequencyVectorsPath;
+	private static String outputFolder;
+	private static Configuration configuration;
+	private static FileSystem fileSystem;
+	private static Path documentsSequencePath;
+	private static Path tokenizedDocumentsPath;
+	private static Path tfidfPath;
+	private static Path termFrequencyVectorsPath;
 
 	public static void main(String args[]) throws Exception {
-
-		TFIDFTester tester = new TFIDFTester();
-
-		tester.createTestDocuments();
-		tester.calculateTfIdf();
-
-		tester.printSequenceFile(tester.documentsSequencePath);
-
-		System.out.println("\n Step 1: Word count ");
-		tester.printSequenceFile(new Path(tester.outputFolder + "wordcount/part-r-00000"));
-
-		System.out.println("\n Step 2: Word dictionary ");
-		tester.printSequenceFile(new Path(tester.outputFolder, "dictionary.file-0"));
-
-		System.out.println("\n Step 3: Term Frequency Vectors ");
-		tester.printSequenceFile(new Path(tester.outputFolder + "tf-vectors/part-r-00000"));
-
-		System.out.println("\n Step 4: Document Frequency ");
-		tester.printSequenceFile(new Path(tester.outputFolder + "tfidf/df-count/part-r-00000"));
-
-		System.out.println("\n Step 5: TFIDF ");
-		tester.printSequenceFile(new Path(tester.outputFolder + "tfidf/tfidf-vectors/part-r-00000"));
-
-	}
-
-	public TFIDFTester() throws IOException {
 
 		configuration = new Configuration();
 		fileSystem = FileSystem.get(configuration);
@@ -65,9 +39,30 @@ public class TFIDFTester {
 		tfidfPath = new Path(outputFolder + "tfidf");
 		termFrequencyVectorsPath = new Path(outputFolder
 				+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
+
+		createTestDocuments();
+		calculateTfIdf();
+
+		printSequenceFile(documentsSequencePath);
+
+		System.out.println("\n Step 1: Word count ");
+		printSequenceFile(new Path(outputFolder + "wordcount/part-r-00000"));
+
+		System.out.println("\n Step 2: Word dictionary ");
+		printSequenceFile(new Path(outputFolder, "dictionary.file-0"));
+
+		System.out.println("\n Step 3: Term Frequency Vectors ");
+		printSequenceFile(new Path(outputFolder + "tf-vectors/part-r-00000"));
+
+		System.out.println("\n Step 4: Document Frequency ");
+		printSequenceFile(new Path(outputFolder + "tfidf/df-count/part-r-00000"));
+
+		System.out.println("\n Step 5: TFIDF ");
+		printSequenceFile(new Path(outputFolder + "tfidf/tfidf-vectors/part-r-00000"));
+
 	}
 
-	public void createTestDocuments() throws IOException {
+	private static void createTestDocuments() throws IOException {
 		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration,
 				documentsSequencePath, Text.class, Text.class);
 
@@ -82,7 +77,8 @@ public class TFIDFTester {
 		writer.close();
 	}
 
-	public void calculateTfIdf() throws ClassNotFoundException, IOException, InterruptedException {
+	private static void calculateTfIdf() throws ClassNotFoundException, IOException,
+			InterruptedException {
 
 		// Tokenize the documents using Apache Lucene StandardAnalyzer
 		DocumentProcessor.tokenizeDocuments(documentsSequencePath, StandardAnalyzer.class,
@@ -100,7 +96,7 @@ public class TFIDFTester {
 				false, 1);
 	}
 
-	void printSequenceFile(Path path) {
+	private static void printSequenceFile(Path path) {
 		SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(
 				path, configuration);
 		for (Pair<Writable, Writable> pair : iterable) {
