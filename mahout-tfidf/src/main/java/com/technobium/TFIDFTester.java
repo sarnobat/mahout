@@ -69,7 +69,6 @@ public class TFIDFTester {
 			Map<String, Object> dictionary) {
 		Map<String, Map<String, Double>> ret = new HashMap<String, Map<String, Double>>();
 		for (String file : tfidfs.keySet()) {
-			System.out.println("TFIDFTester.transform() file = " + file);
 			VectorWritable tfidf = (VectorWritable) tfidfs.get(file);
 			ret.put(file, transform(tfidf, dictionary));
 		}
@@ -81,24 +80,18 @@ public class TFIDFTester {
 		BiMap<String, Object> terms = HashBiMap.create();
 		terms.putAll(dictionary);
 		Map<Object, String> terms2 = terms.inverse();
-		System.out.println("TFIDFTester.transform() " + terms2.keySet());
 		Map<Integer, String> terms1 = convert(terms2);
-		System.out.println("TFIDFTester.transform() terms1 = " + terms1);
-		System.out.println("TFIDFTester.transform() " + terms1.keySet());
 		Map<String, Double> ret = new HashMap<String, Double>();
 		for (Element e : tfidf.get().all()) {
 			double score = e.get();
 			int id = e.index();
-			System.out.println("TFIDFTester.transform() - id, score: " + id + " = " + score);
 			if (!terms1.containsKey(id)) {
 				throw new RuntimeException("Couldn't find key " + id + ", only found "
 						+ terms1.keySet());
 			}
 			String term = (String) terms1.get(id);
-			System.out.println("TFIDFTester.transform() term = " + term);
 			ret.put(term, score);
 		}
-		System.out.println("TFIDFTester.transform() ret = " + ret);
 		return ret;
 	}
 
@@ -167,7 +160,6 @@ public class TFIDFTester {
 		Map<String, Object> m = new HashMap<String, Object>();
 		for (Pair<Writable, Writable> pair : iterable) {
 			System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
-			System.out.println("TFIDFTester.sequenceFileToMap() - " + pair.getSecond().getClass());
 			m.put(pair.getFirst().toString(), pair.getSecond());
 		}
 		return m;
