@@ -1,11 +1,13 @@
 package com.technobium;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -61,8 +63,33 @@ public class TFIDFTester {
 		System.out.println("TFIDFTester.main() - " + tfidf);
 
 		Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
-		System.out.println(scores);
+		Map<String, Map<String, Double>> filter = filter(scores);
+		for (String filename : filter.keySet()) {
+			System.out.println(filename);
+			System.out.println(filter.get(filename));
+			System.out.println();
+		}
+		System.out.println(filter);
 
+	}
+
+	private static Map<String, Map<String, Double>> filter(Map<String, Map<String, Double>> scores) {
+		Map<String, Map<String, Double>> ret = new HashMap<String, Map<String, Double>>();
+		for (String file : scores.keySet()) {
+			Map<String, Double> tfidf = scores.get(file);
+			ret.put(file, filter2(tfidf));
+		}
+		return ret;
+	}
+
+	private static Map<String, Double> filter2(Map<String, Double> tfidf) {
+		Map<String, Double> ret = new HashMap<String, Double>();
+		for (String s : tfidf.keySet()) {
+			if (tfidf.get(s) > 1.1) {
+				ret.put(s, tfidf.get(s));
+			}
+		}
+		return ret;
 	}
 
 	private static Map<String, Map<String, Double>> transform(Map<String, Object> tfidfs,
@@ -101,7 +128,8 @@ public class TFIDFTester {
 			String value = terms1.get(o);
 			if (value == null) {
 			}
-			Preconditions.checkNotNull(value, "Couldn't get value. o = " + o + ", terms1 = " + terms1);
+			Preconditions.checkNotNull(value, "Couldn't get value. o = " + o + ", terms1 = "
+					+ terms1);
 			m.put(((IntWritable) o).get(), value);
 		}
 		return m;
@@ -113,13 +141,30 @@ public class TFIDFTester {
 		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration,
 				documentsSequencePath, Text.class, Text.class);
 
-		Text id1 = new Text("Document 1");
-		Text text1 = new Text("I saw a yellow car and a green car.");
+		Text id1 = new Text("learning.mwk");
+		Text text1 = new Text(FileUtils.readFileToString(Paths.get(
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/learning.mwk").toFile()));
 		writer.append(id1, text1);
 
-		Text id2 = new Text("Document 2");
-		Text text2 = new Text("You saw a red car.");
+		Text id2 = new Text("design.mwk");
+		Text text2 = new Text(FileUtils.readFileToString(Paths.get(
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/design.mwk").toFile()));
 		writer.append(id2, text2);
+
+		Text id3 = new Text("girls.mwk");
+		Text text3 = new Text(FileUtils.readFileToString(Paths.get(
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/girls.mwk").toFile()));
+		writer.append(id3, text3);
+
+		Text id4 = new Text("business.mwk");
+		Text text4 = new Text(FileUtils.readFileToString(Paths.get(
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/business.mwk").toFile()));
+		writer.append(id4, text4);
+
+		Text id5 = new Text("career.mwk");
+		Text text5 = new Text(FileUtils.readFileToString(Paths.get(
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/career.mwk").toFile()));
+		writer.append(id5, text5);
 
 		writer.close();
 	}
