@@ -3,7 +3,6 @@ package com.technobium;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,9 +27,10 @@ import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Maps;
 
 public class TFIDFTester {
+
+	private static final int threshold = 7;
 
 	public static void main(String args[]) throws Exception {
 
@@ -44,23 +44,28 @@ public class TFIDFTester {
 						DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER), new Path(outputFolder
 						+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
 
-		printSequenceFile(documentsSequencePath, configuration);
-		printSequenceFile(new Path(outputFolder + "wordcount/part-r-00000"), configuration);
+		// printSequenceFile(documentsSequencePath, configuration);
+		// printSequenceFile(new Path(outputFolder + "wordcount/part-r-00000"),
+		// configuration);
 
 		System.out.println("Dictionary File");
 		Map<String, Object> dictionary = sequenceFileToMap(new Path(outputFolder,
 				"dictionary.file-0"), configuration);
-		System.out.println("TFIDFTester.main() - " + dictionary);
-		printSequenceFile(new Path(outputFolder, "dictionary.file-0"), configuration);
-		printSequenceFile(new Path(outputFolder + "tf-vectors/part-r-00000"), configuration);
-		printSequenceFile(new Path(outputFolder + "tfidf/df-count/part-r-00000"), configuration);
+		// System.out.println("TFIDFTester.main() - " + dictionary);
+		// printSequenceFile(new Path(outputFolder, "dictionary.file-0"),
+		// configuration);
+		// printSequenceFile(new Path(outputFolder + "tf-vectors/part-r-00000"),
+		// configuration);
+		// printSequenceFile(new Path(outputFolder +
+		// "tfidf/df-count/part-r-00000"), configuration);
 
 		System.out.println("TFIDF Vectors");
-		printSequenceFile(new Path(outputFolder + "tfidf/tfidf-vectors/part-r-00000"),
-				configuration);
+		// printSequenceFile(new Path(outputFolder +
+		// "tfidf/tfidf-vectors/part-r-00000"),
+		// configuration);
 		Map<String, Object> tfidf = sequenceFileToMap(new Path(outputFolder,
 				"tfidf/tfidf-vectors/part-r-00000"), configuration);
-		System.out.println("TFIDFTester.main() - " + tfidf);
+//		System.out.println("TFIDFTester.main() - " + tfidf);
 
 		Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
 		Map<String, Map<String, Double>> filter = filter(scores);
@@ -69,7 +74,7 @@ public class TFIDFTester {
 			System.out.println(filter.get(filename));
 			System.out.println();
 		}
-		System.out.println(filter);
+		// System.out.println(filter);
 
 	}
 
@@ -85,7 +90,7 @@ public class TFIDFTester {
 	private static Map<String, Double> filter2(Map<String, Double> tfidf) {
 		Map<String, Double> ret = new HashMap<String, Double>();
 		for (String s : tfidf.keySet()) {
-			if (tfidf.get(s) > 1.1) {
+			if (tfidf.get(s) > threshold) {
 				ret.put(s, tfidf.get(s));
 			}
 		}
@@ -140,6 +145,22 @@ public class TFIDFTester {
 
 		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration,
 				documentsSequencePath, Text.class, Text.class);
+		
+		String[] files = {
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/technology.mwk",
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/technology-linux.mwk",
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/health.mwk",
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/finance.mwk",
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/geography.mwk",
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/entertainment.mwk",
+				
+		};
+		for (String path : files) {
+			Text id = new Text(Paths.get(path).getFileName().toString());
+			Text text = new Text(FileUtils.readFileToString(Paths.get(
+					path).toFile()));
+			writer.append(id, text);
+		}
 
 		Text id1 = new Text("learning.mwk");
 		Text text1 = new Text(FileUtils.readFileToString(Paths.get(
@@ -165,6 +186,16 @@ public class TFIDFTester {
 		Text text5 = new Text(FileUtils.readFileToString(Paths.get(
 				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/career.mwk").toFile()));
 		writer.append(id5, text5);
+
+		Text id6 = new Text("self.mwk");
+		Text text6 = new Text(FileUtils.readFileToString(Paths.get(
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/self.mwk").toFile()));
+		writer.append(id6, text6);
+		
+		Text id7 = new Text("programming-tips.mwk");
+		Text text7 = new Text(FileUtils.readFileToString(Paths.get(
+				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/programming-tips.mwk").toFile()));
+		writer.append(id7, text7);
 
 		writer.close();
 	}
@@ -204,7 +235,7 @@ public class TFIDFTester {
 				path, configuration);
 		Map<String, Object> m = new HashMap<String, Object>();
 		for (Pair<Writable, Writable> pair : iterable) {
-			System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
+//			System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
 			m.put(pair.getFirst().toString(), pair.getSecond());
 		}
 		return m;
