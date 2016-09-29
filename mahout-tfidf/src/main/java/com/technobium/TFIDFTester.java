@@ -207,7 +207,7 @@ public class TFIDFTester {
 			InterruptedException {
 
 		// Tokenize the documents using Apache Lucene StandardAnalyzer
-		DocumentProcessor.tokenizeDocuments(documentsSequencePath, StandardAnalyzer.class,
+		DocumentProcessor.tokenizeDocuments(documentsSequencePath, EnglishAnalyzer.class,
 				tokenizedDocumentsPath, configuration);
 
 		DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(
