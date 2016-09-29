@@ -29,7 +29,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-public class TFIDFTester {
+/**
+ * TFIDF (term frequency / document frequency)
+ */
+public class MahoutTermFinder {
 
 	private static final int threshold = 7;
 
