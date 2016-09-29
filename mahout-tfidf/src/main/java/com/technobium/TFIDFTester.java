@@ -14,6 +14,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
@@ -147,12 +148,12 @@ public class TFIDFTester {
 				documentsSequencePath, Text.class, Text.class);
 		
 		String[] files = {
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/technology.mwk",
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/technology-linux.mwk",
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/health.mwk",
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/finance.mwk",
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/geography.mwk",
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/entertainment.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/technology.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
 				
 		};
 		for (String path : files) {
@@ -164,37 +165,37 @@ public class TFIDFTester {
 
 		Text id1 = new Text("learning.mwk");
 		Text text1 = new Text(FileUtils.readFileToString(Paths.get(
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/learning.mwk").toFile()));
+				System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk").toFile()));
 		writer.append(id1, text1);
 
 		Text id2 = new Text("design.mwk");
 		Text text2 = new Text(FileUtils.readFileToString(Paths.get(
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/design.mwk").toFile()));
+				System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk").toFile()));
 		writer.append(id2, text2);
 
 		Text id3 = new Text("girls.mwk");
 		Text text3 = new Text(FileUtils.readFileToString(Paths.get(
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/girls.mwk").toFile()));
+				System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk").toFile()));
 		writer.append(id3, text3);
 
 		Text id4 = new Text("business.mwk");
 		Text text4 = new Text(FileUtils.readFileToString(Paths.get(
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/business.mwk").toFile()));
+				System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk").toFile()));
 		writer.append(id4, text4);
 
 		Text id5 = new Text("career.mwk");
 		Text text5 = new Text(FileUtils.readFileToString(Paths.get(
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/career.mwk").toFile()));
+				System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk").toFile()));
 		writer.append(id5, text5);
 
 		Text id6 = new Text("self.mwk");
 		Text text6 = new Text(FileUtils.readFileToString(Paths.get(
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/self.mwk").toFile()));
+				System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk").toFile()));
 		writer.append(id6, text6);
 		
 		Text id7 = new Text("programming-tips.mwk");
 		Text text7 = new Text(FileUtils.readFileToString(Paths.get(
-				"/sarnobat.garagebandbroken/Desktop/sarnobat.git/mwk/programming-tips.mwk").toFile()));
+				System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk").toFile()));
 		writer.append(id7, text7);
 
 		writer.close();
