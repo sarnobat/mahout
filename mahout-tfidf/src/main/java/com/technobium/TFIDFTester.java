@@ -19,52 +19,32 @@ import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 
 public class TFIDFTester {
 
-	private static String outputFolder;
-	private static Configuration configuration;
-	private static FileSystem fileSystem;
-	private static Path documentsSequencePath;
-	private static Path tokenizedDocumentsPath;
-	private static Path tfidfPath;
-	private static Path termFrequencyVectorsPath;
-
 	public static void main(String args[]) throws Exception {
 
-		configuration = new Configuration();
-		fileSystem = FileSystem.get(configuration);
+		Configuration configuration = new Configuration();
+		String outputFolder = "output/";
+		Path documentsSequencePath = new Path(outputFolder, "sequence");
+		createTestDocuments(FileSystem.get(configuration), configuration, documentsSequencePath);
+		calculateTfIdf(documentsSequencePath, configuration, new Path(outputFolder + "tfidf"),
+				outputFolder, new Path(outputFolder,
+						DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER), new Path(outputFolder
+						+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
 
-		outputFolder = "output/";
-		documentsSequencePath = new Path(outputFolder, "sequence");
-		tokenizedDocumentsPath = new Path(outputFolder,
-				DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-		tfidfPath = new Path(outputFolder + "tfidf");
-		termFrequencyVectorsPath = new Path(outputFolder
-				+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
-
-		createTestDocuments();
-		calculateTfIdf();
-
-		printSequenceFile(documentsSequencePath);
-
-		System.out.println("\n Step 1: Word count ");
-		printSequenceFile(new Path(outputFolder + "wordcount/part-r-00000"));
-
-		System.out.println("\n Step 2: Word dictionary ");
-		printSequenceFile(new Path(outputFolder, "dictionary.file-0"));
-
-		System.out.println("\n Step 3: Term Frequency Vectors ");
-		printSequenceFile(new Path(outputFolder + "tf-vectors/part-r-00000"));
-
-		System.out.println("\n Step 4: Document Frequency ");
-		printSequenceFile(new Path(outputFolder + "tfidf/df-count/part-r-00000"));
-
-		System.out.println("\n Step 5: TFIDF ");
-		printSequenceFile(new Path(outputFolder + "tfidf/tfidf-vectors/part-r-00000"));
+		printSequenceFile(documentsSequencePath, configuration);
+		printSequenceFile(new Path(outputFolder + "wordcount/part-r-00000"), configuration);
+		printSequenceFile(new Path(outputFolder, "dictionary.file-0"), configuration);
+		printSequenceFile(new Path(outputFolder + "tf-vectors/part-r-00000"), configuration);
+		printSequenceFile(new Path(outputFolder + "tfidf/df-count/part-r-00000"), configuration);
+		printSequenceFile(new Path(outputFolder + "tfidf/tfidf-vectors/part-r-00000"),
+				configuration);
 
 	}
 
-	private static void createTestDocuments() throws IOException {
+	static void createTestDocuments(FileSystem fileSystem, Configuration configuration,
+			Path documentsSequencePath) throws IOException {
+		Path documentsSequencePath2 = documentsSequencePath;
 		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration,
-				documentsSequencePath, Text.class, Text.class);
+				documentsSequencePath2, Text.class, Text.class);
 
 		Text id1 = new Text("Document 1");
 		Text text1 = new Text("I saw a yellow car and a green car.");
@@ -77,7 +57,9 @@ public class TFIDFTester {
 		writer.close();
 	}
 
-	private static void calculateTfIdf() throws ClassNotFoundException, IOException,
+	static void calculateTfIdf(Path documentsSequencePath, Configuration configuration,
+			Path tfidfPath, String outputFolder, Path tokenizedDocumentsPath,
+			Path termFrequencyVectorsPath) throws ClassNotFoundException, IOException,
 			InterruptedException {
 
 		// Tokenize the documents using Apache Lucene StandardAnalyzer
@@ -96,9 +78,10 @@ public class TFIDFTester {
 				false, 1);
 	}
 
-	private static void printSequenceFile(Path path) {
+	static void printSequenceFile(Path path, Configuration configuration) {
+		Configuration configuration2 = configuration;
 		SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(
-				path, configuration);
+				path, configuration2);
 		for (Pair<Writable, Writable> pair : iterable) {
 			System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
 		}
