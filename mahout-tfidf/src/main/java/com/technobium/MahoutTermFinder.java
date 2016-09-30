@@ -164,49 +164,19 @@ public class MahoutTermFinder {
 				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
-
+				System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk"
 		};
 		for (String path : files) {
 			Text id = new Text(Paths.get(path).getFileName().toString());
 			Text text = new Text(FileUtils.readFileToString(Paths.get(path).toFile()));
 			writer.append(id, text);
 		}
-
-		Text id1 = new Text("learning.mwk");
-		Text text1 = new Text(FileUtils.readFileToString(Paths.get(
-				System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk").toFile()));
-		writer.append(id1, text1);
-
-		Text id2 = new Text("design.mwk");
-		Text text2 = new Text(FileUtils.readFileToString(Paths.get(
-				System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk").toFile()));
-		writer.append(id2, text2);
-
-		Text id3 = new Text("girls.mwk");
-		Text text3 = new Text(FileUtils.readFileToString(Paths.get(
-				System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk").toFile()));
-		writer.append(id3, text3);
-
-		Text id4 = new Text("business.mwk");
-		Text text4 = new Text(FileUtils.readFileToString(Paths.get(
-				System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk").toFile()));
-		writer.append(id4, text4);
-
-		Text id5 = new Text("career.mwk");
-		Text text5 = new Text(FileUtils.readFileToString(Paths.get(
-				System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk").toFile()));
-		writer.append(id5, text5);
-
-		Text id6 = new Text("self.mwk");
-		Text text6 = new Text(FileUtils.readFileToString(Paths.get(
-				System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk").toFile()));
-		writer.append(id6, text6);
-
-		Text id7 = new Text("programming-tips.mwk");
-		Text text7 = new Text(FileUtils.readFileToString(Paths.get(
-				System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk")
-				.toFile()));
-		writer.append(id7, text7);
 
 		writer.close();
 	}
