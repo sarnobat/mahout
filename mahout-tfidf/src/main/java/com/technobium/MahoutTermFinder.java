@@ -35,41 +35,47 @@ import com.google.common.collect.HashBiMap;
 public class MahoutTermFinder {
 
 	private static final int threshold = 7;
+	private static final String[] files = {
+			System.getProperty("user.home") + "/sarnobat.git/mwk/technology.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk" };
 
 	public static void main(String args[]) throws Exception {
 
 		Configuration configuration = new Configuration();
 		String outputFolder = "output/";
 		Path documentsSequencePath = new Path(outputFolder, "sequence");
-		createTestDocuments(FileSystem.get(configuration), configuration, documentsSequencePath);
+		selectDocuments(FileSystem.get(configuration), configuration, documentsSequencePath, files);
 
 		calculateTfIdf(documentsSequencePath, configuration, new Path(outputFolder + "tfidf"),
 				outputFolder, new Path(outputFolder,
 						DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER), new Path(outputFolder
 						+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
 
-		// printSequenceFile(documentsSequencePath, configuration);
-		// printSequenceFile(new Path(outputFolder + "wordcount/part-r-00000"),
-		// configuration);
-
 		System.out.println("Dictionary File");
 		Map<String, Object> dictionary = sequenceFileToMap(new Path(outputFolder,
 				"dictionary.file-0"), configuration);
-		// System.out.println("TFIDFTester.main() - " + dictionary);
-		// printSequenceFile(new Path(outputFolder, "dictionary.file-0"),
-		// configuration);
-		// printSequenceFile(new Path(outputFolder + "tf-vectors/part-r-00000"),
-		// configuration);
-		// printSequenceFile(new Path(outputFolder +
-		// "tfidf/df-count/part-r-00000"), configuration);
 
 		System.out.println("TFIDF Vectors");
-		// printSequenceFile(new Path(outputFolder +
-		// "tfidf/tfidf-vectors/part-r-00000"),
-		// configuration);
 		Map<String, Object> tfidf = sequenceFileToMap(new Path(outputFolder,
 				"tfidf/tfidf-vectors/part-r-00000"), configuration);
-		// System.out.println("TFIDFTester.main() - " + tfidf);
 
 		Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
 		Map<String, Map<String, Double>> filter = filter(scores);
@@ -78,8 +84,6 @@ public class MahoutTermFinder {
 			System.out.println(filter.get(filename));
 			System.out.println();
 		}
-		// System.out.println(filter);
-
 	}
 
 	private static Map<String, Map<String, Double>> filter(Map<String, Map<String, Double>> scores) {
@@ -144,33 +148,11 @@ public class MahoutTermFinder {
 		return m;
 	}
 
-	static void createTestDocuments(FileSystem fileSystem, Configuration configuration,
-			Path documentsSequencePath) throws IOException {
+	static void selectDocuments(FileSystem fileSystem, Configuration configuration,
+			Path documentsSequencePath, String[] files) throws IOException {
 
 		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration,
 				documentsSequencePath, Text.class, Text.class);
-
-		String[] files = {
-				System.getProperty("user.home") + "/sarnobat.git/mwk/technology.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk" };
 
 		for (String path : files) {
 			Text id = new Text(Paths.get(path).getFileName().toString());
