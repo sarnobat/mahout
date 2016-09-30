@@ -2,6 +2,8 @@ package com.technobium;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +17,7 @@ import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -44,26 +47,43 @@ public class MahoutTermFinder {
 
 	private static final int threshold = 7;
 	private static final String[] files = {
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/technology.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
-//			System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/technology.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/technology-linux.mwk",
+			// System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/finance.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/geography.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/entertainment.mwk",
+			// System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
+			// System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/productivity.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/atletico_madrid.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/atletico_documentary.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/atletico_articles_english.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/atletico_season_reviews.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/learning.mwk",
+			// System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
+			// System.getProperty("user.home") +
+			// "/sarnobat.git/mwk/business.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk" };
+
+	static {
+		System.setProperty("org.apache.commons.logging.Log",
+				"org.apache.commons.logging.impl.NoOpLog");
+	}
 
 	public static void main(String args[]) throws Exception {
 
@@ -71,7 +91,6 @@ public class MahoutTermFinder {
 		String outputFolder = "output/";
 		Path documentsSequencePath = new Path(outputFolder, "sequence");
 		selectDocuments(FileSystem.get(configuration), configuration, documentsSequencePath, files);
-
 		calculateTfIdf(documentsSequencePath, configuration, new Path(outputFolder + "tfidf"),
 				outputFolder, new Path(outputFolder,
 						DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER), new Path(outputFolder
@@ -88,22 +107,23 @@ public class MahoutTermFinder {
 
 		Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
 		Map<String, Map<String, Double>> filter = filter(scores);
+		NumberFormat formatter = new DecimalFormat("##0");
 		for (String filename : filter.keySet()) {
-			System.out.println(filename);
 			Map<String, Double> scoresForDocument = filter.get(filename);
-			 List<Entry<String, Double>> sortedEntries = new ArrayList<Entry<String, Double>>(scoresForDocument.entrySet());
+			List<Entry<String, Double>> sortedEntries = new ArrayList<Entry<String, Double>>(
+					scoresForDocument.entrySet());
 
-			    Collections.sort(sortedEntries, 
-			            new Comparator<Entry<String, Double>>() {
-
-//			                @Override
-			                public int compare(Entry<String, Double> e1, Entry<String, Double> e2) {
-			                    return e2.getValue().compareTo(e1.getValue());
-			                }
-			            }
-			    );
-			System.out.println(sortedEntries);
-			System.out.println();
+			Collections.sort(sortedEntries, new Comparator<Entry<String, Double>>() {
+				// @Override
+				public int compare(Entry<String, Double> e1, Entry<String, Double> e2) {
+					return e1.getValue().compareTo(e2.getValue());
+				}
+			});
+			for (Entry<String, Double> e : sortedEntries) {
+				Integer number = (int) (e.getValue() * 10);
+				String s = StringUtils.leftPad(number.toString(), 3);
+				System.out.println(filename + ": " + s + " " + e.getKey());
+			}
 		}
 	}
 
@@ -189,17 +209,18 @@ public class MahoutTermFinder {
 			Path termFrequencyVectorsPath) throws ClassNotFoundException, IOException,
 			InterruptedException {
 
+		System.out.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
 		// Tokenize the documents using Apache Lucene StandardAnalyzer
 		DocumentProcessor.tokenizeDocuments(documentsSequencePath, EnglishAnalyzer.class,
 				tokenizedDocumentsPath, configuration);
-
+		System.out.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
 		DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(
 				outputFolder), DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration,
 				1, 1, 0.0f, PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
-
+		System.out.println("MahoutTermFinder.calculateTfIdf() - Creating document frequencies");
 		Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(
 				termFrequencyVectorsPath, tfidfPath, configuration, 100);
-
+		System.out.println("MahoutTermFinder.calculateTfIdf() - creating tfidf scores");
 		TFIDFConverter.processTfIdf(termFrequencyVectorsPath, tfidfPath, configuration,
 				documentFrequencies, 1, 100, PartialVectorMerger.NO_NORMALIZING, false, false,
 				false, 1);
