@@ -2,9 +2,17 @@ package com.technobium;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
@@ -81,7 +89,19 @@ public class MahoutTermFinder {
 		Map<String, Map<String, Double>> filter = filter(scores);
 		for (String filename : filter.keySet()) {
 			System.out.println(filename);
-			System.out.println(filter.get(filename));
+			Map<String, Double> scoresForDocument = filter.get(filename);
+			 List<Entry<String, Double>> sortedEntries = new ArrayList<Entry<String, Double>>(scoresForDocument.entrySet());
+
+			    Collections.sort(sortedEntries, 
+			            new Comparator<Entry<String, Double>>() {
+
+//			                @Override
+			                public int compare(Entry<String, Double> e1, Entry<String, Double> e2) {
+			                    return e2.getValue().compareTo(e1.getValue());
+			                }
+			            }
+			    );
+			System.out.println(sortedEntries);
 			System.out.println();
 		}
 	}
