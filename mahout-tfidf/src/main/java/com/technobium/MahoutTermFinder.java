@@ -63,7 +63,7 @@ public class MahoutTermFinder {
 			System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk",
-			// System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk" };
 
 	static {
