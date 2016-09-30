@@ -69,7 +69,7 @@ public class MahoutTermFinder {
 		// configuration);
 		Map<String, Object> tfidf = sequenceFileToMap(new Path(outputFolder,
 				"tfidf/tfidf-vectors/part-r-00000"), configuration);
-//		System.out.println("TFIDFTester.main() - " + tfidf);
+		// System.out.println("TFIDFTester.main() - " + tfidf);
 
 		Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
 		Map<String, Map<String, Double>> filter = filter(scores);
@@ -149,27 +149,26 @@ public class MahoutTermFinder {
 
 		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration,
 				documentsSequencePath, Text.class, Text.class);
-		
+
 		String[] files = {
 				System.getProperty("user.home") + "/sarnobat.git/mwk/technology.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
-        System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
-        System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
-        System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
-        System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
-        System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
-        System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
-        System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
-        System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
-				
+				System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
+				System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
+
 		};
 		for (String path : files) {
 			Text id = new Text(Paths.get(path).getFileName().toString());
-			Text text = new Text(FileUtils.readFileToString(Paths.get(
-					path).toFile()));
+			Text text = new Text(FileUtils.readFileToString(Paths.get(path).toFile()));
 			writer.append(id, text);
 		}
 
@@ -202,10 +201,11 @@ public class MahoutTermFinder {
 		Text text6 = new Text(FileUtils.readFileToString(Paths.get(
 				System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk").toFile()));
 		writer.append(id6, text6);
-		
+
 		Text id7 = new Text("programming-tips.mwk");
 		Text text7 = new Text(FileUtils.readFileToString(Paths.get(
-				System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk").toFile()));
+				System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk")
+				.toFile()));
 		writer.append(id7, text7);
 
 		writer.close();
@@ -246,7 +246,8 @@ public class MahoutTermFinder {
 				path, configuration);
 		Map<String, Object> m = new HashMap<String, Object>();
 		for (Pair<Writable, Writable> pair : iterable) {
-//			System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
+			// System.out.format("%10s -> %s\n", pair.getFirst(),
+			// pair.getSecond());
 			m.put(pair.getFirst().toString(), pair.getSecond());
 		}
 		return m;
