@@ -170,8 +170,8 @@ public class MahoutTermFinder {
 				System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk",
 				System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
-				System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk"
-		};
+				System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk" };
+
 		for (String path : files) {
 			Text id = new Text(Paths.get(path).getFileName().toString());
 			Text text = new Text(FileUtils.readFileToString(Paths.get(path).toFile()));
