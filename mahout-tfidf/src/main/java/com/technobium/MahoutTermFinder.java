@@ -225,20 +225,20 @@ public class MahoutTermFinder {
 				false, 1);
 	}
 
-	private static class SridharAnalyzer extends Analyzer {
-	    
-        /* This is the only function that we need to override for our analyzer.
-         * It takes in a java.io.Reader object and saves the tokenizer and list
-         * of token filters that operate on it. 
-         */
-		@Override
-		protected TokenStreamComponents createComponents(String arg0, Reader arg1) {
-			Tokenizer tokenizer = new PlusSignTokenizer(reader);
-			TokenStream filter = new EmptyStringTokenFilter(tokenizer);
-			filter = new LowerCaseFilter(filter);
-			return new TokenStreamComponents(tokenizer, filter);
-		}
-    }
+//	private static class SridharAnalyzer extends Analyzer {
+//	    
+//        /* This is the only function that we need to override for our analyzer.
+//         * It takes in a java.io.Reader object and saves the tokenizer and list
+//         * of token filters that operate on it. 
+//         */
+//		@Override
+//		protected TokenStreamComponents createComponents(String arg0, Reader arg1) {
+//			Tokenizer tokenizer = new PlusSignTokenizer(reader);
+//			TokenStream filter = new EmptyStringTokenFilter(tokenizer);
+//			filter = new LowerCaseFilter(filter);
+//			return new TokenStreamComponents(tokenizer, filter);
+//		}
+//    }
 	
 	static void printSequenceFile(Path path, Configuration configuration) {
 		Configuration configuration2 = configuration;
