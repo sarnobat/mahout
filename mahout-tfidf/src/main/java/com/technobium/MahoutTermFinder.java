@@ -1,6 +1,7 @@
 package com.technobium;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +20,10 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.core.StopAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
@@ -203,7 +208,9 @@ public class MahoutTermFinder {
 
 		System.out.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
 		// Tokenize the documents using Apache Lucene StandardAnalyzer
-		DocumentProcessor.tokenizeDocuments(documentsSequencePath, EnglishAnalyzer.class,
+		DocumentProcessor.tokenizeDocuments(documentsSequencePath, 
+				EnglishAnalyzer.class,
+				//StopAnalyzer.class,
 				tokenizedDocumentsPath, configuration);
 		System.out.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
 		DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(
@@ -218,6 +225,21 @@ public class MahoutTermFinder {
 				false, 1);
 	}
 
+	private static class SridharAnalyzer extends Analyzer {
+	    
+        /* This is the only function that we need to override for our analyzer.
+         * It takes in a java.io.Reader object and saves the tokenizer and list
+         * of token filters that operate on it. 
+         */
+		@Override
+		protected TokenStreamComponents createComponents(String arg0, Reader arg1) {
+			Tokenizer tokenizer = new PlusSignTokenizer(reader);
+			TokenStream filter = new EmptyStringTokenFilter(tokenizer);
+			filter = new LowerCaseFilter(filter);
+			return new TokenStreamComponents(tokenizer, filter);
+		}
+    }
+	
 	static void printSequenceFile(Path path, Configuration configuration) {
 		Configuration configuration2 = configuration;
 		SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(
