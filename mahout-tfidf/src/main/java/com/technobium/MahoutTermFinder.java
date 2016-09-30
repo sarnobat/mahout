@@ -44,23 +44,23 @@ public class MahoutTermFinder {
 
 	private static final int threshold = 7;
 	private static final String[] files = {
-			System.getProperty("user.home") + "/sarnobat.git/mwk/technology.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/technology.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
+//			System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk" };
@@ -82,6 +82,7 @@ public class MahoutTermFinder {
 				"dictionary.file-0"), configuration);
 
 		System.out.println("TFIDF Vectors");
+		System.out.println("(this will take a while)");
 		Map<String, Object> tfidf = sequenceFileToMap(new Path(outputFolder,
 				"tfidf/tfidf-vectors/part-r-00000"), configuration);
 
