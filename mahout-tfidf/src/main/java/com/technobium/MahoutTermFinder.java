@@ -2,8 +2,6 @@ package com.technobium;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,10 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +20,6 @@ import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
 import org.apache.mahout.math.Vector.Element;
@@ -74,10 +67,9 @@ public class MahoutTermFinder {
 			// "/sarnobat.git/mwk/learning.mwk",
 			// System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
-			// System.getProperty("user.home") +
-			// "/sarnobat.git/mwk/business.mwk",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
+			// System.getProperty("user.home") + "/sarnobat.git/mwk/self.mwk",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/programming-tips.mwk" };
 
 	static {
@@ -96,18 +88,18 @@ public class MahoutTermFinder {
 						DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER), new Path(outputFolder
 						+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
 
-		System.out.println("Dictionary File");
+		System.out.println("MahoutTermFinder.main() - Creating dictionary");
 		Map<String, Object> dictionary = sequenceFileToMap(new Path(outputFolder,
 				"dictionary.file-0"), configuration);
 
-		System.out.println("TFIDF Vectors");
-		System.out.println("(this will take a while)");
+		System.out
+				.println("MahoutTermFinder.main() - Creating TFIDF Vectors (this will take a while)");
 		Map<String, Object> tfidf = sequenceFileToMap(new Path(outputFolder,
 				"tfidf/tfidf-vectors/part-r-00000"), configuration);
+		System.out.println("MahoutTermFinder.main() - done");
 
 		Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
 		Map<String, Map<String, Double>> filter = filter(scores);
-		NumberFormat formatter = new DecimalFormat("##0");
 		for (String filename : filter.keySet()) {
 			Map<String, Double> scoresForDocument = filter.get(filename);
 			List<Entry<String, Double>> sortedEntries = new ArrayList<Entry<String, Double>>(

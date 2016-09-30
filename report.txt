@@ -1,8 +1,83 @@
-MahoutTermFinder.main() 3
 MahoutTermFinder.calculateTfIdf() - Tokenzing documents
 MahoutTermFinder.calculateTfIdf() - Creating term vectors
 MahoutTermFinder.calculateTfIdf() - Creating document frequencies
 MahoutTermFinder.calculateTfIdf() - creating tfidf scores
-Dictionary File
-TFIDF Vectors
-(this will take a while)
+MahoutTermFinder.main() - Creating dictionary
+MahoutTermFinder.main() - Creating TFIDF Vectors (this will take a while)
+MahoutTermFinder.main() - done
+programming-tips.mwk:  72 i
+programming-tips.mwk:  72 what
+programming-tips.mwk:  73 function
+programming-tips.mwk:  73 when
+programming-tips.mwk:  73 applic
+programming-tips.mwk:  74 us
+programming-tips.mwk:  76 have
+programming-tips.mwk:  77 system
+programming-tips.mwk:  83 includ
+programming-tips.mwk:  86 can
+programming-tips.mwk: 105 method
+programming-tips.mwk: 123 variabl
+programming-tips.mwk: 138 code
+programming-tips.mwk: 142 you
+business.mwk:  71 idea
+business.mwk:  71 wwe
+business.mwk:  71 radio
+business.mwk:  71 competitor
+business.mwk:  71 logo
+business.mwk:  71 invent
+business.mwk:  73 seal
+business.mwk:  73 media
+business.mwk:  73 piraci
+business.mwk:  73 podcast
+business.mwk:  74 get
+business.mwk:  74 so
+business.mwk:  75 than
+business.mwk:  75 creation
+business.mwk:  76 more
+business.mwk:  76 from
+business.mwk:  77 servic
+business.mwk:  77 when
+business.mwk:  77 can
+business.mwk:  77 what
+business.mwk:  82 luxuri
+business.mwk:  82 synergi
+business.mwk:  84 monei
+business.mwk:  85 us
+business.mwk:  87 busi
+business.mwk:  87 funnel
+business.mwk:  87 innov
+business.mwk:  89 i
+business.mwk:  89 peopl
+business.mwk:  92 on
+business.mwk:  92 disrupt
+business.mwk:  94 amazon
+business.mwk:  97 econom
+business.mwk:  98 your
+business.mwk:  99 have
+business.mwk: 100 custom
+business.mwk: 105 product
+business.mwk: 110 e.g
+business.mwk: 119 yurl
+business.mwk: 137 you
+business.mwk: 170 rohidekar
+business.mwk: 194 brand
+career.mwk:  70 i
+career.mwk: 101 you
+girls.mwk:  71 hair
+girls.mwk:  72 have
+girls.mwk:  73 i
+girls.mwk:  73 sexi
+girls.mwk:  77 skin
+girls.mwk:  77 like
+girls.mwk:  79 women
+girls.mwk:  82 her
+girls.mwk:  84 hip
+girls.mwk:  87 attract
+girls.mwk:  91 you
+girls.mwk:  92 butt
+girls.mwk:  93 men
+girls.mwk:  95 woman
+girls.mwk: 109 breast
+girls.mwk: 113 femal
+girls.mwk: 122 boi
+girls.mwk: 142 girl
