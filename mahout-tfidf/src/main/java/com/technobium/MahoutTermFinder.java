@@ -53,22 +53,22 @@ public class MahoutTermFinder {
 
   private static final int threshold = 7;
 
-  private static final String STOPLIST = System.getProperty("user.home") + "/github/mahout/stoplist.txt";
+  private static final String STOPLIST = System.getProperty("user.home") + "/github/mahout/stopwords.txt";
   private static final String[] files = { System.getProperty("user.home") + "/sarnobat.git/mwk/technology.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk",
-      System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/finance.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/geography.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/entertainment.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/soccer.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/people.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/productivity.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_madrid.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_documentary.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_articles_english.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/atletico_season_reviews.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/learning.mwk",
+//      System.getProperty("user.home") + "/sarnobat.git/mwk/design.mwk",
       System.getProperty("user.home") + "/sarnobat.git/mwk/girls.mwk",
       System.getProperty("user.home") + "/sarnobat.git/mwk/business.mwk",
       System.getProperty("user.home") + "/sarnobat.git/mwk/career.mwk",
@@ -247,7 +247,7 @@ public class MahoutTermFinder {
     return m;
   }
 
-  private static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
+  public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
     private final CharArraySet stemExclusionSet;
 
     private static CharArraySet getDefaultStopSet() {
@@ -258,15 +258,15 @@ public class MahoutTermFinder {
       static final CharArraySet DEFAULT_STOP_SET = StandardAnalyzer.STOP_WORDS_SET;
     }
 
-    private MyEnglishAnalyzer(Version matchVersion) {
+    public MyEnglishAnalyzer(Version matchVersion) {
       this(matchVersion, DefaultSetHolder.DEFAULT_STOP_SET);
     }
 
-    private MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords) {
+    public MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords) {
       this(matchVersion, stopwords, CharArraySet.EMPTY_SET);
     }
 
-    private MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords, CharArraySet stemExclusionSet) {
+    public MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords, CharArraySet stemExclusionSet) {
       super(matchVersion, stopwords);
       this.stemExclusionSet = CharArraySet.unmodifiableSet(CharArraySet.copy(matchVersion, stemExclusionSet));
     }
