@@ -52,6 +52,8 @@ import com.google.common.collect.HashBiMap;
 public class MahoutTermFinder {
 
   private static final int threshold = 7;
+
+  private static final String STOPLIST = System.getProperty("user.home") + "/github/mahout/stoplist.txt";
   private static final String[] files = { System.getProperty("user.home") + "/sarnobat.git/mwk/technology.mwk",
       System.getProperty("user.home") + "/sarnobat.git/mwk/technology-linux.mwk",
       System.getProperty("user.home") + "/sarnobat.git/mwk/health.mwk",
@@ -255,7 +257,7 @@ public class MahoutTermFinder {
     private static class DefaultSetHolder {
       static final CharArraySet DEFAULT_STOP_SET = StandardAnalyzer.STOP_WORDS_SET;
     }
-    
+
     private MyEnglishAnalyzer(Version matchVersion) {
       this(matchVersion, DefaultSetHolder.DEFAULT_STOP_SET);
     }
@@ -278,12 +280,25 @@ public class MahoutTermFinder {
       if (matchVersion.onOrAfter(Version.LUCENE_31))
         result = new EnglishPossessiveFilter(matchVersion, result);
       result = new LowerCaseFilter(matchVersion, result);
-      stopwords = getStopWords(STOPLIST);
-      result = new StopFilter(matchVersion, result, stopwords);
+      CharArraySet stopwords2;
+      try {
+        stopwords2 = getStopWords(STOPLIST);
+      } catch (IOException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e);
+      }
+      result = new StopFilter(matchVersion, result, stopwords2);
       if (!stemExclusionSet.isEmpty())
         result = new SetKeywordMarkerFilter(result, stemExclusionSet);
       result = new PorterStemFilter(result);
       return new TokenStreamComponents(source, result);
+    }
+
+    private CharArraySet getStopWords(String stoplist) throws IOException {
+      List<String> ss = FileUtils.readLines(Paths.get(stoplist).toFile());
+      CharArraySet ret = new CharArraySet(Version.LUCENE_CURRENT, ss, false);
+      ret.addAll(ss);
+      return ret;
     }
   }
 }
