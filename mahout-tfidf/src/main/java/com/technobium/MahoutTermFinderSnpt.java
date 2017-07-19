@@ -51,7 +51,7 @@ import com.google.common.collect.HashBiMap;
 /**
  * TFIDF (term frequency / document frequency) - for use on old *mwk files
  */
-public class MahoutTermFinder {
+public class MahoutTermFinderSnpt {
 
   private static final int threshold = 1;
 
@@ -189,7 +189,9 @@ public class MahoutTermFinder {
 
 		for (String path : files) {
 			Text id = new Text(Paths.get(path).getFileName().toString());
-			try (DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path))) {
+			DirectoryStream<java.nio.file.Path> stream = null;
+			try {
+				stream = Files.newDirectoryStream(Paths.get(path));
 				for (java.nio.file.Path fileInPath : stream) {
 					if (Files.isDirectory(fileInPath)) {
 						// listFiles(entry);
@@ -199,6 +201,12 @@ public class MahoutTermFinder {
 							writer.append(id, text);
 						}
 					}
+				}
+			} catch (IOException e) {
+				throw e;
+			} finally {
+				if (stream != null) {
+					stream.close();
 				}
 			}
 		}
