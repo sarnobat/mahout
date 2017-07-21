@@ -58,11 +58,21 @@ public class MahoutTermFinderSnpt {
   private static final String STOPLIST = System.getProperty("user.home") + "/github/mahout/stopwords.txt";
 	private static final String[] files = {
 			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/aspergers",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/atletico",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/business",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/career",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/equalizer",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/productivity",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/self",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/self/approval_attention_social_status",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/self/cliquology_and_bullying/",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/soccer",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/tech/programming_tips",
 			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming",
-			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/atletico" };
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/travel",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
+			System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling",
+			};
 
   static {
     System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
@@ -78,13 +88,14 @@ public class MahoutTermFinderSnpt {
         new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER),
         new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
 
-    System.out.println("MahoutTermFinder.main() - Creating dictionary");
+    System.err.println("MahoutTermFinder.main() - Creating dictionary");
     Map<String, Object> dictionary = sequenceFileToMap(new Path(outputFolder, "dictionary.file-0"), configuration);
 
-    System.out.println("MahoutTermFinder.main() - Creating TFIDF Vectors (this will take a while)");
+    System.err.println("MahoutTermFinder.main() - Creating TFIDF Vectors");
     Map<String, Object> tfidf = sequenceFileToMap(new Path(outputFolder, "tfidf/tfidf-vectors/part-r-00000"),
         configuration);
-    System.out.println("MahoutTermFinder.main() - done");
+    //System.out.println("MahoutTermFinder.main() - done");
+    System.err.println("MahoutTermFinder.main() - Reading TFIDF Vectors (this will take a while)");
 
     Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
     Map<String, Map<String, Double>> filter = filter(scores);
@@ -218,17 +229,17 @@ public class MahoutTermFinderSnpt {
       String outputFolder, Path tokenizedDocumentsPath, Path termFrequencyVectorsPath)
       throws ClassNotFoundException, IOException, InterruptedException {
 
-    System.out.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
+    System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
     DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
         configuration);
-    System.out.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
+    System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
     DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
         DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
         PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
-    System.out.println("MahoutTermFinder.calculateTfIdf() - Creating document frequencies");
+    System.err.println("MahoutTermFinder.calculateTfIdf() - Creating document frequencies");
     Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(termFrequencyVectorsPath, tfidfPath,
         configuration, 100);
-    System.out.println("MahoutTermFinder.calculateTfIdf() - creating tfidf scores");
+    System.err.println("MahoutTermFinder.calculateTfIdf() - creating tfidf scores");
     TFIDFConverter.processTfIdf(termFrequencyVectorsPath, tfidfPath, configuration, documentFrequencies, 1, 100,
         PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
   }
