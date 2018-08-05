@@ -95,10 +95,11 @@ public class MahoutTermFinderMwk {
     System.out.println("MahoutTermFinder.main() - Creating TFIDF Vectors (this will take a while)");
     Map<String, Object> tfidf = sequenceFileToMap(new Path(outputFolder, "tfidf/tfidf-vectors/part-r-00000"),
         configuration);
-    System.out.println("MahoutTermFinder.main() - done");
+    System.out.println("MahoutTermFinder.main() - finished creating TFIDF vectors. ");
 
     Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
     Map<String, Map<String, Double>> filter = filter(scores);
+    System.out.println("MahoutTermFinderMwk.main() - printing terms");
     for (String filename : filter.keySet()) {
       Map<String, Double> scoresForDocument = filter.get(filename);
       List<Entry<String, Double>> sortedEntries = new ArrayList<Entry<String, Double>>(scoresForDocument.entrySet());
@@ -118,6 +119,7 @@ public class MahoutTermFinderMwk {
   }
 
   private static Map<String, Map<String, Double>> filter(Map<String, Map<String, Double>> scores) {
+      System.out.println("SRIDHAR MahoutTermFinderMwk.filter() - filtering out scores below threshold");
     Map<String, Map<String, Double>> ret = new HashMap<String, Map<String, Double>>();
     for (String file : scores.keySet()) {
       Map<String, Double> tfidf = scores.get(file);
@@ -138,6 +140,7 @@ public class MahoutTermFinderMwk {
 
   private static Map<String, Map<String, Double>> transform(Map<String, Object> tfidfs,
       Map<String, Object> dictionary) {
+      System.out.println("MahoutTermFinderMwk.transform() - transferring scores to map");
     Map<String, Map<String, Double>> ret = new HashMap<String, Map<String, Double>>();
     for (String file : tfidfs.keySet()) {
       VectorWritable tfidf = (VectorWritable) tfidfs.get(file);

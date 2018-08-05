@@ -99,6 +99,7 @@ public class MahoutTermFinderMwkSnpt {
 
     Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
     Map<String, Map<String, Double>> filter = filter(scores);
+    System.out.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - printing terms");
     for (String filename : filter.keySet()) {
 //    	System.out.println("SRIDHAR MahoutTermFinder.main()");
       Map<String, Double> scoresForDocument = filter.get(filename);
