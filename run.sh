@@ -7,7 +7,7 @@ cd $HOME/github/mahout/mahout-tfidf
 ##
 ## Compile
 ##
-mvn --quiet compile  --settings ~/sarnobat.git/mac/.m2/settings.xml -Dlogback.configurationFile=/sarnobat.garagebandbroken/Desktop/sarnobat.git/logback.silent.xml
+mvn --quiet compile  --settings ~/sarnobat.git/mac/.m2/settings.xml -Dlogback.configurationFile=$HOME/sarnobat.git/logback.silent.xml
 
 ##
 ## Execute

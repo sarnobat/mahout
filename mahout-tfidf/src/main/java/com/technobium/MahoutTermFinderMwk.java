@@ -47,9 +47,9 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 /**
- * TFIDF (term frequency / document frequency)
+ * TFIDF (term frequency / document frequency) - for regular mwk files
  */
-public class MahoutTermFinder {
+public class MahoutTermFinderMwk {
 
   private static final int threshold = 7;
 
