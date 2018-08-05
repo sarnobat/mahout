@@ -1,4 +1,4 @@
-cd $HOME/github/mahout/mahout-tfidf
+cd $HOME/github/mahout/mahout-tfidf || echo "no such dir" 
 # mvn --quiet exec:java --settings ~/sarnobat.git/mac/.m2/settings.xml -Dexec.mainClass="com.technobium.MahoutTermFinder" -Dorg.slf4j.simpleLogger.defaultLogLevel=warning | tee ../report.txt
 #-----------------------------------------------------------------------------------------
 
@@ -7,11 +7,13 @@ cd $HOME/github/mahout/mahout-tfidf
 ##
 ## Compile
 ##
-mvn --quiet compile  --settings ~/sarnobat.git/mac/.m2/settings.xml -Dlogback.configurationFile=$HOME/sarnobat.git/logback.silent.xml
+echo $PWD
+ls pom.xml || echo "No pom.xml" 
+mvn compile --quiet  --settings ~/sarnobat.git/mac/.m2/settings.xml -Dlogback.configurationFile=$HOME/sarnobat.git/logback.silent.xml
 
 ##
 ## Execute
 ##
 
-mvn --quiet exec:java --settings ~/sarnobat.git/mac/.m2/settings.xml -Dexec.mainClass="com.technobium.MahoutTermFinderSnpt" -Dorg.slf4j.simpleLogger.defaultLogLevel=warning | tee ../report_snpts.txt
+mvn exec:java --settings ~/sarnobat.git/mac/.m2/settings.xml -Dexec.mainClass="com.technobium.MahoutTermFinderMwkSnpt" -Dorg.slf4j.simpleLogger.defaultLogLevel=warning | tee ../report_snpts.txt
 
