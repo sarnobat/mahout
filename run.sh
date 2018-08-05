@@ -1,8 +1,8 @@
-#cd mahout-tfidf
+cd $HOME/github/mahout/mahout-tfidf
 # mvn --quiet exec:java --settings ~/sarnobat.git/mac/.m2/settings.xml -Dexec.mainClass="com.technobium.MahoutTermFinder" -Dorg.slf4j.simpleLogger.defaultLogLevel=warning | tee ../report.txt
 #-----------------------------------------------------------------------------------------
 
-cd mahout-tfidf
+#cd mahout-tfidf
 
 ##
 ## Compile
