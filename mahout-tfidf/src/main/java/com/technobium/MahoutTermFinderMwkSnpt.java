@@ -81,7 +81,7 @@ public class MahoutTermFinderMwkSnpt {
   public static void main(String args[]) throws Exception {
 
     Configuration configuration = new Configuration();
-    String outputFolder = "output/";
+    String outputFolder = "temp_intermediate/";
     Path documentsSequencePath = new Path(outputFolder, "sequence");
     selectDocuments(FileSystem.get(configuration), configuration, documentsSequencePath, files);
     calculateTfIdf(documentsSequencePath, configuration, new Path(outputFolder + "tfidf"), outputFolder,
