@@ -116,6 +116,7 @@ public class MahoutTermFinderMwkSnpt {
                     configuration);
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Could not instantiate " + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
                 return;
             }
             System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
@@ -271,7 +272,7 @@ public class MahoutTermFinderMwkSnpt {
     // }
     // }
 
-    private static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
+    public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
         private final CharArraySet stemExclusionSet;
 
         // private static CharArraySet getDefaultStopSet() {
@@ -282,15 +283,15 @@ public class MahoutTermFinderMwkSnpt {
             static final CharArraySet DEFAULT_STOP_SET = StandardAnalyzer.STOP_WORDS_SET;
         }
 
-        private MyEnglishAnalyzer(Version matchVersion) {
+        public MyEnglishAnalyzer(Version matchVersion) {
             this(matchVersion, DefaultSetHolder.DEFAULT_STOP_SET);
         }
 
-        private MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords) {
+        public MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords) {
             this(matchVersion, stopwords, CharArraySet.EMPTY_SET);
         }
 
-        private MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords, CharArraySet stemExclusionSet) {
+        public MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords, CharArraySet stemExclusionSet) {
             super(matchVersion, stopwords);
             this.stemExclusionSet = CharArraySet.unmodifiableSet(CharArraySet.copy(matchVersion, stemExclusionSet));
         }
