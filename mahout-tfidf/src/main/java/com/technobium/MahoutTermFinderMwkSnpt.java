@@ -89,16 +89,16 @@ public class MahoutTermFinderMwkSnpt {
         new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
 
     System.err.println("MahoutTermFinder.main() - Creating dictionary");
-    Map<String, Object> dictionary = sequenceFileToTermToOrdinalMap(new Path(outputFolder, "dictionary.file-0"), configuration);
+    Map<String, Object> dictionary = sequenceFileToTermToOrdinalDictionaryMap(new Path(outputFolder, "dictionary.file-0"), configuration);
 
     System.err.println("MahoutTermFinder.main() - Creating TFIDF Vectors");
-    Map<String, Object> tfidf = sequenceFileToTermToOrdinalMap(new Path(outputFolder, "tfidf/tfidf-vectors/part-r-00000"),
+    Map<String, Object> tfidf = sequenceFileToTermToOrdinalDictionaryMap(new Path(outputFolder, "tfidf/tfidf-vectors/part-r-00000"),
         configuration);
     //System.err.println("MahoutTermFinder.main() - done");
     System.err.println("MahoutTermFinder.main() - Reading TFIDF Vectors (this will take a while)");
 
     Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
-    Map<String, Map<String, Double>> filter = filter(scores);
+    Map<String, Map<String, Double>> filter = filter(scores, threshold);
     System.err.println("MahoutTermFinderMwkSnpt.main() - printing terms");
     for (String filename : filter.keySet()) {
 //    	System.err.println("MahoutTermFinder.main()");
@@ -119,23 +119,25 @@ public class MahoutTermFinderMwkSnpt {
     }
   }
 
-  private static Map<String, Map<String, Double>> filter(Map<String, Map<String, Double>> scores) {
-    Map<String, Map<String, Double>> ret = new HashMap<String, Map<String, Double>>();
-    for (String file : scores.keySet()) {
-      Map<String, Double> tfidf = scores.get(file);
-      Map<String, Double> filter2 = filter2(tfidf);
-	ret.put(file, filter2);
+  private static Map<String, Map<String, Double>> filter(Map<String, Map<String, Double>> fileToAllTermsToScores, int threshold) {
+      System.err.println("MahoutTermFinderMwkSnpt.filter() - ");
+    Map<String, Map<String, Double>> fileToHighScoreTermsToScores = new HashMap<String, Map<String, Double>>();
+    for (String file : fileToAllTermsToScores.keySet()) {
+      Map<String, Double> tfidf = fileToAllTermsToScores.get(file);
+      Map<String, Double> filter2 = filter2(tfidf, threshold);
+      //System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.filter() - " + file + " --> " + filter2.size() + "(of " +tfidf.size()+")");
+	fileToHighScoreTermsToScores.put(file, filter2);
 		if (filter2.size() < 1) {
 			throw new RuntimeException("No terms found for " + file);
 		}
     }
-    return ret;
+    return fileToHighScoreTermsToScores;
   }
 
-  private static Map<String, Double> filter2(Map<String, Double> tfidf) {
+  private static Map<String, Double> filter2(Map<String, Double> tfidf, int scoreThreshold) {
     Map<String, Double> ret = new HashMap<String, Double>();
     for (String s : tfidf.keySet()) {
-      if (tfidf.get(s) > threshold) {
+      if (tfidf.get(s) > scoreThreshold) {
         ret.put(s, tfidf.get(s));
       }
     }
@@ -270,14 +272,13 @@ public class MahoutTermFinderMwkSnpt {
     }
   }
 
-  static Map<String, Object> sequenceFileToTermToOrdinalMap(Path sequenceFilePath, Configuration configuration) {
-      // Create a vector numerical value for each term
+  static Map<String, Object> sequenceFileToTermToOrdinalDictionaryMap(Path sequenceFilePath, Configuration configuration) {
+      // Create a vector numerical value for each term (e.g. "atletico" -> 4119)
     SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(sequenceFilePath,
         configuration);
     Map<String, Object> termToOrdinalMappings = new HashMap<String, Object>();
     for (Pair<Writable, Writable> pair : iterable) {
-       System.err.format("%10s -> %s\n", pair.getFirst(),
-       pair.getSecond());
+       //System.err.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
       termToOrdinalMappings.put(pair.getFirst().toString(), pair.getSecond());
     }
     return termToOrdinalMappings;
