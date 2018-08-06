@@ -64,7 +64,7 @@ public class MahoutTermFinderMwkSnpt {
         String outputFolder = "temp_intermediate/";
 
         Path documentsSequencePath = new Path(outputFolder, "sequence");
-        System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating sequence files from mwk snippet files, outputting files to " + documentsSequencePath);
+        System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating sequence file from mwk snippet files, outputting files to sequence file " + documentsSequencePath + " (large)");
         {
             SequenceFile.Writer writer = new SequenceFile.Writer(FileSystem.get(configuration), configuration,
                     documentsSequencePath, Text.class, Text.class);
@@ -109,12 +109,11 @@ public class MahoutTermFinderMwkSnpt {
             writer.close();
         }
         {
-            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating tokenized document " + outputFolder + "tfidf");
-            Path tfidfPath = new Path(outputFolder + "tfidf");
             Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-            Path termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
+            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Adding tokenized documents to folder " + tokenizedDocumentsPath );
             System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents, using "
-                    + MyEnglishAnalyzer.class + " using reflection (yuck).");
+                    + MyEnglishAnalyzer.class + " using reflection (yuck). Outputting to: " + tokenizedDocumentsPath);
+            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentsSequencePath + " ===> " + tokenizedDocumentsPath);
             try {
                 DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class,
                         tokenizedDocumentsPath, configuration);
@@ -124,21 +123,26 @@ public class MahoutTermFinderMwkSnpt {
                         + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
                 return;
             }
-            System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
+            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + tokenizedDocumentsPath +" ===> "+ new Path(outputFolder + "/" + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
             DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
                     DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
                     PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
+//            System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors using input file " + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
+            Path tfidfPath = new Path(outputFolder + "tfidf");
+            System.err.println("MahoutTermFinder.calculateTfIdf() - adding document frequencies to file " + tfidfPath);
             {
-                System.err.println("MahoutTermFinder.calculateTfIdf() - Creating document frequencies");
-                Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(termFrequencyVectorsPath,
+                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER) + " ===> " + tfidfPath);
+                Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER),
                         tfidfPath, configuration, 100);
 
-                System.err.println("MahoutTermFinder.calculateTfIdf() - creating tfidf scores");
-                TFIDFConverter.processTfIdf(termFrequencyVectorsPath, tfidfPath, configuration, documentFrequencies, 1,
+                System.err.println("MahoutTermFinder.calculateTfIdf() - adding tfidf scores to file " + tfidfPath);
+                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER) +" ===> "+ tfidfPath);
+                TFIDFConverter.processTfIdf(new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER), tfidfPath, configuration, documentFrequencies, 1,
                         100, PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
             }
         }
-        System.err.println("MahoutTermFinder.main() - Creating dictionary");
+        System.err.println("MahoutTermFinder.main() - ??? ===> " + new Path(outputFolder, "dictionary.file-0"));
+        System.err.println("MahoutTermFinder.main() - Reading dictionary into map. Dictionary of terms with IDs: " + new Path(outputFolder, "dictionary.file-0") + " (large)");
         Map<String, Object> dictionary;
         {
             // Create a vector numerical value for each term (e.g. "atletico" -> 4119)
@@ -146,6 +150,7 @@ public class MahoutTermFinderMwkSnpt {
                     new Path(outputFolder, "dictionary.file-0"), configuration);
             Map<String, Object> termToOrdinalMappings2 = new HashMap<String, Object>();
             for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
+                //System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - sequenceFile = " + sequenceFile);
                 // System.err.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
                 termToOrdinalMappings2.put(sequenceFile.getFirst().toString(), sequenceFile.getSecond());
             }
