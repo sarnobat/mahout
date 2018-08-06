@@ -178,7 +178,7 @@ public class MahoutTermFinderMwkSnpt {
                 int i = 0;
                 for (Object o : terms2.keySet()) {
                     if (i % 100 == 0) {
-                        // System.err.println("MahoutTermFinder.convert() " + i );
+                         System.err.println("MahoutTermFinder.convert() " + i );
                     }
                     String value = terms2.get(o);
                     // System.out.print(".");
@@ -246,39 +246,8 @@ public class MahoutTermFinderMwkSnpt {
         }
     }
 
-    // private static class SridharAnalyzer extends Analyzer {
-    //
-    // /* This is the only function that we need to override for our analyzer.
-    // * It takes in a java.io.Reader object and saves the tokenizer and list
-    // * of token filters that operate on it.
-    // */
-    // @Override
-    // protected TokenStreamComponents createComponents(String arg0, Reader
-    // arg1) {
-    // Tokenizer tokenizer = new PlusSignTokenizer(reader);
-    // TokenStream filter = new EmptyStringTokenFilter(tokenizer);
-    // filter = new LowerCaseFilter(filter);
-    // return new TokenStreamComponents(tokenizer, filter);
-    // }
-    // }
-
-    // private static void printSequenceFile(Path path, Configuration configuration)
-    // {
-    // Configuration configuration2 = configuration;
-    // SequenceFileIterable<Writable, Writable> iterable = new
-    // SequenceFileIterable<Writable, Writable>(path,
-    // configuration2);
-    // for (Pair<Writable, Writable> pair : iterable) {
-    // System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
-    // }
-    // }
-
     public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
         private final CharArraySet stemExclusionSet;
-
-        // private static CharArraySet getDefaultStopSet() {
-        // return DefaultSetHolder.DEFAULT_STOP_SET;
-        // }
 
         private static class DefaultSetHolder {
             static final CharArraySet DEFAULT_STOP_SET = StandardAnalyzer.STOP_WORDS_SET;
