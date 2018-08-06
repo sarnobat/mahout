@@ -64,6 +64,7 @@ public class MahoutTermFinderMwkSnpt {
         String outputFolder = "temp_intermediate/";
 
         Path documentsSequencePath = new Path(outputFolder, "sequence");
+        System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating sequence files from mwk snippet files, outputting files to " + documentsSequencePath);
         {
             SequenceFile.Writer writer = new SequenceFile.Writer(FileSystem.get(configuration), configuration,
                     documentsSequencePath, Text.class, Text.class);
@@ -87,6 +88,7 @@ public class MahoutTermFinderMwkSnpt {
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", }) {
                 Text id = new Text(Paths.get(path).getFileName().toString());
                 DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
+                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::" + Paths.get(path).toFile());
                 try {
                     for (java.nio.file.Path fileInPath : stream) {
                         if (Files.isDirectory(fileInPath)) {
@@ -107,6 +109,7 @@ public class MahoutTermFinderMwkSnpt {
             writer.close();
         }
         {
+            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating tokenized document " + outputFolder + "tfidf");
             Path tfidfPath = new Path(outputFolder + "tfidf");
             Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
             Path termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
@@ -117,7 +120,7 @@ public class MahoutTermFinderMwkSnpt {
                         tokenizedDocumentsPath, configuration);
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Could not instantiate "
+                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Could not instantiate "
                         + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
                 return;
             }

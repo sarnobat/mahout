@@ -1,4 +1,5 @@
 cd $HOME/github/mahout/mahout-tfidf || echo "no such dir" 
+find output/ temp_intermediate  -type f |  xargs --delimiter '\n' --max-args=1 rm
 #git update-index --assume-unchanged <file>
 # mvn --quiet exec:java --settings ~/sarnobat.git/mac/.m2/settings.xml -Dexec.mainClass="com.technobium.MahoutTermFinder" -Dorg.slf4j.simpleLogger.defaultLogLevel=warning | tee ../report.txt
 #-----------------------------------------------------------------------------------------
