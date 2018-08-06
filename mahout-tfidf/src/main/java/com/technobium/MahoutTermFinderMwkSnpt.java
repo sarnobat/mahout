@@ -86,7 +86,8 @@ public class MahoutTermFinderMwkSnpt {
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", }) {
                 Text id = new Text(Paths.get(path).getFileName().toString());
-                try (DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path))) {
+                DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
+                try  {
                     for (java.nio.file.Path fileInPath : stream) {
                         if (Files.isDirectory(fileInPath)) {
                             // listFiles(entry);
@@ -110,8 +111,13 @@ public class MahoutTermFinderMwkSnpt {
             Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
             Path termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
             System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
+            try {
             DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
                     configuration);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
             System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
             DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
                     DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,

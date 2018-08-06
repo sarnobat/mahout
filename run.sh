@@ -9,7 +9,9 @@ cd $HOME/github/mahout/mahout-tfidf || echo "no such dir"
 ##
 echo $PWD
 test -e pom.xml || echo "No pom.xml" 
-mvn compile --quiet  --settings ~/sarnobat.git/mac/.m2/settings.xml -Dlogback.configurationFile=$HOME/sarnobat.git/logback.silent.xml
+test -e /Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home
+JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home
+mvn compile  --quiet  --settings ~/sarnobat.git/mac/.m2/settings.xml -Dlogback.configurationFile=$HOME/sarnobat.git/logback.silent.xml
 
 ##
 ## Execute
