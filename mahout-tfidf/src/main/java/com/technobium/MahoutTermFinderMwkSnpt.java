@@ -87,7 +87,7 @@ public class MahoutTermFinderMwkSnpt {
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", }) {
                 Text id = new Text(Paths.get(path).getFileName().toString());
                 DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
-                try  {
+                try {
                     for (java.nio.file.Path fileInPath : stream) {
                         if (Files.isDirectory(fileInPath)) {
                             // listFiles(entry);
@@ -112,11 +112,12 @@ public class MahoutTermFinderMwkSnpt {
             Path termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
             System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
             try {
-            DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
-                    configuration);
+                DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class,
+                        tokenizedDocumentsPath, configuration);
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Could not instantiate " + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
+                System.out.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Could not instantiate "
+                        + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
                 return;
             }
             System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
@@ -164,9 +165,44 @@ public class MahoutTermFinderMwkSnpt {
         System.err.println("MahoutTermFinder.main() - Reading TFIDF Vectors (this will take a while)");
         Map<String, Map<String, Double>> ret1 = new HashMap<String, Map<String, Double>>();
         for (String file1 : tfidf.keySet()) {
-            // System.err.println("MahoutTermFinder.transform() " + file);
+            System.err.println("MahoutTermFinder.transform() " + file1);
             VectorWritable tfidf2 = (VectorWritable) tfidf.get(file1);
-            ret1.put(file1, transform(tfidf2, dictionary));
+            Map<String, Double> transform;
+            {
+                // System.err.println("MahoutTermFinder.transform()");
+                BiMap<String, Object> terms = HashBiMap.create();
+                terms.putAll(dictionary);
+                Map<Object, String> terms2 = terms.inverse();
+                Map<Integer, String> m = new HashMap<Integer, String>();
+                // System.err.println("MahoutTermFinder.convert() " + terms1.size());
+                int i = 0;
+                for (Object o : terms2.keySet()) {
+                    if (i % 100 == 0) {
+                        // System.err.println("MahoutTermFinder.convert() " + i );
+                    }
+                    String value = terms2.get(o);
+                    // System.out.print(".");
+                    if (value == null) {
+                    }
+                    Preconditions.checkNotNull(value, "Couldn't get value. o = " + o + ", terms1 = " + terms2);
+                    m.put(((IntWritable) o).get(), value);
+                    ++i;
+                }
+                Map<Integer, String> terms1 = m;
+                Map<String, Double> ret = new HashMap<String, Double>();
+                for (Element e : tfidf2.get().all()) {
+                    double score = e.get();
+                    int id = e.index();
+                    if (!terms1.containsKey(id)) {
+                        throw new RuntimeException("Couldn't find key " + id + ", only found " + terms1.keySet());
+                    }
+                    String term = (String) terms1.get(id);
+                    ret.put(term, score);
+                    // System.err.println("MahoutTermFinder.transform() term = " + term);
+                }
+                transform = ret;
+            }
+            ret1.put(file1, transform);
         }
 
         Map<String, Map<String, Double>> scores = ret1;
@@ -208,41 +244,6 @@ public class MahoutTermFinderMwkSnpt {
                 System.out.println(filename + ": " + s + " " + e.getKey());
             }
         }
-    }
-
-    private static Map<String, Double> transform(VectorWritable tfidf, Map<String, Object> dictionary) {
-        // System.err.println("MahoutTermFinder.transform()");
-        BiMap<String, Object> terms = HashBiMap.create();
-        terms.putAll(dictionary);
-        Map<Object, String> terms2 = terms.inverse();
-        Map<Integer, String> m = new HashMap<Integer, String>();
-        // System.err.println("MahoutTermFinder.convert() " + terms1.size());
-        int i = 0;
-        for (Object o : terms2.keySet()) {
-            if (i % 100 == 0) {
-                // System.err.println("MahoutTermFinder.convert() " + i );
-            }
-            String value = terms2.get(o);
-            // System.out.print(".");
-            if (value == null) {
-            }
-            Preconditions.checkNotNull(value, "Couldn't get value. o = " + o + ", terms1 = " + terms2);
-            m.put(((IntWritable) o).get(), value);
-            ++i;
-        }
-        Map<Integer, String> terms1 = m;
-        Map<String, Double> ret = new HashMap<String, Double>();
-        for (Element e : tfidf.get().all()) {
-            double score = e.get();
-            int id = e.index();
-            if (!terms1.containsKey(id)) {
-                throw new RuntimeException("Couldn't find key " + id + ", only found " + terms1.keySet());
-            }
-            String term = (String) terms1.get(id);
-            ret.put(term, score);
-            // System.err.println("MahoutTermFinder.transform() term = " + term);
-        }
-        return ret;
     }
 
     // private static class SridharAnalyzer extends Analyzer {
