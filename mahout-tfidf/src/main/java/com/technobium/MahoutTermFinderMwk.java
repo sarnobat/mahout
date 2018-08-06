@@ -251,6 +251,9 @@ public class MahoutTermFinderMwk {
     return m;
   }
 
+  /**
+   * Not written by me (and has bad coding style)
+   */
   public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
     private final CharArraySet stemExclusionSet;
 
@@ -275,6 +278,11 @@ public class MahoutTermFinderMwk {
       this.stemExclusionSet = CharArraySet.unmodifiableSet(CharArraySet.copy(matchVersion, stemExclusionSet));
     }
 
+    /**
+     * Stemming
+     * Stopword removal
+     * Split on whitespace
+     */
     @Override
     protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
       final Tokenizer source = new StandardTokenizer(matchVersion, reader);
