@@ -7,3 +7,4 @@ temp_intermediate/sequence ===> temp_intermediate/tokenized-documents
 temp_intermediate/tokenized-documents ===> temp_intermediate/tf-vectors
 temp_intermediate/tf-vectors ===> temp_intermediate/tfidf
 temp_intermediate/tf-vectors ===> temp_intermediate/tfidf
+===> temp_intermediate/dictionary.file-0
