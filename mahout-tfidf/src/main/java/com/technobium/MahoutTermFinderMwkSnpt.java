@@ -55,6 +55,7 @@ public class MahoutTermFinderMwkSnpt {
 
     private static final int THRESHOLD = 1;
 
+    // The biggest problem with this API is that there is a lot of I/O
     public static void main(String args[]) throws Exception {
 
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
@@ -85,48 +86,45 @@ public class MahoutTermFinderMwkSnpt {
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", }) {
                 Text id = new Text(Paths.get(path).getFileName().toString());
-                DirectoryStream<java.nio.file.Path> stream = null;
-                try {
-                    stream = Files.newDirectoryStream(Paths.get(path));
+                try (DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path))) {
                     for (java.nio.file.Path fileInPath : stream) {
                         if (Files.isDirectory(fileInPath)) {
                             // listFiles(entry);
                         } else {
                             if (fileInPath.toFile().exists()) {
-                                Text text = new Text(
-                                        FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile()));
-                                writer.append(id, text);
+                                writer.append(id,
+                                        new Text(FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile())));
                             }
                         }
                     }
                 } catch (IOException e3) {
                     throw e3;
                 } finally {
-                    if (stream != null) {
-                        stream.close();
-                    }
                 }
             }
 
             writer.close();
         }
-        Path tfidfPath = new Path(outputFolder + "tfidf");
-        Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-        Path termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
-        System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
-        DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
-                configuration);
-        System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
-        DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
-                DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
-                PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
-        System.err.println("MahoutTermFinder.calculateTfIdf() - Creating document frequencies");
         {
-            Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(termFrequencyVectorsPath,
-                    tfidfPath, configuration, 100);
-            System.err.println("MahoutTermFinder.calculateTfIdf() - creating tfidf scores");
-            TFIDFConverter.processTfIdf(termFrequencyVectorsPath, tfidfPath, configuration, documentFrequencies, 1, 100,
-                    PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
+            Path tfidfPath = new Path(outputFolder + "tfidf");
+            Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
+            Path termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
+            System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
+            DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
+                    configuration);
+            System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
+            DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
+                    DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
+                    PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
+            {
+                System.err.println("MahoutTermFinder.calculateTfIdf() - Creating document frequencies");
+                Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(termFrequencyVectorsPath,
+                        tfidfPath, configuration, 100);
+
+                System.err.println("MahoutTermFinder.calculateTfIdf() - creating tfidf scores");
+                TFIDFConverter.processTfIdf(termFrequencyVectorsPath, tfidfPath, configuration, documentFrequencies, 1,
+                        100, PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
+            }
         }
         System.err.println("MahoutTermFinder.main() - Creating dictionary");
         Map<String, Object> dictionary;
