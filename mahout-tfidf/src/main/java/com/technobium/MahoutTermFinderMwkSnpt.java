@@ -195,7 +195,7 @@ public class MahoutTermFinderMwkSnpt {
     return m;
   }
 
-  static void selectDocuments(FileSystem fileSystem, Configuration configuration, Path documentsSequencePath,
+  private static void selectDocuments(FileSystem fileSystem, Configuration configuration, Path documentsSequencePath,
       String[] files) throws IOException {
 
 		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration, documentsSequencePath,
@@ -228,7 +228,7 @@ public class MahoutTermFinderMwkSnpt {
 		writer.close();
   }
 
-  static void calculateTfIdf(Path documentsSequencePath, Configuration configuration, Path tfidfPath,
+  private static void calculateTfIdf(Path documentsSequencePath, Configuration configuration, Path tfidfPath,
       String outputFolder, Path tokenizedDocumentsPath, Path termFrequencyVectorsPath)
       throws ClassNotFoundException, IOException, InterruptedException {
 
@@ -263,7 +263,7 @@ public class MahoutTermFinderMwkSnpt {
   // }
   // }
 
-  static void printSequenceFile(Path path, Configuration configuration) {
+  private static void printSequenceFile(Path path, Configuration configuration) {
     Configuration configuration2 = configuration;
     SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(path,
         configuration2);
@@ -272,7 +272,7 @@ public class MahoutTermFinderMwkSnpt {
     }
   }
 
-  static Map<String, Object> sequenceFileToTermToOrdinalDictionaryMap(Path sequenceFilePath, Configuration configuration) {
+  private static Map<String, Object> sequenceFileToTermToOrdinalDictionaryMap(Path sequenceFilePath, Configuration configuration) {
       // Create a vector numerical value for each term (e.g. "atletico" -> 4119)
     SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(sequenceFilePath,
         configuration);
@@ -284,7 +284,7 @@ public class MahoutTermFinderMwkSnpt {
     return termToOrdinalMappings;
   }
 
-  public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
+  private static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
     private final CharArraySet stemExclusionSet;
 
     private static CharArraySet getDefaultStopSet() {
@@ -295,15 +295,15 @@ public class MahoutTermFinderMwkSnpt {
       static final CharArraySet DEFAULT_STOP_SET = StandardAnalyzer.STOP_WORDS_SET;
     }
 
-    public MyEnglishAnalyzer(Version matchVersion) {
+    private MyEnglishAnalyzer(Version matchVersion) {
       this(matchVersion, DefaultSetHolder.DEFAULT_STOP_SET);
     }
 
-    public MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords) {
+    private MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords) {
       this(matchVersion, stopwords, CharArraySet.EMPTY_SET);
     }
 
-    public MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords, CharArraySet stemExclusionSet) {
+   private MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords, CharArraySet stemExclusionSet) {
       super(matchVersion, stopwords);
       this.stemExclusionSet = CharArraySet.unmodifiableSet(CharArraySet.copy(matchVersion, stemExclusionSet));
     }
@@ -331,7 +331,7 @@ public class MahoutTermFinderMwkSnpt {
       return new TokenStreamComponents(source, result);
     }
 
-    private CharArraySet getStopWords(String stoplist) throws IOException {
+    private static CharArraySet getStopWords(String stoplist) throws IOException {
       List<String> ss = FileUtils.readLines(Paths.get(stoplist).toFile());
       CharArraySet ret = new CharArraySet(Version.LUCENE_CURRENT, ss, false);
       ret.addAll(ss);
