@@ -263,14 +263,14 @@ public class MahoutTermFinderMwkSnpt {
   // }
   // }
 
-  private static void printSequenceFile(Path path, Configuration configuration) {
-    Configuration configuration2 = configuration;
-    SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(path,
-        configuration2);
-    for (Pair<Writable, Writable> pair : iterable) {
-      System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
-    }
-  }
+//  private static void printSequenceFile(Path path, Configuration configuration) {
+//    Configuration configuration2 = configuration;
+//    SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(path,
+//        configuration2);
+//    for (Pair<Writable, Writable> pair : iterable) {
+//      System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
+//    }
+//  }
 
   private static Map<String, Object> sequenceFileToTermToOrdinalDictionaryMap(Path sequenceFilePath, Configuration configuration) {
       // Create a vector numerical value for each term (e.g. "atletico" -> 4119)
@@ -321,6 +321,11 @@ public class MahoutTermFinderMwkSnpt {
       try {
         stopwords2 = getStopWords(STOPLIST);
       } catch (IOException e) {
+          try {
+            result.close();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
         e.printStackTrace();
         throw new RuntimeException(e);
       }
