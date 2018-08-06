@@ -89,17 +89,17 @@ public class MahoutTermFinderMwk {
         new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER),
         new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
 
-    System.out.println("MahoutTermFinder.main() - Creating dictionary");
+    System.err.println("MahoutTermFinder.main() - Creating dictionary");
     Map<String, Object> dictionary = sequenceFileToMap(new Path(outputFolder, "dictionary.file-0"), configuration);
 
-    System.out.println("MahoutTermFinder.main() - Creating TFIDF Vectors (this will take a while)");
+    System.err.println("MahoutTermFinder.main() - Creating TFIDF Vectors (this will take a while)");
     Map<String, Object> tfidf = sequenceFileToMap(new Path(outputFolder, "tfidf/tfidf-vectors/part-r-00000"),
         configuration);
-    System.out.println("MahoutTermFinder.main() - finished creating TFIDF vectors. ");
+    System.err.println("MahoutTermFinder.main() - finished creating TFIDF vectors. ");
 
     Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
     Map<String, Map<String, Double>> filter = filter(scores);
-    System.out.println("MahoutTermFinderMwk.main() - printing terms");
+    System.err.println("MahoutTermFinderMwk.main() - printing terms");
     for (String filename : filter.keySet()) {
       Map<String, Double> scoresForDocument = filter.get(filename);
       List<Entry<String, Double>> sortedEntries = new ArrayList<Entry<String, Double>>(scoresForDocument.entrySet());
@@ -119,7 +119,7 @@ public class MahoutTermFinderMwk {
   }
 
   private static Map<String, Map<String, Double>> filter(Map<String, Map<String, Double>> scores) {
-      System.out.println("SRIDHAR MahoutTermFinderMwk.filter() - filtering out scores below threshold");
+      System.err.println("MahoutTermFinderMwk.filter() - filtering out scores below threshold");
     Map<String, Map<String, Double>> ret = new HashMap<String, Map<String, Double>>();
     for (String file : scores.keySet()) {
       Map<String, Double> tfidf = scores.get(file);
@@ -140,9 +140,10 @@ public class MahoutTermFinderMwk {
 
   private static Map<String, Map<String, Double>> transform(Map<String, Object> tfidfs,
       Map<String, Object> dictionary) {
-      System.out.println("MahoutTermFinderMwk.transform() - transferring scores to map");
+      System.err.println("MahoutTermFinderMwk.transform() - transferring scores to map");
     Map<String, Map<String, Double>> ret = new HashMap<String, Map<String, Double>>();
     for (String file : tfidfs.keySet()) {
+        System.err.println("MahoutTermFinderMwk.transform() - " + file);
       VectorWritable tfidf = (VectorWritable) tfidfs.get(file);
       ret.put(file, transform(tfidf, dictionary));
     }
@@ -198,17 +199,17 @@ public class MahoutTermFinderMwk {
       String outputFolder, Path tokenizedDocumentsPath, Path termFrequencyVectorsPath)
       throws ClassNotFoundException, IOException, InterruptedException {
 
-    System.out.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
+    System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
     DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
         configuration);
-    System.out.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
+    System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors");
     DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
         DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
         PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
-    System.out.println("MahoutTermFinder.calculateTfIdf() - Creating document frequencies");
+    System.err.println("MahoutTermFinder.calculateTfIdf() - Creating document frequencies");
     Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(termFrequencyVectorsPath, tfidfPath,
         configuration, 100);
-    System.out.println("MahoutTermFinder.calculateTfIdf() - creating tfidf scores");
+    System.err.println("MahoutTermFinder.calculateTfIdf() - creating tfidf scores");
     TFIDFConverter.processTfIdf(termFrequencyVectorsPath, tfidfPath, configuration, documentFrequencies, 1, 100,
         PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
   }

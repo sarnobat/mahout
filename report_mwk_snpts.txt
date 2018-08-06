@@ -1,4 +1,3 @@
-SRIDHAR MahoutTermFinderMwkSnpt.main() - printing terms
 cliquology_and_bullying:  26 war
 cliquology_and_bullying:  30 predatori
 cliquology_and_bullying:  30 forum

@@ -94,14 +94,14 @@ public class MahoutTermFinderMwkSnpt {
     System.err.println("MahoutTermFinder.main() - Creating TFIDF Vectors");
     Map<String, Object> tfidf = sequenceFileToMap(new Path(outputFolder, "tfidf/tfidf-vectors/part-r-00000"),
         configuration);
-    //System.out.println("MahoutTermFinder.main() - done");
+    //System.err.println("MahoutTermFinder.main() - done");
     System.err.println("MahoutTermFinder.main() - Reading TFIDF Vectors (this will take a while)");
 
     Map<String, Map<String, Double>> scores = transform(tfidf, dictionary);
     Map<String, Map<String, Double>> filter = filter(scores);
-    System.out.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - printing terms");
+    System.err.println("MahoutTermFinderMwkSnpt.main() - printing terms");
     for (String filename : filter.keySet()) {
-//    	System.out.println("SRIDHAR MahoutTermFinder.main()");
+//    	System.err.println("MahoutTermFinder.main()");
       Map<String, Double> scoresForDocument = filter.get(filename);
       List<Entry<String, Double>> sortedEntries = new ArrayList<Entry<String, Double>>(scoresForDocument.entrySet()).subList(0, Math.min(20, scoresForDocument.size()));
 
@@ -146,7 +146,7 @@ public class MahoutTermFinderMwkSnpt {
       Map<String, Object> dictionary) {
     Map<String, Map<String, Double>> ret = new HashMap<String, Map<String, Double>>();
     for (String file : tfidfs.keySet()) {
-    	//System.out.println("SRIDHAR MahoutTermFinder.transform() " + file);
+    	//System.err.println("MahoutTermFinder.transform() " + file);
       VectorWritable tfidf = (VectorWritable) tfidfs.get(file);
       ret.put(file, transform(tfidf, dictionary));
     }
@@ -154,7 +154,7 @@ public class MahoutTermFinderMwkSnpt {
   }
 
   private static Map<String, Double> transform(VectorWritable tfidf, Map<String, Object> dictionary) {
-	  //System.out.println("SRIDHAR MahoutTermFinder.transform()");
+	  //System.err.println("MahoutTermFinder.transform()");
     BiMap<String, Object> terms = HashBiMap.create();
     terms.putAll(dictionary);
     Map<Object, String> terms2 = terms.inverse();
@@ -168,19 +168,19 @@ public class MahoutTermFinderMwkSnpt {
       }
       String term = (String) terms1.get(id);
       ret.put(term, score);
-      //System.out.println("SRIDHAR MahoutTermFinder.transform() term = " + term);
+      //System.err.println("MahoutTermFinder.transform() term = " + term);
     }
     return ret;
   }
 
   private static Map<Integer, String> convert(Map<Object, String> terms1) {
     Map<Integer, String> m = new HashMap<Integer, String>();
-    //System.out.println("SRIDHAR MahoutTermFinder.convert() " + terms1.size());
+    //System.err.println("MahoutTermFinder.convert() " + terms1.size());
     int i = 0;
     for (Object o : terms1.keySet()) {
     	if (i % 100 == 0)
     	{
-//    		System.out.println("SRIDHAR MahoutTermFinder.convert() " + i );
+//    		System.err.println("MahoutTermFinder.convert() " + i );
     	}
       String value = terms1.get(o);
 //      System.out.print(".");
