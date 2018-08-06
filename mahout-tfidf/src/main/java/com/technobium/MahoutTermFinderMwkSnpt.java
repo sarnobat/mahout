@@ -178,28 +178,37 @@ public class MahoutTermFinderMwkSnpt {
                 // System.err.println("MahoutTermFinder.convert() " + terms1.size());
                 int i = 0;
                 for (Object o : terms2.keySet()) {
-                    if (i % 1000 == 0) {
-                        System.err.println("MahoutTermFinder.convert() term " + i);
-                    }
                     String value = terms2.get(o);
                     // System.out.print(".");
                     if (value == null) {
                     }
                     Preconditions.checkNotNull(value, "Couldn't get value. o = " + o + ", terms1 = " + terms2);
+                    if (i % 1000 == 0) {
+                        // System.err.println("MahoutTermFinder.convert() " + file1 + " term " + i);
+                        System.err.println("MahoutTermFinder.convert() " + file1 + " " + i + " "
+                                + ((IntWritable) o).get() + "::" + value + " (term_id, term)");
+                    }
                     m.put(((IntWritable) o).get(), value);
                     ++i;
                 }
                 Map<Integer, String> terms1 = m;
                 Map<String, Double> ret = new HashMap<String, Double>();
-                for (Element e : tfidf2.get().all()) {
-                    double score = e.get();
-                    int id = e.index();
+                int j = 0;
+                for (Element scoreElement : tfidf2.get().all()) {
+                    int id = scoreElement.index();
                     if (!terms1.containsKey(id)) {
                         throw new RuntimeException("Couldn't find key " + id + ", only found " + terms1.keySet());
                     }
                     String term = (String) terms1.get(id);
+                    double score = scoreElement.get();
+                    if (j % 1000 == 0) {
+                        // System.err.println("MahoutTermFinder.convert() " + file1 + " score element "
+                        // + j);
+                        System.err.println("MahoutTermFinder.convert() " + file1 + " " + j + " " + id + "::" + score + " (term_id, score)");
+                    }
                     ret.put(term, score);
                     // System.err.println("MahoutTermFinder.transform() term = " + term);
+                    j++;
                 }
                 transform = ret;
             }
@@ -207,7 +216,7 @@ public class MahoutTermFinderMwkSnpt {
         }
 
         Map<String, Map<String, Double>> scores = ret1;
-        System.err.println("MahoutTermFinderMwkSnpt.filter() - ");
+        System.err.println("MahoutTermFinderMwkSnpt.filter() - Discarding terms with low scores.");
         Map<String, Map<String, Double>> fileToHighScoreTermsToScores = new HashMap<String, Map<String, Double>>();
         for (String file : scores.keySet()) {
             Map<String, Double> tfidf1 = scores.get(file);
@@ -226,7 +235,7 @@ public class MahoutTermFinderMwkSnpt {
             }
         }
         Map<String, Map<String, Double>> filter = fileToHighScoreTermsToScores;
-        System.err.println("MahoutTermFinderMwkSnpt.main() - printing terms");
+        System.err.println("MahoutTermFinderMwkSnpt.main() - printing terms that satisfy the minimum score.");
         for (String filename : filter.keySet()) {
             // System.err.println("MahoutTermFinder.main()");
             Map<String, Double> scoresForDocument = filter.get(filename);
