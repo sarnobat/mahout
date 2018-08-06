@@ -110,7 +110,8 @@ public class MahoutTermFinderMwkSnpt {
             Path tfidfPath = new Path(outputFolder + "tfidf");
             Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
             Path termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
-            System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents");
+            System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents, using "
+                    + MyEnglishAnalyzer.class + " using reflection (yuck).");
             try {
                 DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class,
                         tokenizedDocumentsPath, configuration);
@@ -177,8 +178,8 @@ public class MahoutTermFinderMwkSnpt {
                 // System.err.println("MahoutTermFinder.convert() " + terms1.size());
                 int i = 0;
                 for (Object o : terms2.keySet()) {
-                    if (i % 100 == 0) {
-                         System.err.println("MahoutTermFinder.convert() " + i );
+                    if (i % 1000 == 0) {
+                        System.err.println("MahoutTermFinder.convert() term " + i);
                     }
                     String value = terms2.get(o);
                     // System.out.print(".");
