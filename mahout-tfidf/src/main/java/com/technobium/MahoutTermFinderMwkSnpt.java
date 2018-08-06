@@ -287,9 +287,9 @@ public class MahoutTermFinderMwkSnpt {
   private static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
     private final CharArraySet stemExclusionSet;
 
-    private static CharArraySet getDefaultStopSet() {
-      return DefaultSetHolder.DEFAULT_STOP_SET;
-    }
+//    private static CharArraySet getDefaultStopSet() {
+//      return DefaultSetHolder.DEFAULT_STOP_SET;
+//    }
 
     private static class DefaultSetHolder {
       static final CharArraySet DEFAULT_STOP_SET = StandardAnalyzer.STOP_WORDS_SET;
