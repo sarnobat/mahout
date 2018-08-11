@@ -117,7 +117,7 @@ public class MahoutTermFinderMwkSnpt {
             try {
                 DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class,
                         tokenizedDocumentsPath, configuration);
-            } catch (Exception e) {
+            } catch (IllegalStateException e) {
                 e.printStackTrace();
                 System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Could not instantiate "
                         + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
