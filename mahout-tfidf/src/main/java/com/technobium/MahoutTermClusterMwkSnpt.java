@@ -58,157 +58,143 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+
 /**
  * TFIDF (term frequency / document frequency) - for use on small *mwk files
  */
-// This was un-abstracted so that we can try and find phrases for the clustering code. 
+// This was un-abstracted so that we can try and find phrases for the clustering
+// code.
 public class MahoutTermClusterMwkSnpt {
 
-	 
-	 
-	    // ---- Static
-	 
-	    private static final Logger LOG = LoggerFactory.getLogger(MahoutTermClusterMwkSnpt.class);
-	    private static final String BASE_PATH = "";
-	    private static final String POINTS_PATH = BASE_PATH + "/points";
-	    private static final String CLUSTERS_PATH = BASE_PATH + "/clusters";
-	    private static final String OUTPUT_PATH = BASE_PATH + "/output";
-	 
-	    public static void main(final String[] args) {
-	 
-	        try {
-	            start();
-	        }
-	        catch (final Exception e) {
-	            LOG.error("MahoutTryIt failed", e);
-	        }
-	    }
-	 
-	    // ---- Fields
-	 
-	    private  static final double[][] points =
-	        { { 1, 1 }, { 2, 1 }, { 1, 2 },
-	        { 2, 2 }, { 3, 3 }, { 8, 8 },
-	        { 9, 8 }, { 8, 9 }, { 9, 9 } };
-	 
-	    private  static final int numberOfClusters = 2;
-	 
-	    // ---- Methods
-	 
-	    private static void start()
-	        throws Exception {
-	 
-	        final Configuration configuration = new Configuration();
-	 
-	        // Create input directories for data
-	        final File pointsDir = new File(POINTS_PATH);
-	        if (!pointsDir.exists()) {
-	            pointsDir.mkdir();
-	        }
-	 
-	        // read the point values and generate vectors from input data
-	        final List<Vector> vectors = vectorize(points);
-	 
-	        // Write data to sequence hadoop sequence files
-	        writePointsToFile(configuration, vectors);
-	 
-	        // Write initial centers for clusters
-	        writeClusterInitialCenters(configuration, vectors);
-	 
-	        // Run K-means algorithm
-	        final Path inputPath = new Path(POINTS_PATH);
-	        final Path clustersPath = new Path(CLUSTERS_PATH);
-	        final Path outputPath = new Path(OUTPUT_PATH);
-	        HadoopUtil.delete(configuration, outputPath);
-	 
-	        KMeansDriver.run(configuration, inputPath, clustersPath, outputPath, 0.001, 10, true, 0, false);
-	 
-	        // Read and print output values
-	        readAndPrintOutputValues(configuration);
-	    }
-	 
-	    private static void writePointsToFile(final Configuration configuration, final List<Vector> points)
-	        throws IOException {
-	 
-	        final Path path = new Path(POINTS_PATH + "/pointsFile");
-	 
-	        final SequenceFile.Writer writer =
-	            SequenceFile.createWriter(
-	                configuration,
-	                SequenceFile.Writer.file(path),
-	                SequenceFile.Writer.keyClass(IntWritable.class),
-	                SequenceFile.Writer.valueClass(VectorWritable.class));
-	 
-	        int recNum = 0;
-	        final VectorWritable vec = new VectorWritable();
-	 
-	        for (final Vector point : points) {
-	            vec.set(point);
-	            writer.append(new IntWritable(recNum++), vec);
-	        }
-	 
-	        writer.close();
-	    }
-	 
-	    private  static void writeClusterInitialCenters(final Configuration configuration, final List<Vector> points)
-	        throws IOException {
-	        final Path writerPath = new Path(CLUSTERS_PATH + "/part-00000");
-	 
-	        final SequenceFile.Writer writer =
-	            SequenceFile.createWriter(
-	                configuration,
-	                SequenceFile.Writer.file(writerPath),
-	                SequenceFile.Writer.keyClass(Text.class),
-	                SequenceFile.Writer.valueClass(Kluster.class));
-	 
-	        for (int i = 0; i < numberOfClusters; i++) {
-	            final Vector vec = points.get(i);
-	 
-	            // write the initial centers
-	            final Kluster cluster = new Kluster(vec, i, new EuclideanDistanceMeasure());
-	            writer.append(new Text(cluster.getIdentifier()), cluster);
-	        }
-	 
-	        writer.close();
-	    }
-	 
-	    private  static void readAndPrintOutputValues(final Configuration configuration)
-	        throws IOException {
-	        final Path input = new Path(OUTPUT_PATH + "/" + Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000");
-	 
-	        final SequenceFile.Reader reader =
-	            new SequenceFile.Reader(
-	                configuration,
-	                SequenceFile.Reader.file(input));
-	 
-	        final IntWritable key = new IntWritable();
-	        final WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
-	 
-	        while (reader.next(key, value)) {
-	            LOG.info("{} belongs to cluster {}", value.toString(), key.toString());
-	        }
-	        reader.close();
-	    }
-	 
-	    // Read the points to vector from 2D array
-	    public  static List<Vector> vectorize(final double[][] raw) {
-	        final List points = new ArrayList();
-	 
-	        for (int i = 0; i < raw.length; i++) {
-	            final Vector vec = new RandomAccessSparseVector(raw[i].length);
-	            vec.assign(raw[i]);
-	            points.add(vec);
-	        }
-	 
-	        return points;
-	    }
-	
+    // ---- Static
+
+    private static final Logger LOG = LoggerFactory.getLogger(MahoutTermClusterMwkSnpt.class);
+    private static final String BASE_PATH = "";
+    private static final String POINTS_PATH = BASE_PATH + "/points";
+    private static final String CLUSTERS_PATH = BASE_PATH + "/clusters";
+    private static final String OUTPUT_PATH = BASE_PATH + "/output";
+
+    public static void main(final String[] args) {
+
+        try {
+            start();
+        } catch (final Exception e) {
+            LOG.error("MahoutTryIt failed", e);
+        }
+    }
+
+    // ---- Fields
+
+    private static final double[][] points = { { 1, 1 }, { 2, 1 }, { 1, 2 }, { 2, 2 }, { 3, 3 }, { 8, 8 }, { 9, 8 },
+            { 8, 9 }, { 9, 9 } };
+
+    private static final int numberOfClusters = 2;
+
+    // ---- Methods
+
+    private static void start() throws Exception {
+
+        final Configuration configuration = new Configuration();
+
+        // Create input directories for data
+        final File pointsDir = new File(POINTS_PATH);
+        if (!pointsDir.exists()) {
+            pointsDir.mkdir();
+        }
+
+        // read the point values and generate vectors from input data
+        final List<Vector> vectors = vectorize(points);
+
+        // Write data to sequence hadoop sequence files
+        writePointsToFile(configuration, vectors);
+
+        // Write initial centers for clusters
+        writeClusterInitialCenters(configuration, vectors);
+
+        // Run K-means algorithm
+        final Path inputPath = new Path(POINTS_PATH);
+        final Path clustersPath = new Path(CLUSTERS_PATH);
+        final Path outputPath = new Path(OUTPUT_PATH);
+        HadoopUtil.delete(configuration, outputPath);
+
+        KMeansDriver.run(configuration, inputPath, clustersPath, outputPath, 0.001, 10, true, 0, false);
+
+        // Read and print output values
+        readAndPrintOutputValues(configuration);
+    }
+
+    private static void writePointsToFile(final Configuration configuration, final List<Vector> points)
+            throws IOException {
+
+        final Path path = new Path(POINTS_PATH + "/pointsFile");
+        FileSystem fs = FileSystem.getLocal(configuration);
+        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, path, IntWritable.class,
+                VectorWritable.class);
+
+        int recNum = 0;
+        final VectorWritable vec = new VectorWritable();
+
+        for (final Vector point : points) {
+            vec.set(point);
+            writer.append(new IntWritable(recNum++), vec);
+        }
+
+        writer.close();
+    }
+
+    private static void writeClusterInitialCenters(final Configuration configuration, final List<Vector> points)
+            throws IOException {
+        final Path writerPath = new Path(CLUSTERS_PATH + "/part-00000");
+
+        FileSystem fs = FileSystem.getLocal(configuration);
+        final Path path = new Path(POINTS_PATH + "/pointsFile");
+        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, writerPath, Text.class,
+                Kluster.class);
+
+        for (int i = 0; i < numberOfClusters; i++) {
+            final Vector vec = points.get(i);
+
+            // write the initial centers
+            final Kluster cluster = new Kluster(vec, i, new EuclideanDistanceMeasure());
+            writer.append(new Text(cluster.getIdentifier()), cluster);
+        }
+
+        writer.close();
+    }
+
+    private static void readAndPrintOutputValues(final Configuration configuration) throws IOException {
+        final Path input = new Path(OUTPUT_PATH + "/" + Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000");
+
+
+        FileSystem fs = FileSystem.getLocal(configuration);
+        final SequenceFile.Reader reader = new SequenceFile.Reader(fs, input, configuration);
+
+        final IntWritable key = new IntWritable();
+        final WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
+
+        while (reader.next(key, value)) {
+            LOG.info("{} belongs to cluster {}", value.toString(), key.toString());
+        }
+        reader.close();
+    }
+
+    // Read the points to vector from 2D array
+    public static List<Vector> vectorize(final double[][] raw) {
+        final List<Vector> points = new ArrayList<Vector>();
+
+        for (int i = 0; i < raw.length; i++) {
+            final Vector vec = new RandomAccessSparseVector(raw[i].length);
+            vec.assign(raw[i]);
+            points.add(vec);
+        }
+
+        return points;
+    }
+
     private static final int THRESHOLD = 1;
 
     // The biggest problem with this API is that there is a lot of I/O
     public static void main1(String args[]) throws Exception {
-    	
-    	
 
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 
@@ -216,7 +202,9 @@ public class MahoutTermClusterMwkSnpt {
         String outputFolder = "temp_intermediate/";
 
         Path documentsSequencePath = new Path(outputFolder, "sequence");
-        System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating sequence file from mwk snippet files, outputting files to sequence file " + documentsSequencePath + " (large)");
+        System.err.println(
+                "SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating sequence file from mwk snippet files, outputting files to sequence file "
+                        + documentsSequencePath + " (large)");
         {
             SequenceFile.Writer writer = new SequenceFile.Writer(FileSystem.get(configuration), configuration,
                     documentsSequencePath, Text.class, Text.class);
@@ -262,10 +250,12 @@ public class MahoutTermClusterMwkSnpt {
         }
         {
             Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Adding tokenized documents to folder " + tokenizedDocumentsPath );
+            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Adding tokenized documents to folder "
+                    + tokenizedDocumentsPath);
             System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents, using "
                     + MyEnglishAnalyzer.class + " using reflection (yuck). Outputting to: " + tokenizedDocumentsPath);
-            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentsSequencePath + " ===> " + tokenizedDocumentsPath);
+            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentsSequencePath + " ===> "
+                    + tokenizedDocumentsPath);
             try {
                 DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class,
                         tokenizedDocumentsPath, configuration);
@@ -275,26 +265,36 @@ public class MahoutTermClusterMwkSnpt {
                         + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
                 return;
             }
-            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + tokenizedDocumentsPath +" ===> "+ new Path(outputFolder + "/" + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
+            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + tokenizedDocumentsPath + " ===> "
+                    + new Path(outputFolder + "/" + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
             DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
                     DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
                     PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
-//            System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors using input file " + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
+            // System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors
+            // using input file " + new Path(outputFolder +
+            // DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
             Path tfidfPath = new Path(outputFolder + "tfidf");
             System.err.println("MahoutTermFinder.calculateTfIdf() - adding document frequencies to file " + tfidfPath);
             {
-                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER) + " ===> " + tfidfPath);
-                Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER),
-                        tfidfPath, configuration, 100);
+                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - "
+                        + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER) + " ===> "
+                        + tfidfPath);
+                Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(
+                        new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER), tfidfPath,
+                        configuration, 100);
 
                 System.err.println("MahoutTermFinder.calculateTfIdf() - adding tfidf scores to file " + tfidfPath);
-                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER) +" ===> "+ tfidfPath);
-                TFIDFConverter.processTfIdf(new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER), tfidfPath, configuration, documentFrequencies, 1,
-                        100, PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
+                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - "
+                        + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER) + " ===> "
+                        + tfidfPath);
+                TFIDFConverter.processTfIdf(new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER),
+                        tfidfPath, configuration, documentFrequencies, 1, 100, PartialVectorMerger.NO_NORMALIZING,
+                        false, false, false, 1);
             }
         }
         System.err.println("MahoutTermFinder.main() - ??? ===> " + new Path(outputFolder, "dictionary.file-0"));
-        System.err.println("MahoutTermFinder.main() - Reading dictionary into map. Dictionary of terms with IDs: " + new Path(outputFolder, "dictionary.file-0") + " (large)");
+        System.err.println("MahoutTermFinder.main() - Reading dictionary into map. Dictionary of terms with IDs: "
+                + new Path(outputFolder, "dictionary.file-0") + " (large)");
         Map<String, Object> dictionary;
         {
             // Create a vector numerical value for each term (e.g. "atletico" -> 4119)
@@ -302,7 +302,8 @@ public class MahoutTermClusterMwkSnpt {
                     new Path(outputFolder, "dictionary.file-0"), configuration);
             Map<String, Object> termToOrdinalMappings2 = new HashMap<String, Object>();
             for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
-                //System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - sequenceFile = " + sequenceFile);
+                // System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - sequenceFile = "
+                // + sequenceFile);
                 // System.err.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
                 termToOrdinalMappings2.put(sequenceFile.getFirst().toString(), sequenceFile.getSecond());
             }
@@ -364,7 +365,8 @@ public class MahoutTermClusterMwkSnpt {
                     if (j % 1000 == 0) {
                         // System.err.println("MahoutTermFinder.convert() " + file1 + " score element "
                         // + j);
-                        System.err.println("MahoutTermFinder.convert() " + file1 + " " + j + " " + id + "::" + score + " (term_id, score)");
+                        System.err.println("MahoutTermFinder.convert() " + file1 + " " + j + " " + id + "::" + score
+                                + " (term_id, score)");
                     }
                     ret.put(term, score);
                     // System.err.println("MahoutTermFinder.transform() term = " + term);

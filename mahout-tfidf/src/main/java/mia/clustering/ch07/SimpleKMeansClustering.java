@@ -72,15 +72,18 @@ public class SimpleKMeansClustering {
 
 		for (int i = 0; i < k; i++) {
 			Vector vec = vectors.get(i);
-			//Cluster cluster = new Cluster(vec, i, new EuclideanDistanceMeasure());
-			Cluster cluster = new Clust
-			writer.append(new Text(cluster.getIdentifier()), cluster);
+//			//Cluster cluster = new Cluster(vec, i, new EuclideanDistanceMeasure());
+//			Cluster cluster = new Clust
+//			writer.append(new Text(cluster.getIdentifier()), cluster);
+			throw new RuntimeException("fix this");
 		}
 		writer.close();
-
-		KMeansDriver.run(conf, new Path("testdata/points"), new Path("testdata/clusters"), new Path("output"),
-				new EuclideanDistanceMeasure(), 0.001, 10, true, false);
-
+if (true) {
+		throw new RuntimeException("fix this");
+		
+//		KMeansDriver.run(conf, new Path("testdata/points"), new Path("testdata/clusters"), new Path("output"),
+//				new EuclideanDistanceMeasure(), 0.001, 10, true, false);
+}
 		SequenceFile.Reader reader = new SequenceFile.Reader(fs,
 				new Path("output/" + Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000"), conf);
 
