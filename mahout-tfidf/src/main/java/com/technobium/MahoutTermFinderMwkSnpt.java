@@ -51,6 +51,7 @@ import com.google.common.collect.HashBiMap;
 /**
  * TFIDF (term frequency / document frequency) - for use on small *mwk files
  */
+// This was un-abstracted so that we can try and find phrases for the clustering code. 
 public class MahoutTermFinderMwkSnpt {
 
     private static final int THRESHOLD = 1;
