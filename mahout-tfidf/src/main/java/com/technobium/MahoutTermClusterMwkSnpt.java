@@ -69,13 +69,13 @@ public class MahoutTermClusterMwkSnpt {
     // ---- Static
 
     private static final Logger LOG = LoggerFactory.getLogger(MahoutTermClusterMwkSnpt.class);
-    private static final String BASE_PATH = "";
+    private static final String BASE_PATH = System.getProperty("user.dir");
     private static final String POINTS_PATH = BASE_PATH + "/points";
     private static final String CLUSTERS_PATH = BASE_PATH + "/clusters";
     private static final String OUTPUT_PATH = BASE_PATH + "/output";
 
     public static void main(final String[] args) {
-
+System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.main() - ");
         try {
             start();
         } catch (final Exception e) {
@@ -93,7 +93,7 @@ public class MahoutTermClusterMwkSnpt {
     // ---- Methods
 
     private static void start() throws Exception {
-
+System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - ");
         final Configuration configuration = new Configuration();
 
         // Create input directories for data
@@ -121,29 +121,35 @@ public class MahoutTermClusterMwkSnpt {
 
         // Read and print output values
         readAndPrintOutputValues(configuration);
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - end");
     }
 
     private static void writePointsToFile(final Configuration configuration, final List<Vector> points)
             throws IOException {
-
+System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin");
         final Path path = new Path(POINTS_PATH + "/pointsFile");
         FileSystem fs = FileSystem.getLocal(configuration);
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 1");
         final SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, path, IntWritable.class,
                 VectorWritable.class);
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 2");
 
         int recNum = 0;
         final VectorWritable vec = new VectorWritable();
 
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 3");
         for (final Vector point : points) {
+            System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - point = " + point);
             vec.set(point);
             writer.append(new IntWritable(recNum++), vec);
         }
-
+System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - end");
         writer.close();
     }
 
     private static void writeClusterInitialCenters(final Configuration configuration, final List<Vector> points)
             throws IOException {
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - ");
         final Path writerPath = new Path(CLUSTERS_PATH + "/part-00000");
 
         FileSystem fs = FileSystem.getLocal(configuration);
@@ -165,21 +171,24 @@ public class MahoutTermClusterMwkSnpt {
     private static void readAndPrintOutputValues(final Configuration configuration) throws IOException {
         final Path input = new Path(OUTPUT_PATH + "/" + Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000");
 
-
         FileSystem fs = FileSystem.getLocal(configuration);
         final SequenceFile.Reader reader = new SequenceFile.Reader(fs, input, configuration);
 
         final IntWritable key = new IntWritable();
         final WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
-
+        int count = 0;
         while (reader.next(key, value)) {
             LOG.info("{} belongs to cluster {}", value.toString(), key.toString());
         }
         reader.close();
+        if (count == 0) {
+            throw new RuntimeException("No  output pairs");
+        }
     }
 
     // Read the points to vector from 2D array
-    public static List<Vector> vectorize(final double[][] raw) {
+    private static List<Vector> vectorize(final double[][] raw) {
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.vectorize() - ");
         final List<Vector> points = new ArrayList<Vector>();
 
         for (int i = 0; i < raw.length; i++) {
@@ -194,7 +203,7 @@ public class MahoutTermClusterMwkSnpt {
     private static final int THRESHOLD = 1;
 
     // The biggest problem with this API is that there is a lot of I/O
-    public static void main1(String args[]) throws Exception {
+    private static void main1(String args[]) throws Exception {
 
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 
