@@ -97,7 +97,7 @@ public class MahoutTermClusterMwkSnpt {
         }
 
         // read the point values and generate vectors from input data
-        final List<Vector> vectors = vectorize(points);
+        final List<MwkVector> vectors = vectorize(points);
 
         // Write data to sequence hadoop sequence files
         writePointsToFile(configuration, vectors);
@@ -118,7 +118,7 @@ public class MahoutTermClusterMwkSnpt {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - end");
     }
 
-    private static void writePointsToFile(final Configuration configuration, final List<Vector> points)
+    private static void writePointsToFile(final Configuration configuration, final List<MwkVector> points)
             throws IOException {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin");
         final Path path = new Path(POINTS_PATH + "/pointsFile");
@@ -132,16 +132,16 @@ public class MahoutTermClusterMwkSnpt {
         final VectorWritable vec = new VectorWritable();
 
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 3");
-        for (final Vector point : points) {
+        for (final MwkVector point : points) {
             System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - point = " + point);
-            vec.set(point);
+            vec.set(point.getVector());
             writer.append(new IntWritable(recNum++), vec);
         }
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - end");
         writer.close();
     }
 
-    private static void writeClusterInitialCenters(final Configuration configuration, final List<Vector> points)
+    private static void writeClusterInitialCenters(final Configuration configuration, final List<MwkVector> points)
             throws IOException {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - ");
         final Path writerPath = new Path(CLUSTERS_PATH + "/part-00000");
@@ -152,10 +152,10 @@ public class MahoutTermClusterMwkSnpt {
                 Kluster.class);
 
         for (int i = 0; i < numberOfClusters; i++) {
-            final Vector vec = points.get(i);
+            final MwkVector vec = points.get(i);
 
             // write the initial centers
-            final Kluster cluster = new Kluster(vec, i, new EuclideanDistanceMeasure());
+            final Kluster cluster = new Kluster(vec.getVector(), i, new EuclideanDistanceMeasure());
             writer.append(new Text(cluster.getIdentifier()), cluster);
             System.out.println(
                     "SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - cluster = " + cluster.toString());
@@ -183,17 +183,50 @@ public class MahoutTermClusterMwkSnpt {
     }
 
     // Read the points to vector from 2D array
-    private static List<Vector> vectorize(final double[][] raw) {
+    private static List<MwkVector> vectorize(final double[][] raw) {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.vectorize() - ");
-        final List<Vector> points = new ArrayList<Vector>();
+        final List<MwkVector> points = new ArrayList<MwkVector>();
 
         for (int i = 0; i < raw.length; i++) {
-            final Vector vec = new RandomAccessSparseVector(raw[i].length);
-            vec.assign(raw[i]);
+            MwkVector vec = new MwkVector(new RandomAccessSparseVector(raw[i].length));
+            vec.getVector().assign(raw[i]);
             points.add(vec);
         }
 
         return points;
+    }
+
+    private static class MwkVector {
+
+        private final Vector vector;
+
+        @Deprecated
+        MwkVector(Vector vector) {
+            this.vector = vector;
+        }
+
+        MwkVector(Path mwkFile) {
+            this.vector = toVector(mwkFile);
+        }
+
+        private static Vector toVector(Path fileInPath) {
+            // TODO Auto-generated method stub
+            // return null;
+            File file = Paths.get(fileInPath.toUri()).toFile();
+            if (file.exists()) {
+                try {
+                    Text text = new Text(FileUtils.readFileToString(file));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                // writer.append(id, text);
+            }
+        }
+
+        // TODO: this violates Demeter. Fix later once we have it working.
+        Vector getVector() {
+            return vector;
+        }
     }
 
     private static final int THRESHOLD = 1;
@@ -206,75 +239,36 @@ public class MahoutTermClusterMwkSnpt {
         Configuration configuration = new Configuration();
         String outputFolder = "temp_intermediate/";
 
-        Path documentsSequencePath = new Path(outputFolder, "sequence");
-        System.err.println(
-                "SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating sequence file from mwk snippet files, outputting files to sequence file "
-                        + documentsSequencePath + " (large)");
+        Path documentsSequencePath1 = writeToSequenceFile(configuration, new Path(outputFolder, "sequence"),
+                new String[] { System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/aspergers",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/atletico",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/business",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/career",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/equalizer",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/productivity",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/self",
+                        System.getProperty("user.home")
+                                + "/sarnobat.git/mwk/snippets/self/approval_attention_social_status",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/self/cliquology_and_bullying/",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/soccer",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/tech/programming_tips",
+                        System.getProperty("user.home")
+                                + "/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/travel",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
+                        System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", });
         {
-            SequenceFile.Writer writer = new SequenceFile.Writer(FileSystem.get(configuration), configuration,
-                    documentsSequencePath, Text.class, Text.class);
-
-            for (String path : new String[] { System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/aspergers",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/atletico",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/business",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/career",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/equalizer",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/productivity",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/self",
-                    System.getProperty("user.home")
-                            + "/sarnobat.git/mwk/snippets/self/approval_attention_social_status",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/self/cliquology_and_bullying/",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/soccer",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/tech/programming_tips",
-                    System.getProperty("user.home")
-                            + "/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/travel",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", }) {
-                Text id = new Text(Paths.get(path).getFileName().toString());
-                DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
-                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::" + Paths.get(path).toFile());
-                try {
-                    for (java.nio.file.Path fileInPath : stream) {
-                        if (Files.isDirectory(fileInPath)) {
-                            // listFiles(entry);
-                        } else {
-                            if (fileInPath.toFile().exists()) {
-                                writer.append(id,
-                                        new Text(FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile())));
-                            }
-                        }
-                    }
-                } catch (IOException e3) {
-                    throw e3;
-                } finally {
-                }
-            }
-
-            writer.close();
-        }
-        {
-            Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Adding tokenized documents to folder "
-                    + tokenizedDocumentsPath);
-            System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents, using "
-                    + MyEnglishAnalyzer.class + " using reflection (yuck). Outputting to: " + tokenizedDocumentsPath);
-            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentsSequencePath + " ===> "
-                    + tokenizedDocumentsPath);
+            Path tokenizedDocumentsPath;
             try {
-                DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class,
-                        tokenizedDocumentsPath, configuration);
+                tokenizedDocumentsPath= tokenizeDocuments(configuration, outputFolder, documentsSequencePath1);
             } catch (Exception e) {
+                // IllegalStateException could get thrown I think, so we need this
                 e.printStackTrace();
                 System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Could not instantiate "
                         + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
                 return;
             }
-            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + tokenizedDocumentsPath + " ===> "
-                    + new Path(outputFolder + "/" + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
-            DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
-                    DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
-                    PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
+            String documentVectorOutputFolder = createTermFrequencyVectors(configuration, outputFolder, tokenizedDocumentsPath);
             // System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors
             // using input file " + new Path(outputFolder +
             // DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
@@ -282,17 +276,17 @@ public class MahoutTermClusterMwkSnpt {
             System.err.println("MahoutTermFinder.calculateTfIdf() - adding document frequencies to file " + tfidfPath);
             {
                 System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - "
-                        + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER) + " ===> "
+                        + new Path(outputFolder + documentVectorOutputFolder) + " ===> "
                         + tfidfPath);
                 Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(
-                        new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER), tfidfPath,
+                        new Path(outputFolder + documentVectorOutputFolder), tfidfPath,
                         configuration, 100);
 
                 System.err.println("MahoutTermFinder.calculateTfIdf() - adding tfidf scores to file " + tfidfPath);
                 System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - "
-                        + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER) + " ===> "
+                        + new Path(outputFolder + documentVectorOutputFolder) + " ===> "
                         + tfidfPath);
-                TFIDFConverter.processTfIdf(new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER),
+                TFIDFConverter.processTfIdf(new Path(outputFolder + documentVectorOutputFolder),
                         tfidfPath, configuration, documentFrequencies, 1, 100, PartialVectorMerger.NO_NORMALIZING,
                         false, false, false, 1);
             }
@@ -421,6 +415,64 @@ public class MahoutTermClusterMwkSnpt {
                 System.out.println(filename + ": " + s + " " + e.getKey());
             }
         }
+    }
+
+    private static String createTermFrequencyVectors(Configuration configuration, String outputFolder,
+            Path tokenizedDocumentsPath) throws IOException, InterruptedException, ClassNotFoundException {
+        String documentVectorOutputFolder = DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER;
+        System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + tokenizedDocumentsPath + " ===> "
+                + new Path(outputFolder + "/" + documentVectorOutputFolder));
+        DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
+                DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
+                PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
+        return documentVectorOutputFolder;
+    }
+
+    private static Path tokenizeDocuments(Configuration configuration, String outputFolder, Path documentsSequencePath)
+            throws IOException, InterruptedException, ClassNotFoundException {
+        Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
+        System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Adding tokenized documents to folder "
+                + tokenizedDocumentsPath);
+        System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents, using "
+                + MyEnglishAnalyzer.class + " using reflection (yuck). Outputting to: " + tokenizedDocumentsPath);
+        System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentsSequencePath + " ===> "
+                + tokenizedDocumentsPath);
+        DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class,
+                tokenizedDocumentsPath, configuration);
+        return tokenizedDocumentsPath;
+    }
+
+    private static Path writeToSequenceFile(Configuration configuration, Path documentsSequencePath, String[] mwkSnippetCategoryDirs)
+            throws IOException {
+        System.err.println(
+                "SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating sequence file from mwk snippet files, outputting files to sequence file "
+                        + documentsSequencePath + " (large)");
+        SequenceFile.Writer writer = new SequenceFile.Writer(FileSystem.get(configuration), configuration,
+                documentsSequencePath, Text.class, Text.class);
+
+        for (String path : mwkSnippetCategoryDirs) {
+            Text id = new Text(Paths.get(path).getFileName().toString());
+            DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
+            System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::" + Paths.get(path).toFile());
+            try {
+                for (java.nio.file.Path fileInPath : stream) {
+                    if (Files.isDirectory(fileInPath)) {
+                        // listFiles(entry);
+                    } else {
+                        if (fileInPath.toFile().exists()) {
+                            writer.append(id,
+                                    new Text(FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile())));
+                        }
+                    }
+                }
+            } catch (IOException e3) {
+                throw e3;
+            } finally {
+            }
+        }
+
+        writer.close();
+        return documentsSequencePath;
     }
 
     public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
