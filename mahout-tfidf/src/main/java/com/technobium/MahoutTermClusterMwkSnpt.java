@@ -75,7 +75,7 @@ public class MahoutTermClusterMwkSnpt {
     private static final String OUTPUT_PATH = BASE_PATH + "/output";
 
     public static void main(final String[] args) {
-System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.main() - ");
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.main() - ");
         try {
             start();
         } catch (final Exception e) {
@@ -93,7 +93,7 @@ System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.main() - ");
     // ---- Methods
 
     private static void start() throws Exception {
-System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - ");
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - ");
         final Configuration configuration = new Configuration();
 
         // Create input directories for data
@@ -126,7 +126,7 @@ System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - ");
 
     private static void writePointsToFile(final Configuration configuration, final List<Vector> points)
             throws IOException {
-System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin");
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin");
         final Path path = new Path(POINTS_PATH + "/pointsFile");
         FileSystem fs = FileSystem.getLocal(configuration);
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 1");
@@ -143,7 +143,7 @@ System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin
             vec.set(point);
             writer.append(new IntWritable(recNum++), vec);
         }
-System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - end");
+        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - end");
         writer.close();
     }
 
@@ -153,7 +153,7 @@ System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - end")
         final Path writerPath = new Path(CLUSTERS_PATH + "/part-00000");
 
         FileSystem fs = FileSystem.getLocal(configuration);
-        final Path path = new Path(POINTS_PATH + "/pointsFile");
+        // final Path path = new Path(POINTS_PATH + "/pointsFile");
         final SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, writerPath, Text.class,
                 Kluster.class);
 
@@ -163,6 +163,8 @@ System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - end")
             // write the initial centers
             final Kluster cluster = new Kluster(vec, i, new EuclideanDistanceMeasure());
             writer.append(new Text(cluster.getIdentifier()), cluster);
+            System.out.println(
+                    "SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - cluster = " + cluster.toString());
         }
 
         writer.close();
