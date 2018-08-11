@@ -22,6 +22,10 @@ import org.apache.mahout.math.VectorWritable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Hello world example
+ */
+// No longer needed, use MahoutTermClusterMwkSnpt
 public class MahoutTryIt {
 
     // ---- Static

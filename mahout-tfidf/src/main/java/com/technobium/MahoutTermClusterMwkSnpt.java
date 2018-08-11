@@ -66,8 +66,6 @@ import com.google.common.collect.HashBiMap;
 // code.
 public class MahoutTermClusterMwkSnpt {
 
-    // ---- Static
-
     private static final Logger LOG = LoggerFactory.getLogger(MahoutTermClusterMwkSnpt.class);
     private static final String BASE_PATH = System.getProperty("user.dir");
     private static final String POINTS_PATH = BASE_PATH + "/points";
@@ -83,14 +81,10 @@ public class MahoutTermClusterMwkSnpt {
         }
     }
 
-    // ---- Fields
-
     private static final double[][] points = { { 1, 1 }, { 2, 1 }, { 1, 2 }, { 2, 2 }, { 3, 3 }, { 8, 8 }, { 9, 8 },
             { 8, 9 }, { 9, 9 } };
 
     private static final int numberOfClusters = 2;
-
-    // ---- Methods
 
     private static void start() throws Exception {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - ");
