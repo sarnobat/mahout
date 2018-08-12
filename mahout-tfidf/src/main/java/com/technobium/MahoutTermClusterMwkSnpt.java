@@ -267,18 +267,20 @@ public class MahoutTermClusterMwkSnpt {
             {
 
                 Files.deleteIfExists(Paths.get("temp_intermediate/tokenized-documents/part-m-00000"));
-                Files.deleteIfExists(Paths.get("temp_intermediate/tokenized-documents/_SUCCESS"));
-                Files.deleteIfExists(Paths.get("temp_intermediate/tf-vectors/_SUCCESS"));
                 Files.deleteIfExists(Paths.get("temp_intermediate/tf-vectors/part-r-00000"));
-                Files.deleteIfExists(Paths.get("temp_intermediate/wordcount/_SUCCESS"));
                 Files.deleteIfExists(Paths.get("temp_intermediate/wordcount/part-r-00000"));
                 Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/df-count/part-r-00000"));
-                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS"));
-                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS"));
                 Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000"));
-                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS"));
                 Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000"));
                 Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/frequency.file-0"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/dictionary.file-0"));
+
+                Files.deleteIfExists(Paths.get("temp_intermediate/tokenized-documents/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tf-vectors/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/wordcount/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS"));
             }
             // No files created so far.
             Path tokenizedDocumentsPath;
@@ -295,7 +297,7 @@ public class MahoutTermClusterMwkSnpt {
             Preconditions.checkState(Paths.get("temp_intermediate/tokenized-documents/_SUCCESS").toFile().exists());
             Path documentVectorOutputFolderPath = createTermFrequencyVectors(configuration, outputFolder,
                     tokenizedDocumentsPath);
-            Preconditions.checkState(Paths.get("temp_intermediate/tfidf/frequency.file-0").toFile().exists());
+            Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/frequency.file-0").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/tf-vectors/_SUCCESS").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/tf-vectors/part-r-00000").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/wordcount/_SUCCESS").toFile().exists());
@@ -317,10 +319,13 @@ public class MahoutTermClusterMwkSnpt {
                         .calculateDF(documentVectorOutputFolderPath, tfidfPath, configuration, 100);
                 Preconditions.checkState(Paths.get("temp_intermediate/tfidf/df-count/part-r-00000").toFile().exists());
                 Preconditions.checkState(Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS").toFile().exists());
+                Preconditions.checkState(Paths.get("temp_intermediate/tfidf/frequency.file-0").toFile().exists());
 
                 System.err.println("MahoutTermFinder.calculateTfIdf() - adding tfidf scores to file " + tfidfPath);
                 System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentVectorOutputFolderPath
                         + " ===> " + tfidfPath);
+                Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS").toFile().exists());
+                Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
                 TFIDFConverter.processTfIdf(documentVectorOutputFolderPath, tfidfPath, configuration,
                         documentFrequencies, 1, 100, PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
 
