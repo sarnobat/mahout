@@ -264,6 +264,21 @@ public class MahoutTermClusterMwkSnpt {
                         System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
                         System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", });
         {
+            {
+
+                Files.deleteIfExists(Paths.get("temp_intermediate/tokenized-documents/part-m-00000"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tokenized-documents/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tf-vectors/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tf-vectors/part-r-00000"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/wordcount/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/wordcount/part-r-00000"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/df-count/part-r-00000"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS"));
+                Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000"));
+            }
             // No files created so far.
             Path tokenizedDocumentsPath;
             try {
@@ -283,8 +298,11 @@ public class MahoutTermClusterMwkSnpt {
             Preconditions.checkState(Paths.get("temp_intermediate/tf-vectors/part-r-00000").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/wordcount/_SUCCESS").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/wordcount/part-r-00000").toFile().exists());
-            Preconditions.checkState(Paths.get("temp_intermediate/tfidf/df-count/part-r-00000").toFile().exists());
-            Preconditions.checkState(Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS").toFile().exists());
+            
+            Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/df-count/part-r-00000").toFile().exists());
+            Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS").toFile().exists());
+            Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
+            Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS").toFile().exists());
             // System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors
             // using input file " + new Path(outputFolder +
             // DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
@@ -295,12 +313,19 @@ public class MahoutTermClusterMwkSnpt {
                         + " ===> " + tfidfPath);
                 Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter
                         .calculateDF(documentVectorOutputFolderPath, tfidfPath, configuration, 100);
+                Preconditions.checkState(Paths.get("temp_intermediate/tfidf/df-count/part-r-00000").toFile().exists());
+                Preconditions.checkState(Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS").toFile().exists());
 
                 System.err.println("MahoutTermFinder.calculateTfIdf() - adding tfidf scores to file " + tfidfPath);
                 System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentVectorOutputFolderPath
                         + " ===> " + tfidfPath);
                 TFIDFConverter.processTfIdf(documentVectorOutputFolderPath, tfidfPath, configuration,
                         documentFrequencies, 1, 100, PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
+
+                Preconditions.checkState(Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS").toFile().exists());
+                Preconditions.checkState(Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
+                Preconditions.checkState(Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS").toFile().exists());
+                Preconditions.checkState(Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
             }
         }
         Path dictionaryFilePath = new Path(outputFolder, "dictionary.file-0");
