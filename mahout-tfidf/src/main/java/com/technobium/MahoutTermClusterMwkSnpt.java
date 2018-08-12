@@ -58,6 +58,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * TFIDF (term frequency / document frequency) - for use on small *mwk files
