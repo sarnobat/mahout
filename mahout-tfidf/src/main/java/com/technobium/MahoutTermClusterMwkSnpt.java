@@ -58,7 +58,6 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.common.collect.ImmutableMap;
 
 /**
  * TFIDF (term frequency / document frequency) - for use on small *mwk files
@@ -73,7 +72,12 @@ public class MahoutTermClusterMwkSnpt {
     private static final String CLUSTERS_PATH = BASE_PATH + "/clusters";
     private static final String OUTPUT_PATH = BASE_PATH + "/output";
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws Exception {
+        // doClustering();
+        doTermFinding();
+    }
+
+    private static void doClustering() {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.main() - ");
         try {
             start();
@@ -222,6 +226,7 @@ public class MahoutTermClusterMwkSnpt {
                 }
                 // writer.append(id, text);
             }
+            throw new RuntimeException("Finish implementing this");
         }
 
         // TODO: this violates Demeter. Fix later once we have it working.
@@ -232,8 +237,8 @@ public class MahoutTermClusterMwkSnpt {
 
     private static final int THRESHOLD = 1;
 
-    // The biggest problem with this API is that there is a lot of I/O
-    private static void main1(String args[]) throws Exception {
+    @Deprecated // once you have clustering working delete this.
+    private static void doTermFinding() throws Exception {
 
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 
@@ -261,7 +266,7 @@ public class MahoutTermClusterMwkSnpt {
         {
             Path tokenizedDocumentsPath;
             try {
-                tokenizedDocumentsPath= tokenizeDocuments(configuration, outputFolder, documentsSequencePath1);
+                tokenizedDocumentsPath = tokenizeDocuments(configuration, outputFolder, documentsSequencePath1);
             } catch (Exception e) {
                 // IllegalStateException could get thrown I think, so we need this
                 e.printStackTrace();
@@ -277,20 +282,16 @@ public class MahoutTermClusterMwkSnpt {
             Path tfidfPath = new Path(outputFolder + "tfidf");
             System.err.println("MahoutTermFinder.calculateTfIdf() - adding document frequencies to file " + tfidfPath);
             {
-                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - "
-                        + documentVectorOutputFolderPath + " ===> "
-                        + tfidfPath);
-                Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(
-                        documentVectorOutputFolderPath, tfidfPath,
-                        configuration, 100);
+                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentVectorOutputFolderPath
+                        + " ===> " + tfidfPath);
+                Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter
+                        .calculateDF(documentVectorOutputFolderPath, tfidfPath, configuration, 100);
 
                 System.err.println("MahoutTermFinder.calculateTfIdf() - adding tfidf scores to file " + tfidfPath);
-                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - "
-                        + documentVectorOutputFolderPath + " ===> "
-                        + tfidfPath);
-                TFIDFConverter.processTfIdf(documentVectorOutputFolderPath,
-                        tfidfPath, configuration, documentFrequencies, 1, 100, PartialVectorMerger.NO_NORMALIZING,
-                        false, false, false, 1);
+                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentVectorOutputFolderPath
+                        + " ===> " + tfidfPath);
+                TFIDFConverter.processTfIdf(documentVectorOutputFolderPath, tfidfPath, configuration,
+                        documentFrequencies, 1, 100, PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
             }
         }
         Path dictionaryFilePath = new Path(outputFolder, "dictionary.file-0");
@@ -423,7 +424,8 @@ public class MahoutTermClusterMwkSnpt {
 
     private static Path createTermFrequencyVectors(Configuration configuration, String outputFolder,
             Path tokenizedDocumentsPath) throws IOException, InterruptedException, ClassNotFoundException {
-        String documentVectorOutputFolder = createTermFrequencyVectors1(configuration, outputFolder, tokenizedDocumentsPath);
+        String documentVectorOutputFolder = createTermFrequencyVectors1(configuration, outputFolder,
+                tokenizedDocumentsPath);
         Path documentVectorOutputFolderPath = new Path(outputFolder + documentVectorOutputFolder);
         return documentVectorOutputFolderPath;
     }
@@ -445,17 +447,17 @@ public class MahoutTermClusterMwkSnpt {
         Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
         System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Adding tokenized documents to folder "
                 + tokenizedDocumentsPath);
-        System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents, using "
-                + MyEnglishAnalyzer.class + " using reflection (yuck). Outputting to: " + tokenizedDocumentsPath);
+        System.err.println("MahoutTermFinder.calculateTfIdf() - Tokenzing documents, using " + MyEnglishAnalyzer.class
+                + " using reflection (yuck). Outputting to: " + tokenizedDocumentsPath);
         System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentsSequencePath + " ===> "
                 + tokenizedDocumentsPath);
-        DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class,
-                tokenizedDocumentsPath, configuration);
+        DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
+                configuration);
         return tokenizedDocumentsPath;
     }
 
-    private static Path writeToSequenceFile(Configuration configuration, Path documentsSequencePath, String[] mwkSnippetCategoryDirs)
-            throws IOException {
+    private static Path writeToSequenceFile(Configuration configuration, Path documentsSequencePath,
+            String[] mwkSnippetCategoryDirs) throws IOException {
         System.err.println(
                 "SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating sequence file from mwk snippet files, outputting files to sequence file "
                         + documentsSequencePath + " (large)");
