@@ -277,7 +277,6 @@ public class MahoutTermClusterMwkSnpt {
             }
             Preconditions.checkState(Paths.get("temp_intermediate/tokenized-documents/part-m-00000").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/tokenized-documents/_SUCCESS").toFile().exists());
-            Preconditions.checkState(Paths.get("temp_intermediate/tfidf/df-count/part-r-00000").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS").toFile().exists());
             Path documentVectorOutputFolderPath = createTermFrequencyVectors(configuration, outputFolder,
                     tokenizedDocumentsPath);
