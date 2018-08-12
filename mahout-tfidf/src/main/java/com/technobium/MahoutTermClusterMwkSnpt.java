@@ -371,13 +371,33 @@ public class MahoutTermClusterMwkSnpt {
             }
             tfidf = termToOrdinalMappings2;
         }
+        
+        {
+
+            Files.deleteIfExists(Paths.get("temp_intermediate/tokenized-documents/part-m-00000"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/tf-vectors/part-r-00000"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/wordcount/part-r-00000"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/df-count/part-r-00000"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/frequency.file-0"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/dictionary.file-0"));
+
+            Files.deleteIfExists(Paths.get("temp_intermediate/tokenized-documents/_SUCCESS"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/tf-vectors/_SUCCESS"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/wordcount/_SUCCESS"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS"));
+            Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS"));
+        }
+        
         // System.err.println("MahoutTermFinder.main() - done");
         System.err.println("MahoutTermFinder.main() - Reading TFIDF Vectors (this will take a while)");
         Map<String, Map<String, Double>> ret1 = new HashMap<String, Map<String, Double>>();
-        for (String file1 : tfidf.keySet()) {
-            System.err.println("MahoutTermFinder.transform() " + file1);
-            VectorWritable tfidf2 = (VectorWritable) tfidf.get(file1);
-            Map<String, Double> transform;
+        for (String mwkDirectory : tfidf.keySet()) {
+            System.err.println("MahoutTermFinder.transform() " + mwkDirectory);
+            VectorWritable tfidf2 = (VectorWritable) tfidf.get(mwkDirectory);
+            Map<String, Double> allTermsWithScoresForMwkDirMap;
             {
                 // System.err.println("MahoutTermFinder.transform()");
                 BiMap<String, Object> terms = HashBiMap.create();
@@ -394,15 +414,16 @@ public class MahoutTermClusterMwkSnpt {
                     Preconditions.checkNotNull(value, "Couldn't get value. o = " + o + ", terms1 = " + terms2);
                     if (i % 1000 == 0) {
                         // System.err.println("MahoutTermFinder.convert() " + file1 + " term " + i);
-                        System.err.println("MahoutTermFinder.convert() " + file1 + " " + i + " "
+                        System.err.println("MahoutTermFinder.convert() " + mwkDirectory + " " + i + " "
                                 + ((IntWritable) o).get() + "::" + value + " (term_id, term)");
                     }
                     m.put(((IntWritable) o).get(), value);
                     ++i;
                 }
                 Map<Integer, String> terms1 = m;
-                Map<String, Double> ret = new HashMap<String, Double>();
+                Map<String, Double> allTermsWithScoresMap1 = new HashMap<String, Double>();
                 int j = 0;
+                System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - ");
                 for (Element scoreElement : tfidf2.get().all()) {
                     int id = scoreElement.index();
                     if (!terms1.containsKey(id)) {
@@ -413,16 +434,16 @@ public class MahoutTermClusterMwkSnpt {
                     if (j % 1000 == 0) {
                         // System.err.println("MahoutTermFinder.convert() " + file1 + " score element "
                         // + j);
-                        System.err.println("MahoutTermFinder.convert() " + file1 + " " + j + " " + id + "::" + score
-                                + " (term_id, score)");
+                        //System.err.println("MahoutTermFinder.convert() " + file1 + " " + j + " " + id + "::" + score
+                          //      + " (term_id, score)");
                     }
-                    ret.put(term, score);
+                    allTermsWithScoresMap1.put(term, score);
                     // System.err.println("MahoutTermFinder.transform() term = " + term);
                     j++;
                 }
-                transform = ret;
+                allTermsWithScoresForMwkDirMap = allTermsWithScoresMap1;
             }
-            ret1.put(file1, transform);
+            ret1.put(mwkDirectory, allTermsWithScoresForMwkDirMap);
         }
 
         Map<String, Map<String, Double>> scores = ret1;
