@@ -284,6 +284,7 @@ public class MahoutTermClusterMwkSnpt {
             Preconditions.checkState(Paths.get("temp_intermediate/wordcount/_SUCCESS").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/wordcount/part-r-00000").toFile().exists());
 
+            Preconditions.checkState(Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS").toFile().exists());
             // System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors
             // using input file " + new Path(outputFolder +
             // DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
