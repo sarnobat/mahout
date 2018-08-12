@@ -264,6 +264,7 @@ public class MahoutTermClusterMwkSnpt {
                         System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
                         System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", });
         {
+            // No files created so far.
             Path tokenizedDocumentsPath;
             try {
                 tokenizedDocumentsPath = tokenizeDocuments(configuration, outputFolder, documentsSequencePath1);
@@ -274,6 +275,8 @@ public class MahoutTermClusterMwkSnpt {
                         + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
                 return;
             }
+            Preconditions.checkState(Paths.get("temp_intermediate/tokenized-documents/part-m-0000").toFile().exists());
+            Preconditions.checkState(Paths.get("temp_intermediate/tokenized-documents/_SUCCESS").toFile().exists());
             Path documentVectorOutputFolderPath = createTermFrequencyVectors(configuration, outputFolder,
                     tokenizedDocumentsPath);
             // System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors
