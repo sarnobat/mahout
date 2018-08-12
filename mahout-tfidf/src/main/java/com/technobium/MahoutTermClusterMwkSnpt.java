@@ -275,7 +275,7 @@ public class MahoutTermClusterMwkSnpt {
                         + MyEnglishAnalyzer.class + ". Probably there is no public class and constructor.");
                 return;
             }
-            Preconditions.checkState(Paths.get("temp_intermediate/tokenized-documents/part-m-0000").toFile().exists());
+            Preconditions.checkState(Paths.get("temp_intermediate/tokenized-documents/part-m-00000").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/tokenized-documents/_SUCCESS").toFile().exists());
             Path documentVectorOutputFolderPath = createTermFrequencyVectors(configuration, outputFolder,
                     tokenizedDocumentsPath);
