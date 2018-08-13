@@ -89,13 +89,13 @@ public class MahoutTermClusterMwkSnpt {
                 @Override
                 public FileVisitResult visitFile(java.nio.file.Path file, BasicFileAttributes attrs)
                         throws IOException {
-                    //Files.delete(file);
+                    Files.delete(file);
                     return FileVisitResult.CONTINUE;
                 }
 
                 @Override
                 public FileVisitResult postVisitDirectory(java.nio.file.Path dir, IOException exc) throws IOException {
-//                    Files.delete(dir);
+                    Files.delete(dir);
                     return FileVisitResult.CONTINUE;
                 }
             });
@@ -205,7 +205,9 @@ public class MahoutTermClusterMwkSnpt {
         final WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
         int count = 0;
         while (reader.next(key, value)) {
+            System.out.printf("SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - " + "%s belongs to cluster %s\n", value.toString(), key.toString());
             LOG.info("{} belongs to cluster {}", value.toString(), key.toString());
+            count++;
         }
         reader.close();
         if (count == 0) {
