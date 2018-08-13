@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.util.ReflectionUtils;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
@@ -72,8 +74,8 @@ public class MahoutTermClusterMwkSnpt {
 
     public static void main(final String[] args) throws Exception {
         // TODO: after finding the logic that is common to both, perform the clustering
-        doClustering();
-        // doTermFinding();
+        // doClustering();
+        doTermFinding();
     }
 
     private static void doClustering() throws IOException {
@@ -341,6 +343,30 @@ public class MahoutTermClusterMwkSnpt {
             Preconditions.checkState(Paths.get("temp_intermediate/tokenized-documents/_SUCCESS").toFile().exists());
             Path documentVectorOutputFolderPath = createTermFrequencyVectors(configuration, outputFolder,
                     tokenizedDocumentsPath);
+            {
+
+                Path termFrequencies = new Path(
+                        "/Users/ssarnobat/github/mahout/mahout-tfidf/temp_intermediate/tf-vectors/part-r-00000");
+                Map<String, String> map = termFrequencyVectorsToMap(configuration, termFrequencies);
+                for (String term : map.keySet()) {
+                    System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - tf vectors: term=" + term
+                            + "; frequenceies=" + map.get(term));
+                }
+            }
+            {
+                Path path = new Path("temp_intermediate/dictionary.file-0");
+                Map<Integer, String> map = dictionaryToMap(configuration, path);
+                for (int term : map.keySet()) {
+                    System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - dictionary : term_id=" + term
+                            + "; term=" + map.get(term));
+                }
+                System.exit(-1);
+            }
+            {
+                Path termFrequencies = new Path(
+                        "/Users/ssarnobat/github/mahout/mahout-tfidf/temp_intermediate/tokenized-documents/part-r-00000");
+
+            }
             Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/frequency.file-0").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/tf-vectors/_SUCCESS").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/tf-vectors/part-r-00000").toFile().exists());
@@ -539,6 +565,45 @@ public class MahoutTermClusterMwkSnpt {
         }
     }
 
+    private static Map<Integer, String> dictionaryToMap(Configuration configuration, Path path) throws IOException {
+        FileSystem fs = FileSystem.getLocal(configuration);
+        SequenceFile.Reader read = new SequenceFile.Reader(fs, path, configuration);
+        // To sort the entries
+        Map<Integer, String> map = new TreeMap<Integer, String>();
+        Text text = new Text();
+        IntWritable dicKey = new IntWritable();
+        while (read.next(text, dicKey)) {
+            map.put(Integer.parseInt(dicKey.toString()), text.toString());
+        }
+        read.close();
+        return map;
+    }
+
+    private static Map<String, String> termFrequencyVectorsToMap(Configuration configuration, Path path)
+            throws IOException {
+        Map<String, String> termFrequenciesMap = new HashMap<String, String>();
+        SequenceFile.Reader reader = null;
+        try {
+
+            FileSystem fs = FileSystem.getLocal(configuration);
+            reader = new SequenceFile.Reader(fs, path, configuration);
+            Writable key = (Writable) ReflectionUtils.newInstance(reader.getKeyClass(), configuration);
+            Writable value = (Writable) ReflectionUtils.newInstance(reader.getValueClass(), configuration);
+            long position = reader.getPosition();
+            while (reader.next(key, value)) {
+                termFrequenciesMap.put(key.toString(), value.toString());
+                // System.out.println("TF vector: Key: " + key + " value:" + value);
+                position = reader.getPosition();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        } finally {
+            reader.close();
+        }
+        return termFrequenciesMap;
+    }
+
     private static Path createTermFrequencyVectors(Configuration configuration, String outputFolder,
             Path tokenizedDocumentsPath) throws IOException, InterruptedException, ClassNotFoundException {
         String documentVectorOutputFolder = createTermFrequencyVectors1(configuration, outputFolder,
@@ -554,6 +619,8 @@ public class MahoutTermClusterMwkSnpt {
         System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + tokenizedDocumentsPath + " ===> "
                 + new Path(outputFolder + "/" + documentVectorOutputFolder));
         DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
+                // TODO: use documentVectorOutputFolder, not
+                // DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER
                 DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
                 PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
         return documentVectorOutputFolder;
