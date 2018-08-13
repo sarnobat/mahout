@@ -73,6 +73,7 @@ public class MahoutTermClusterMwkSnpt {
     private static final String OUTPUT_PATH = BASE_PATH + "/output";
 
     public static void main(final String[] args) throws Exception {
+        // TODO: after finding the logic that is common to both, perform the clustering
         // doClustering();
         doTermFinding();
     }
@@ -105,31 +106,35 @@ public class MahoutTermClusterMwkSnpt {
         final List<MwkVector> vectors = vectorize(points);
 
         // Write data to sequence hadoop sequence files
-        writePointsToFile(configuration, vectors);
+        writePointsToFile(configuration, vectors, new Path(POINTS_PATH + "/pointsFile"));
 
         // Write initial centers for clusters
-        writeClusterInitialCenters(configuration, vectors);
+        writeClusterInitialCenters(configuration, vectors, CLUSTERS_PATH, numberOfClusters,
+                new Path(CLUSTERS_PATH + "/part-00000"));
 
         // Run K-means algorithm
-        final Path inputPath = new Path(POINTS_PATH);
+        final Path inputPointsPath = new Path(POINTS_PATH);
         final Path clustersPath = new Path(CLUSTERS_PATH);
         final Path outputPath = new Path(OUTPUT_PATH);
         HadoopUtil.delete(configuration, outputPath);
 
-        KMeansDriver.run(configuration, inputPath, clustersPath, outputPath, 0.001, 10, true, 0, false);
+        // @param input - the directory pathname for input points
+        // * @param clustersIn - the directory pathname for initial & computed clusters
+        // * @param output - the directory pathname for output points
+        KMeansDriver.run(configuration, inputPointsPath, clustersPath, outputPath, 0.001, 10, true, 0, false);
 
         // Read and print output values
-        readAndPrintOutputValues(configuration);
+        readAndPrintOutputValues(configuration,
+                new Path(OUTPUT_PATH + "/" + Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000"));
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - end");
     }
 
-    private static void writePointsToFile(final Configuration configuration, final List<MwkVector> points)
-            throws IOException {
+    private static void writePointsToFile(final Configuration configuration, final List<MwkVector> points,
+            Path pointsFile) throws IOException {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin");
-        final Path path = new Path(POINTS_PATH + "/pointsFile");
         FileSystem fs = FileSystem.getLocal(configuration);
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 1");
-        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, path, IntWritable.class,
+        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, pointsFile, IntWritable.class,
                 VectorWritable.class);
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 2");
 
@@ -146,17 +151,17 @@ public class MahoutTermClusterMwkSnpt {
         writer.close();
     }
 
-    private static void writeClusterInitialCenters(final Configuration configuration, final List<MwkVector> points)
-            throws IOException {
+    private static void writeClusterInitialCenters(final Configuration configuration, final List<MwkVector> points,
+            String clusterPath, int clusterDesiredCount, Path clusterOutputFilePath) throws IOException {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - ");
-        final Path writerPath = new Path(CLUSTERS_PATH + "/part-00000");
+        final Path writerPath = clusterOutputFilePath;
 
         FileSystem fs = FileSystem.getLocal(configuration);
         // final Path path = new Path(POINTS_PATH + "/pointsFile");
         final SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, writerPath, Text.class,
                 Kluster.class);
 
-        for (int i = 0; i < numberOfClusters; i++) {
+        for (int i = 0; i < clusterDesiredCount; i++) {
             final MwkVector vec = points.get(i);
 
             // write the initial centers
@@ -169,11 +174,10 @@ public class MahoutTermClusterMwkSnpt {
         writer.close();
     }
 
-    private static void readAndPrintOutputValues(final Configuration configuration) throws IOException {
-        final Path input = new Path(OUTPUT_PATH + "/" + Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000");
-
+    private static void readAndPrintOutputValues(final Configuration configuration, Path clusteredPointsInputPath)
+            throws IOException {
         FileSystem fs = FileSystem.getLocal(configuration);
-        final SequenceFile.Reader reader = new SequenceFile.Reader(fs, input, configuration);
+        final SequenceFile.Reader reader = new SequenceFile.Reader(fs, clusteredPointsInputPath, configuration);
 
         final IntWritable key = new IntWritable();
         final WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
@@ -302,11 +306,13 @@ public class MahoutTermClusterMwkSnpt {
             Preconditions.checkState(Paths.get("temp_intermediate/tf-vectors/part-r-00000").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/wordcount/_SUCCESS").toFile().exists());
             Preconditions.checkState(Paths.get("temp_intermediate/wordcount/part-r-00000").toFile().exists());
-            
+
             Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/df-count/part-r-00000").toFile().exists());
             Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/df-count/_SUCCESS").toFile().exists());
-            Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
-            Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS").toFile().exists());
+            Preconditions
+                    .checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
+            Preconditions
+                    .checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS").toFile().exists());
             // System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors
             // using input file " + new Path(outputFolder +
             // DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
@@ -324,20 +330,25 @@ public class MahoutTermClusterMwkSnpt {
                 System.err.println("MahoutTermFinder.calculateTfIdf() - adding tfidf scores to file " + tfidfPath);
                 System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentVectorOutputFolderPath
                         + " ===> " + tfidfPath);
-                Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS").toFile().exists());
-                Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
+                Preconditions
+                        .checkState(!Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS").toFile().exists());
+                Preconditions
+                        .checkState(!Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
                 TFIDFConverter.processTfIdf(documentVectorOutputFolderPath, tfidfPath, configuration,
                         documentFrequencies, 1, 100, PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
 
                 Preconditions.checkState(Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS").toFile().exists());
-                Preconditions.checkState(Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
-                Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS").toFile().exists());
-                Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
+                Preconditions
+                        .checkState(Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
+                Preconditions
+                        .checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS").toFile().exists());
+                Preconditions.checkState(
+                        !Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
             }
         }
         Path dictionaryFilePath = new Path(outputFolder, "dictionary.file-0");
         Preconditions.checkState(Paths.get("temp_intermediate/dictionary.file-0").toFile().exists());
-        
+
         System.err.println("MahoutTermFinder.main() - ??? ===> " + dictionaryFilePath);
         System.err.println("MahoutTermFinder.main() - Reading dictionary into map. Dictionary of terms with IDs: "
                 + dictionaryFilePath + " (large)");
@@ -371,7 +382,7 @@ public class MahoutTermClusterMwkSnpt {
             }
             tfidf = termToOrdinalMappings2;
         }
-        
+
         {
 
             Files.deleteIfExists(Paths.get("temp_intermediate/tokenized-documents/part-m-00000"));
@@ -390,7 +401,7 @@ public class MahoutTermClusterMwkSnpt {
             Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS"));
             Files.deleteIfExists(Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS"));
         }
-        
+
         // System.err.println("MahoutTermFinder.main() - done");
         System.err.println("MahoutTermFinder.main() - Reading TFIDF Vectors (this will take a while)");
         Map<String, Map<String, Double>> ret1 = new HashMap<String, Map<String, Double>>();
@@ -434,8 +445,9 @@ public class MahoutTermClusterMwkSnpt {
                     if (j % 1000 == 0) {
                         // System.err.println("MahoutTermFinder.convert() " + file1 + " score element "
                         // + j);
-                        //System.err.println("MahoutTermFinder.convert() " + file1 + " " + j + " " + id + "::" + score
-                          //      + " (term_id, score)");
+                        // System.err.println("MahoutTermFinder.convert() " + file1 + " " + j + " " + id
+                        // + "::" + score
+                        // + " (term_id, score)");
                     }
                     allTermsWithScoresMap1.put(term, score);
                     // System.err.println("MahoutTermFinder.transform() term = " + term);
