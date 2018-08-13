@@ -74,8 +74,8 @@ public class MahoutTermClusterMwkSnpt {
 
     public static void main(final String[] args) throws Exception {
         // TODO: after finding the logic that is common to both, perform the clustering
-        // doClustering();
-        doTermFinding();
+        doClustering();
+        //doTermFinding();
     }
 
     private static void doClustering() {
