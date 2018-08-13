@@ -149,6 +149,20 @@ public class MahoutTermClusterMwkSnpt {
             LOG.error("MahoutTryIt failed", e);
             e.printStackTrace();
         }
+
+        Files.walkFileTree(clusteringBaseDirPath, new SimpleFileVisitor<java.nio.file.Path>() {
+            @Override
+            public FileVisitResult visitFile(java.nio.file.Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(java.nio.file.Path dir, IOException exc) throws IOException {
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 
     private static void writePointsToFile(final Configuration configuration, final List<MwkVector> points,
@@ -205,7 +219,9 @@ public class MahoutTermClusterMwkSnpt {
         final WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
         int count = 0;
         while (reader.next(key, value)) {
-            System.out.printf("SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - " + "%s belongs to cluster %s\n", value.toString(), key.toString());
+            System.out.printf(
+                    "SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - " + "%s belongs to cluster %s\n",
+                    value.toString(), key.toString());
             LOG.info("{} belongs to cluster {}", value.toString(), key.toString());
             count++;
         }
