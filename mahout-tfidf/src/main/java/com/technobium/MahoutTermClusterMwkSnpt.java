@@ -6,6 +6,8 @@ import java.io.Reader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -67,66 +69,86 @@ import com.google.common.collect.HashBiMap;
 public class MahoutTermClusterMwkSnpt {
 
     private static final Logger LOG = LoggerFactory.getLogger(MahoutTermClusterMwkSnpt.class);
-    private static final String BASE_PATH = System.getProperty("user.dir") + "clustering";
-    private static final String POINTS_PATH = BASE_PATH + "/points";
-    private static final String CLUSTERS_PATH = BASE_PATH + "/clusters";
-    private static final String OUTPUT_PATH = BASE_PATH + "/output";
 
     public static void main(final String[] args) throws Exception {
         // TODO: after finding the logic that is common to both, perform the clustering
         doClustering();
-        //doTermFinding();
+        // doTermFinding();
     }
 
-    private static void doClustering() {
+    private static void doClustering() throws IOException {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.main() - ");
+
+        String BASE_PATH = System.getProperty("user.dir") + "_clustering";
+        String POINTS_PATH = BASE_PATH + "/points";
+        String CLUSTERS_PATH = BASE_PATH + "/clusters";
+        String OUTPUT_PATH = BASE_PATH + "/output";
+        java.nio.file.Path clusteringBaseDirPath = Paths.get(BASE_PATH);
+        if (clusteringBaseDirPath.toFile().exists()) {
+            Files.walkFileTree(clusteringBaseDirPath, new SimpleFileVisitor<java.nio.file.Path>() {
+                @Override
+                public FileVisitResult visitFile(java.nio.file.Path file, BasicFileAttributes attrs)
+                        throws IOException {
+                    //Files.delete(file);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(java.nio.file.Path dir, IOException exc) throws IOException {
+//                    Files.delete(dir);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        }
+
         try {
-            start();
+            System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - ");
+            Configuration configuration = new Configuration();
+
+            // Create input directories for data
+            final File pointsDir = new File(POINTS_PATH);
+            if (!pointsDir.exists()) {
+                pointsDir.mkdir();
+            }
+
+            // read the point values and generate vectors from input data
+            final List<MwkVector> vectors = vectorize(new double[][] { { 1, 1 }, { 2, 1 }, { 1, 2 }, { 2, 2 }, { 3, 3 },
+                    { 8, 8 }, { 9, 8 }, { 8, 9 }, { 9, 9 } });
+
+            // Write data to sequence hadoop sequence files
+            String pointsFile = POINTS_PATH + "/pointsFile";
+            Preconditions.checkState(!Paths.get(POINTS_PATH + "/pointsFile").toFile().exists());
+            writePointsToFile(configuration, vectors, new Path(pointsFile));
+            Preconditions.checkState(Paths.get(POINTS_PATH + "/pointsFile").toFile().exists());
+
+            // Write initial centers for clusters
+            int numberOfClusters = 2;
+            writeClusterInitialCenters(configuration, vectors, CLUSTERS_PATH, numberOfClusters,
+                    new Path(CLUSTERS_PATH + "/part-00000"));
+
+            // Run K-means algorithm
+            Path inputPointsPath = new Path(POINTS_PATH);
+            Preconditions.checkState(Paths.get(POINTS_PATH).toFile().exists());
+            Path clustersPath = new Path(CLUSTERS_PATH);
+            Preconditions.checkState(Paths.get(CLUSTERS_PATH).toFile().exists());
+            Path outputPath = new Path(OUTPUT_PATH);
+            Preconditions.checkState(!Paths.get(OUTPUT_PATH).toFile().exists());
+            HadoopUtil.delete(configuration, outputPath);
+
+            // @param input - the directory pathname for input points
+            // * @param clustersIn - the directory pathname for initial & computed clusters
+            // * @param output - the directory pathname for output points
+            KMeansDriver.run(configuration, inputPointsPath, clustersPath, outputPath, 0.001, 10, true, 0, false);
+            Preconditions.checkState(Paths.get(OUTPUT_PATH).toFile().exists());
+
+            // Read and print output values
+            readAndPrintOutputValues(configuration,
+                    new Path(OUTPUT_PATH + "/" + Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000"));
+            System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - end");
         } catch (final Exception e) {
             LOG.error("MahoutTryIt failed", e);
+            e.printStackTrace();
         }
-    }
-
-    private static final double[][] points = { { 1, 1 }, { 2, 1 }, { 1, 2 }, { 2, 2 }, { 3, 3 }, { 8, 8 }, { 9, 8 },
-            { 8, 9 }, { 9, 9 } };
-
-    private static final int numberOfClusters = 2;
-
-    private static void start() throws Exception {
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - ");
-        final Configuration configuration = new Configuration();
-
-        // Create input directories for data
-        final File pointsDir = new File(POINTS_PATH);
-        if (!pointsDir.exists()) {
-            pointsDir.mkdir();
-        }
-
-        // read the point values and generate vectors from input data
-        final List<MwkVector> vectors = vectorize(points);
-
-        // Write data to sequence hadoop sequence files
-        writePointsToFile(configuration, vectors, new Path(POINTS_PATH + "/pointsFile"));
-
-        // Write initial centers for clusters
-        writeClusterInitialCenters(configuration, vectors, CLUSTERS_PATH, numberOfClusters,
-                new Path(CLUSTERS_PATH + "/part-00000"));
-
-        // Run K-means algorithm
-        final Path inputPointsPath = new Path(POINTS_PATH);
-        final Path clustersPath = new Path(CLUSTERS_PATH);
-        final Path outputPath = new Path(OUTPUT_PATH);
-        HadoopUtil.delete(configuration, outputPath);
-
-        // @param input - the directory pathname for input points
-        // * @param clustersIn - the directory pathname for initial & computed clusters
-        // * @param output - the directory pathname for output points
-        KMeansDriver.run(configuration, inputPointsPath, clustersPath, outputPath, 0.001, 10, true, 0, false);
-
-        // Read and print output values
-        readAndPrintOutputValues(configuration,
-                new Path(OUTPUT_PATH + "/" + Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000"));
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - end");
     }
 
     private static void writePointsToFile(final Configuration configuration, final List<MwkVector> points,
@@ -134,7 +156,7 @@ public class MahoutTermClusterMwkSnpt {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin");
         FileSystem fs = FileSystem.getLocal(configuration);
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 1");
-        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, pointsFile, IntWritable.class,
+        SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, pointsFile, IntWritable.class,
                 VectorWritable.class);
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 2");
 
