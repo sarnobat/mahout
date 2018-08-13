@@ -67,7 +67,7 @@ import com.google.common.collect.HashBiMap;
 public class MahoutTermClusterMwkSnpt {
 
     private static final Logger LOG = LoggerFactory.getLogger(MahoutTermClusterMwkSnpt.class);
-    private static final String BASE_PATH = System.getProperty("user.dir") + "_clustering";
+    private static final String BASE_PATH = System.getProperty("user.dir") + "clustering";
     private static final String POINTS_PATH = BASE_PATH + "/points";
     private static final String CLUSTERS_PATH = BASE_PATH + "/clusters";
     private static final String OUTPUT_PATH = BASE_PATH + "/output";
