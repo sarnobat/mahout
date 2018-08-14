@@ -32,15 +32,64 @@ public class MahoutTermClusterMwkSnpt {
 
     public static void main(String args[]) throws Exception {
         ClusteringDemo tester = new ClusteringDemo();
+        {
+            SequenceFile.Writer writer = new SequenceFile.Writer(tester.fileSystem, tester.configuration,
+                    tester.documentsSequencePath, Text.class, Text.class);
 
-        tester.createTestDocuments();
-        tester.calculateTfIdf();
-        tester.clusterDocs();
+            Text id1 = new Text("Document 1");
+            Text text1 = new Text("John saw a red car.");
+            writer.append(id1, text1);
 
-        tester.printSequenceFile(tester.documentsSequencePath);
+            Text id2 = new Text("Document 2");
+            Text text2 = new Text("Marta found a red bike.");
+            writer.append(id2, text2);
 
+            Text id3 = new Text("Document 3");
+            Text text3 = new Text("Don need a blue coat.");
+            writer.append(id3, text3);
+
+            Text id4 = new Text("Document 4");
+            Text text4 = new Text("Mike bought a blue boat.");
+            writer.append(id4, text4);
+
+            Text id5 = new Text("Document 5");
+            Text text5 = new Text("Albert wants a blue dish.");
+            writer.append(id5, text5);
+
+            Text id6 = new Text("Document 6");
+            Text text6 = new Text("Lara likes blue glasses.");
+            writer.append(id6, text6);
+
+            Text id7 = new Text("Document 7");
+            Text text7 = new Text("Donna, do you have red apples?");
+            writer.append(id7, text7);
+
+            Text id8 = new Text("Document 8");
+            Text text8 = new Text("Sonia needs blue books.");
+            writer.append(id8, text8);
+
+            Text id9 = new Text("Document 9");
+            Text text9 = new Text("I like blue eyes.");
+            writer.append(id9, text9);
+
+            Text id10 = new Text("Document 10");
+            Text text10 = new Text("Arleen has a red carpet.");
+            writer.append(id10, text10);
+            writer.close();
+        }
+        {
+            tester.calculateTfIdf();
+        }
+        {
+            tester.clusterDocs();
+        }
+        {
+            tester.printSequenceFile(tester.documentsSequencePath);
+        }
         System.out.println("\n Clusters: ");
-        tester.printSequenceFile(new Path(tester.outputFolder + "clusters/clusteredPoints/part-m-00000"));
+        {
+            tester.printSequenceFile(new Path(tester.outputFolder + "clusters/clusteredPoints/part-m-00000"));
+        }
     }
 
     public MahoutTermClusterMwkSnpt() throws IOException {
