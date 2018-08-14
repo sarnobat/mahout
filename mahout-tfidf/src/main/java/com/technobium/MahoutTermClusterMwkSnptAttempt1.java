@@ -68,6 +68,7 @@ import com.google.common.collect.HashBiMap;
  */
 // This was un-abstracted so that we can try and find phrases for the clustering
 // code.
+@Deprecated
 public class MahoutTermClusterMwkSnptAttempt1 {
 
     private static final Logger LOG = LoggerFactory.getLogger(MahoutTermClusterMwkSnptAttempt1.class);

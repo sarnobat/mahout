@@ -14,12 +14,12 @@ import org.apache.mahout.clustering.canopy.CanopyDriver;
 import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
+import org.apache.mahout.common.distance.TanimotoDistanceMeasure;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
 import org.apache.mahout.vectorizer.DictionaryVectorizer;
 import org.apache.mahout.vectorizer.DocumentProcessor;
 import org.apache.mahout.vectorizer.common.PartialVectorMerger;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
-
 
 public class ClusteringDemo {
 
@@ -128,12 +128,19 @@ public class ClusteringDemo {
         if (fs.exists(oldClusterPath)) {
             fs.delete(oldClusterPath, true);
         }
+        if (false) {
+            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new EuclideanDistanceMeasure(), 20, 5,
+                    true, 0, true);
 
-        CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new EuclideanDistanceMeasure(), 20, 5,
-                true, 0, true);
+            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
+                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
+        } else {
+            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new TanimotoDistanceMeasure(), 20, 5,
+                    true, 0, true);
 
-        FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
-                new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
+            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
+                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
+        }
     }
 
     void printSequenceFile(Path path) {
