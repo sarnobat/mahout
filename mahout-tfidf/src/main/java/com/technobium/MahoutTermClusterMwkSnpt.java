@@ -1,6 +1,7 @@
 package com.technobium;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,7 +16,20 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.Analyzer.TokenStreamComponents;
+import org.apache.lucene.analysis.core.LowerCaseFilter;
+import org.apache.lucene.analysis.core.StopFilter;
+import org.apache.lucene.analysis.en.EnglishPossessiveFilter;
+import org.apache.lucene.analysis.en.PorterStemFilter;
+import org.apache.lucene.analysis.miscellaneous.SetKeywordMarkerFilter;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.standard.StandardFilter;
+import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.apache.lucene.analysis.util.CharArraySet;
+import org.apache.lucene.analysis.util.StopwordAnalyzerBase;
+import org.apache.lucene.util.Version;
 import org.apache.mahout.clustering.AbstractCluster;
 import org.apache.mahout.clustering.canopy.CanopyDriver;
 import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
@@ -23,6 +37,7 @@ import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
 import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
+import org.apache.mahout.common.distance.TanimotoDistanceMeasure;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
@@ -152,7 +167,7 @@ public class MahoutTermClusterMwkSnpt {
         }
 
         {
-            DocumentProcessor.tokenizeDocuments(documentsSequencePath, StandardAnalyzer.class, tokenizedDocumentsPath,
+            DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
                     configuration);
 
             DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
@@ -177,11 +192,21 @@ public class MahoutTermClusterMwkSnpt {
                 fs.delete(oldClusterPath, true);
             }
 
-            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new EuclideanDistanceMeasure(),
-                    20, 5, true, 0, true);
+            // original
+            if (false) {
+                CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new EuclideanDistanceMeasure(), 20,
+                        5, true, 0, true);
 
-            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
-                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
+                FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
+                        new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
+            } else {
+                CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new TanimotoDistanceMeasure(), 20,
+                        5, true, 0, true);
+
+                FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
+                        new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
+
+            }
         }
         {
             SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(
@@ -212,5 +237,61 @@ public class MahoutTermClusterMwkSnpt {
         }
         String substring = content.length() < 50 ? content.substring(0, content.length()) : content.substring(0, 50);
         return substring;
+    }
+
+    public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
+        private final CharArraySet stemExclusionSet;
+
+        private static class DefaultSetHolder {
+            static final CharArraySet DEFAULT_STOP_SET = StandardAnalyzer.STOP_WORDS_SET;
+        }
+
+        public MyEnglishAnalyzer(Version matchVersion) {
+            this(matchVersion, DefaultSetHolder.DEFAULT_STOP_SET);
+        }
+
+        public MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords) {
+            this(matchVersion, stopwords, CharArraySet.EMPTY_SET);
+        }
+
+        public MyEnglishAnalyzer(Version matchVersion, CharArraySet stopwords, CharArraySet stemExclusionSet) {
+            super(matchVersion, stopwords);
+            this.stemExclusionSet = CharArraySet.unmodifiableSet(CharArraySet.copy(matchVersion, stemExclusionSet));
+        }
+
+        @Override
+        protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
+            final Tokenizer source = new StandardTokenizer(matchVersion, reader);
+            TokenStream result = new StandardFilter(matchVersion, source);
+            // prior to this we get the classic behavior, standardfilter does it for
+            // us.
+            if (matchVersion.onOrAfter(Version.LUCENE_31))
+                result = new EnglishPossessiveFilter(matchVersion, result);
+            result = new LowerCaseFilter(matchVersion, result);
+            CharArraySet stopwords2;
+            try {
+                stopwords2 = getStopWords(System.getProperty("user.home") + "/github/mahout/stopwords.txt");
+            } catch (IOException e) {
+                try {
+                    result.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+            result = new StopFilter(matchVersion, result, stopwords2);
+            if (!stemExclusionSet.isEmpty())
+                result = new SetKeywordMarkerFilter(result, stemExclusionSet);
+            result = new PorterStemFilter(result);
+            return new TokenStreamComponents(source, result);
+        }
+
+        private static CharArraySet getStopWords(String stoplist) throws IOException {
+            List<String> ss = FileUtils.readLines(Paths.get(stoplist).toFile());
+            CharArraySet ret = new CharArraySet(Version.LUCENE_CURRENT, ss, false);
+            ret.addAll(ss);
+            return ret;
+        }
     }
 }
