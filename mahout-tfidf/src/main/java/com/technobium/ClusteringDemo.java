@@ -20,7 +20,8 @@ import org.apache.mahout.vectorizer.DocumentProcessor;
 import org.apache.mahout.vectorizer.common.PartialVectorMerger;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 
-public class MahoutTermClusterMwkSnpt {
+
+public class ClusteringDemo {
 
     String outputFolder;
     Configuration configuration;
@@ -43,7 +44,7 @@ public class MahoutTermClusterMwkSnpt {
         tester.printSequenceFile(new Path(tester.outputFolder + "clusters/clusteredPoints/part-m-00000"));
     }
 
-    public MahoutTermClusterMwkSnpt() throws IOException {
+    public ClusteringDemo() throws IOException {
         configuration = new Configuration();
         fileSystem = FileSystem.get(configuration);
 
@@ -54,7 +55,7 @@ public class MahoutTermClusterMwkSnpt {
         termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
     }
 
-    private void createTestDocuments() throws IOException {
+    public void createTestDocuments() throws IOException {
         SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration, documentsSequencePath,
                 Text.class, Text.class);
 
@@ -101,7 +102,7 @@ public class MahoutTermClusterMwkSnpt {
         writer.close();
     }
 
-    private void calculateTfIdf() throws ClassNotFoundException, IOException, InterruptedException {
+    public void calculateTfIdf() throws ClassNotFoundException, IOException, InterruptedException {
         DocumentProcessor.tokenizeDocuments(documentsSequencePath, StandardAnalyzer.class, tokenizedDocumentsPath,
                 configuration);
 
@@ -116,7 +117,7 @@ public class MahoutTermClusterMwkSnpt {
                 PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
     }
 
-    private void clusterDocs() throws ClassNotFoundException, IOException, InterruptedException {
+    void clusterDocs() throws ClassNotFoundException, IOException, InterruptedException {
         String vectorsFolder = outputFolder + "tfidf/tfidf-vectors/";
         String canopyCentroids = outputFolder + "canopy-centroids";
         String clusterOutput = outputFolder + "clusters";
