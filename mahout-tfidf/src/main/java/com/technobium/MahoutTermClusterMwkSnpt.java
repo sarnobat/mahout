@@ -23,24 +23,13 @@ public class MahoutTermClusterMwkSnpt {
 
     public static void main(String args[]) throws Exception {
 
-        String outputFolder;
-        Configuration configuration;
-        FileSystem fileSystem;
-        Path documentsSequencePath;
-        Path tokenizedDocumentsPath;
-        Path tfidfPath;
-        Path termFrequencyVectorsPath;
-        {
-
-            configuration = new Configuration();
-            fileSystem = FileSystem.get(configuration);
-
-            outputFolder = "output/";
-            documentsSequencePath = new Path(outputFolder, "sequence");
-            tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-            tfidfPath = new Path(outputFolder + "tfidf");
-            termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
-        }
+        String outputFolder = "output/";
+        Configuration configuration = new Configuration();
+        FileSystem fileSystem = FileSystem.get(configuration);
+        Path documentsSequencePath = new Path(outputFolder, "sequence");
+        Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
+        Path tfidfPath = new Path(outputFolder + "tfidf");
+        Path termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
         {
             SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration, documentsSequencePath,
                     Text.class, Text.class);
