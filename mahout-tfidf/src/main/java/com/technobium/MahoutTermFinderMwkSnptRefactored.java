@@ -128,7 +128,7 @@ public class MahoutTermFinderMwkSnptRefactored {
             Preconditions.checkState(!Paths.get(POINTS_PATH + "/pointsFile").toFile().exists());
             writePointsToFile(configuration, vectors, new Path(pointsFile));
             Preconditions.checkState(Paths.get(POINTS_PATH + "/pointsFile").toFile().exists());
-System.exit(-1);
+
             // Write initial centers for clusters
             int numberOfClusters = 2;
             writeClusterInitialCenters(configuration, vectors, CLUSTERS_PATH, numberOfClusters,
@@ -294,9 +294,9 @@ System.exit(-1);
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 
         Configuration configuration = new Configuration();
-        String outputFolder = "temp_intermediate/";
+        String tempIntermediate = "temp_intermediate/";
 
-        Path documentsSequencePath1 = writeToSequenceFile(configuration, new Path(outputFolder, "sequence"),
+        Path documentsSequencePath1 = writeToSequenceFile(configuration, new Path(tempIntermediate, "sequence"),
                 new String[] { System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/aspergers",
                         System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/atletico",
                         System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/business",
@@ -325,6 +325,7 @@ System.exit(-1);
             System.out.println(
                     "SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() -  TOOD: I've done this wrong. I shouldn't be adding the category anywhere. https://github.com/technobium/mahout-tfidf . Skip the TFIDF example and go straight to this better clustering example than the existing one I based on: https://github.com/technobium/mahout-clustering");
         }
+        
         {
             {
 
@@ -347,7 +348,7 @@ System.exit(-1);
             // No files created so far.
             Path tokenizedDocumentsPath;
             try {
-                tokenizedDocumentsPath = tokenizeDocuments(configuration, outputFolder, documentsSequencePath1);
+                tokenizedDocumentsPath = tokenizeDocuments(configuration, tempIntermediate, documentsSequencePath1);
             } catch (Exception e) {
                 // IllegalStateException could get thrown I think, so we need this
                 e.printStackTrace();
@@ -367,8 +368,11 @@ System.exit(-1);
                 }
             }
 
-            Path documentVectorOutputFolderPath = createTermFrequencyVectors(configuration, outputFolder,
+            Preconditions.checkState(!Paths.get("temp_intermediate/dictionary.file-0").toFile().exists());
+            Path documentVectorOutputFolderPath = createTermFrequencyVectors(configuration, tempIntermediate,
                     tokenizedDocumentsPath);
+            Preconditions.checkState("temp_intermediate/tf-vectors".equals(documentVectorOutputFolderPath.toString()), documentVectorOutputFolderPath);
+            Preconditions.checkState(Paths.get("temp_intermediate/dictionary.file-0").toFile().exists());
             {
                 Path path = new Path("temp_intermediate/dictionary.file-0");
                 Map<Integer, String> map = dictionaryToMap(configuration, path);
@@ -398,10 +402,11 @@ System.exit(-1);
                     .checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
             Preconditions
                     .checkState(!Paths.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS").toFile().exists());
+            Preconditions.checkState(!Paths.get("temp_intermediate/tfidf/frequency.file-0").toFile().exists());
             // System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors
             // using input file " + new Path(outputFolder +
             // DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
-            Path tfidfPath = new Path(outputFolder + "tfidf");
+            Path tfidfPath = new Path(tempIntermediate + "/tfidf/");
             System.err.println("MahoutTermFinder.calculateTfIdf() - adding document frequencies to file " + tfidfPath);
             {
                 System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + documentVectorOutputFolderPath
@@ -419,10 +424,12 @@ System.exit(-1);
                         .checkState(!Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS").toFile().exists());
                 Preconditions
                         .checkState(!Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
+                Preconditions.checkState("temp_intermediate/tf-vectors".equals(documentVectorOutputFolderPath.toString()), documentVectorOutputFolderPath);
+                Preconditions.checkState("temp_intermediate/tfidf".equals(tfidfPath.toString()), tfidfPath);
                 TFIDFConverter.processTfIdf(documentVectorOutputFolderPath, tfidfPath, configuration,
                         documentFrequencies, 1, 100, PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
-
                 Preconditions.checkState(Paths.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS").toFile().exists());
+                Preconditions.checkState(Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
                 Preconditions
                         .checkState(Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
                 Preconditions
@@ -431,7 +438,7 @@ System.exit(-1);
                         !Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
             }
         }
-        Path dictionaryFilePath = new Path(outputFolder, "dictionary.file-0");
+        Path dictionaryFilePath = new Path(tempIntermediate, "dictionary.file-0");
         Preconditions.checkState(Paths.get("temp_intermediate/dictionary.file-0").toFile().exists());
 
         System.err.println("MahoutTermFinder.main() - ??? ===> " + dictionaryFilePath);
@@ -456,8 +463,7 @@ System.exit(-1);
         Map<String, Object> tfidf;
         {
             // Create a vector numerical value for each term (e.g. "atletico" -> 4119)
-            Path tfIdfVectorsPath = new Path(outputFolder, "tfidf/tfidf-vectors/part-r-00000");
-            Preconditions.checkState(Paths.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000").toFile().exists());
+            Path tfIdfVectorsPath = new Path(tempIntermediate, "tfidf/tfidf-vectors/part-r-00000");
             SequenceFileIterable<Writable, Writable> sequenceFiles2 = new SequenceFileIterable<Writable, Writable>(
                     tfIdfVectorsPath, configuration);
             Map<String, Object> termToOrdinalMappings2 = new HashMap<String, Object>();
@@ -467,6 +473,9 @@ System.exit(-1);
             }
             tfidf = termToOrdinalMappings2;
         }
+        Preconditions.checkState(
+                !Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
+        System.exit(-1);
 
         {
 

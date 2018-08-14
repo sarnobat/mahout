@@ -9,6 +9,26 @@ temp_intermediate/tf-vectors ===> temp_intermediate/tfidf
 temp_intermediate/tf-vectors ===> temp_intermediate/tfidf
 ===> temp_intermediate/dictionary.file-0
 
+## Data Flow Diagram
+
+I'm not sure how much of this is accurate, it's difficult to read the code.
+
+				  +-----------+                                          +----------------------------------------------------+                                                      +------------------------------+
+				  |   2.mwk   |                                          |                     wordcount                      |                                                      |     tfidf/tfidf-vectors      |
+				  +-----------+                                          +----------------------------------------------------+                                                      +------------------------------+
+					|                                                      ^                                                                                                           ^
+					|                                                      | DictionaryVectorizer.createTermFrequencyVectors()                                                         | TFIDFConverter.processTfIdf
+					v                                                      |                                                                                                           |
+	+-------+     +-----------+  DocumentProcessor.tokenizeDocuments()   +----------------------------------------------------+  DictionaryVectorizer.createTermFrequencyVectors()   +------------------------------+  TFIDFConverter.calculateDF   +----------------+
+	| 1.mwk | --> | sequence/ | ---------------------------------------> |                tokenized-documents                 | ---------------------------------------------------> |          tf-vectors          | ----------------------------> | tfidf/df-count |
+	+-------+     +-----------+                                          +----------------------------------------------------+                                                      +------------------------------+                               +----------------+
+					^                                                      |                                                                                                           |
+					|                                                      | DictionaryVectorizer.createTermFrequencyVectors()                                                         | TFIDFConverter.calculateDF
+					|                                                      v                                                                                                           v
+				  +-----------+                                          +----------------------------------------------------+                                                      +------------------------------+
+				  |   3.mwk   |                                          |                 dictionary.file-0                  |                                                      |       frequency.file-0       |
+				  +-----------+                                          +----------------------------------------------------+                                                      +------------------------------+
+
 ## commands
 
 ### World counts
