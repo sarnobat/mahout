@@ -68,10 +68,9 @@ import com.google.common.collect.HashBiMap;
  */
 // This was un-abstracted so that we can try and find phrases for the clustering
 // code.
-@Deprecated
-public class MahoutTermClusterMwkSnptAttempt1 {
+public class MahoutTermFinderMwkSnptRefactored {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MahoutTermClusterMwkSnptAttempt1.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MahoutTermFinderMwkSnptRefactored.class);
 
     public static void main(final String[] args) throws Exception {
         // TODO: after finding the logic that is common to both, perform the clustering
@@ -84,6 +83,7 @@ public class MahoutTermClusterMwkSnptAttempt1 {
                 "SRIDHAR MahoutTermClusterMwkSnpt.main() - Once you've figured out how to get the document vectors from term finding, feed them to doClustering() instead of static points.");
     }
 
+    @Deprecated // Use {@link MahoutTermClusterMwkSnpt} instead
     private static void doClustering() throws IOException {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.main() - ");
 
@@ -128,7 +128,7 @@ public class MahoutTermClusterMwkSnptAttempt1 {
             Preconditions.checkState(!Paths.get(POINTS_PATH + "/pointsFile").toFile().exists());
             writePointsToFile(configuration, vectors, new Path(pointsFile));
             Preconditions.checkState(Paths.get(POINTS_PATH + "/pointsFile").toFile().exists());
-
+System.exit(-1);
             // Write initial centers for clusters
             int numberOfClusters = 2;
             writeClusterInitialCenters(configuration, vectors, CLUSTERS_PATH, numberOfClusters,
@@ -289,7 +289,6 @@ public class MahoutTermClusterMwkSnptAttempt1 {
 
     private static final int THRESHOLD = 1;
 
-    @Deprecated // once you have clustering working delete this.
     private static void doTermFinding() throws Exception {
 
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
@@ -324,8 +323,7 @@ public class MahoutTermClusterMwkSnptAttempt1 {
                         + " - key=" + sequenceKey + ", value=" + sequencesMap.get(sequenceKey).replaceAll("\\n", ""));
             }
             System.out.println(
-                    "SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() -  TOOD: I think I've done this wrong. I shouldn't be adding the category anywhere. https://github.com/technobium/mahout-tfidf . Skip the TFIDF example and go straight to this better clustering example than the existing one I based on: https://github.com/technobium/mahout-clustering");
-            System.exit(-1);
+                    "SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() -  TOOD: I've done this wrong. I shouldn't be adding the category anywhere. https://github.com/technobium/mahout-tfidf . Skip the TFIDF example and go straight to this better clustering example than the existing one I based on: https://github.com/technobium/mahout-clustering");
         }
         {
             {

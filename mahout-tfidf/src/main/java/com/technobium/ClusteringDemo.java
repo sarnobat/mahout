@@ -13,6 +13,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.mahout.clustering.canopy.CanopyDriver;
 import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
 import org.apache.mahout.common.Pair;
+import org.apache.mahout.common.distance.CosineDistanceMeasure;
 import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
 import org.apache.mahout.common.distance.TanimotoDistanceMeasure;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
@@ -134,8 +135,15 @@ public class ClusteringDemo {
 
             FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
                     new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
-        } else {
+        } else if (false) {
             CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new TanimotoDistanceMeasure(), 20, 5,
+                    true, 0, true);
+
+            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
+                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
+        } else {
+            // CosineDistanceMeasure
+            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new CosineDistanceMeasure(), 20, 5,
                     true, 0, true);
 
             FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
