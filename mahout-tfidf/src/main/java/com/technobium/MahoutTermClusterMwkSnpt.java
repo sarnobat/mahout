@@ -177,9 +177,8 @@ public class MahoutTermClusterMwkSnpt {
                 fs.delete(oldClusterPath, true);
             }
 
-            // CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new
-            // TanimotoCoefficientSimilarity(), 20, 5,
-            // true, 0, true);
+            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new EuclideanDistanceMeasure(),
+                    20, 5, true, 0, true);
 
             FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
                     new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
