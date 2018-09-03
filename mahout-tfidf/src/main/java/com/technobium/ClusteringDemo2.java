@@ -21,7 +21,7 @@ import org.apache.mahout.vectorizer.common.PartialVectorMerger;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 
 /**
- * This one works.
+ * This one works. Use it as a working baseline
  */
 public class ClusteringDemo2 {
 

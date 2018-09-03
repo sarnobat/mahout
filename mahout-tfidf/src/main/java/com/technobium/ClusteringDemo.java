@@ -22,6 +22,9 @@ import org.apache.mahout.vectorizer.DocumentProcessor;
 import org.apache.mahout.vectorizer.common.PartialVectorMerger;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 
+/**
+ * this one doesn't work, I think because the documents are too similar transitively.
+ */
 public class ClusteringDemo {
 
     String outputFolder;
