@@ -20,6 +20,14 @@
 			<artifactId>guava</artifactId>
 			<version>19.0</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.mahout/mahout-math -->
+<dependency>
+    <groupId>org.apache.mahout</groupId>
+    <artifactId>mahout-math</artifactId>
+    <version>0.13.0</version>
+</dependency>
+		
 
 		<dependency>
 			<groupId>org.apache.mahout</groupId>
