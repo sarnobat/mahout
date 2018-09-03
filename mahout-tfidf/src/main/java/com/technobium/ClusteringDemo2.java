@@ -14,8 +14,6 @@ import org.apache.mahout.clustering.canopy.CanopyDriver;
 import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
-import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
-import org.apache.mahout.common.distance.TanimotoDistanceMeasure;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
 import org.apache.mahout.vectorizer.DictionaryVectorizer;
 import org.apache.mahout.vectorizer.DocumentProcessor;
@@ -27,107 +25,110 @@ import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
  */
 public class ClusteringDemo2 {
 
-    String outputFolder;
-    Configuration configuration;
-    FileSystem fileSystem;
-    Path documentsSequencePath;
-    Path tokenizedDocumentsPath;
-    Path tfidfPath;
-    Path termFrequencyVectorsPath;
+	String outputFolder;
+	Configuration configuration;
+	FileSystem fileSystem;
+	Path documentsSequencePath;
+	Path tokenizedDocumentsPath;
+	Path tfidfPath;
+	Path termFrequencyVectorsPath;
 
-    public static void main(String args[]) throws Exception {
-        ClusteringDemo2 tester = new ClusteringDemo2();
+	public static void main(String args[]) throws Exception {
+		ClusteringDemo2 tester = new ClusteringDemo2();
 
-        tester.createTestDocuments();
-        tester.calculateTfIdf();
-        tester.clusterDocs();
+		tester.createTestDocuments();
+		tester.calculateTfIdf();
+		tester.clusterDocs();
 
-        tester.printSequenceFile(tester.documentsSequencePath);
+		tester.printSequenceFile(tester.documentsSequencePath);
 
-        System.out.println("\n Clusters: ");
-        tester.printSequenceFile(new Path(tester.outputFolder + "clusters/clusteredPoints/part-m-00000"));
-    }
+		System.out.println("\n Clusters: ");
+		tester.printSequenceFile(new Path(tester.outputFolder
+				+ "clusters/clusteredPoints/part-m-00000"));
+	}
 
-    public ClusteringDemo2() throws IOException {
-        configuration = new Configuration();
-        fileSystem = FileSystem.get(configuration);
+	public ClusteringDemo2() throws IOException {
+		configuration = new Configuration();
+		fileSystem = FileSystem.get(configuration);
 
-        outputFolder = "output/";
-        documentsSequencePath = new Path(outputFolder, "sequence");
-        tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-        tfidfPath = new Path(outputFolder + "tfidf");
-        termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
-    }
+		outputFolder = "output/";
+		documentsSequencePath = new Path(outputFolder, "sequence");
+		tokenizedDocumentsPath = new Path(outputFolder,
+				DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
+		tfidfPath = new Path(outputFolder + "tfidf");
+		termFrequencyVectorsPath = new Path(outputFolder
+				+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
+	}
 
-    public void createTestDocuments() throws IOException {
-        SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration, documentsSequencePath,
-                Text.class, Text.class);
+	public void createTestDocuments() throws IOException {
+		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem,
+				configuration, documentsSequencePath, Text.class, Text.class);
 
-        Text id1 = new Text("Document 1");
-        Text text1 = new Text("Atletico Madrid win");
-        writer.append(id1, text1);
+		Text id1 = new Text("Document 1");
+		Text text1 = new Text("Atletico Madrid win");
+		writer.append(id1, text1);
 
-        Text id6 = new Text("Document 6");
-        Text text6 = new Text("Both apple and orange are fruit");
-        writer.append(id6, text6);
+		Text id6 = new Text("Document 6");
+		Text text6 = new Text("Both apple and orange are fruit");
+		writer.append(id6, text6);
+		
+		Text id7 = new Text("Document 7");
+		Text text7 = new Text("Both orange and apple are fruit");
+		writer.append(id7, text7);
+		
+		writer.close();
+	}
 
+	public void calculateTfIdf() throws ClassNotFoundException, IOException,
+			InterruptedException {
+		DocumentProcessor.tokenizeDocuments(documentsSequencePath,
+				StandardAnalyzer.class, tokenizedDocumentsPath, configuration);
 
-        writer.close();
-    }
+		DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath,
+				new Path(outputFolder),
+				DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER,
+				configuration, 1, 1, 0.0f, PartialVectorMerger.NO_NORMALIZING,
+				true, 1, 100, false, false);
 
-    public void calculateTfIdf() throws ClassNotFoundException, IOException, InterruptedException {
-        DocumentProcessor.tokenizeDocuments(documentsSequencePath, StandardAnalyzer.class, tokenizedDocumentsPath,
-                configuration);
+		Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter
+				.calculateDF(termFrequencyVectorsPath, tfidfPath,
+						configuration, 100);
 
-        DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
-                DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
-                PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
+		TFIDFConverter.processTfIdf(termFrequencyVectorsPath, tfidfPath,
+				configuration, documentFrequencies, 1, 100,
+				PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
+	}
 
-        Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(termFrequencyVectorsPath, tfidfPath,
-                configuration, 100);
+	void clusterDocs() throws ClassNotFoundException, IOException,
+			InterruptedException {
+		String vectorsFolder = outputFolder + "tfidf/tfidf-vectors/";
+		String canopyCentroids = outputFolder + "canopy-centroids";
+		String clusterOutput = outputFolder + "clusters";
 
-        TFIDFConverter.processTfIdf(termFrequencyVectorsPath, tfidfPath, configuration, documentFrequencies, 1, 100,
-                PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
-    }
+		FileSystem fs = FileSystem.get(configuration);
+		Path oldClusterPath = new Path(clusterOutput);
 
-    void clusterDocs() throws ClassNotFoundException, IOException, InterruptedException {
-        String vectorsFolder = outputFolder + "tfidf/tfidf-vectors/";
-        String canopyCentroids = outputFolder + "canopy-centroids";
-        String clusterOutput = outputFolder + "clusters";
+		if (fs.exists(oldClusterPath)) {
+			fs.delete(oldClusterPath, true);
+		}
+		{
+			// CosineDistanceMeasure
+			CanopyDriver.run(new Path(vectorsFolder),
+					new Path(canopyCentroids), new CosineDistanceMeasure(),
+					0.2, 0.2, true, 1, true);
 
-        FileSystem fs = FileSystem.get(configuration);
-        Path oldClusterPath = new Path(clusterOutput);
+			FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(
+					canopyCentroids, "clusters-0-final"), new Path(
+					clusterOutput), 0.01, 20, 2, true, true, 0, false);
+		}
+	}
 
-        if (fs.exists(oldClusterPath)) {
-            fs.delete(oldClusterPath, true);
-        }
-        if (false) {
-            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new EuclideanDistanceMeasure(), 20, 5,
-                    true, 0, true);
-
-            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
-                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
-        } else if (false) {
-            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new TanimotoDistanceMeasure(), 0.1, 0.2,
-                    true, 0.3, true);
-
-            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
-            		new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
-        } else if (true){
-            // CosineDistanceMeasure
-            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new CosineDistanceMeasure(), 0.2, 0.2,
-                    true, 1, true);
-
-            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
-                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
-        }
-    }
-
-    void printSequenceFile(Path path) {
-        SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(path,
-                configuration);
-        for (Pair<Writable, Writable> pair : iterable) {
-            System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
-        }
-    }
+	void printSequenceFile(Path path) {
+		SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(
+				path, configuration);
+		for (Pair<Writable, Writable> pair : iterable) {
+			System.out
+					.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
+		}
+	}
 }
