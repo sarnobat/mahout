@@ -22,7 +22,10 @@ import org.apache.mahout.vectorizer.DocumentProcessor;
 import org.apache.mahout.vectorizer.common.PartialVectorMerger;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 
-public class ClusteringDemo {
+/**
+ * This one works.
+ */
+public class ClusteringDemo2 {
 
     String outputFolder;
     Configuration configuration;
@@ -33,7 +36,7 @@ public class ClusteringDemo {
     Path termFrequencyVectorsPath;
 
     public static void main(String args[]) throws Exception {
-        ClusteringDemo tester = new ClusteringDemo();
+        ClusteringDemo2 tester = new ClusteringDemo2();
 
         tester.createTestDocuments();
         tester.calculateTfIdf();
@@ -45,7 +48,7 @@ public class ClusteringDemo {
         tester.printSequenceFile(new Path(tester.outputFolder + "clusters/clusteredPoints/part-m-00000"));
     }
 
-    public ClusteringDemo() throws IOException {
+    public ClusteringDemo2() throws IOException {
         configuration = new Configuration();
         fileSystem = FileSystem.get(configuration);
 
@@ -61,44 +64,13 @@ public class ClusteringDemo {
                 Text.class, Text.class);
 
         Text id1 = new Text("Document 1");
-        Text text1 = new Text("John saw a red car.");
+        Text text1 = new Text("Atletico Madrid win");
         writer.append(id1, text1);
 
-        Text id2 = new Text("Document 2");
-        Text text2 = new Text("Marta found a red bike.");
-        writer.append(id2, text2);
-
-        Text id3 = new Text("Document 3");
-        Text text3 = new Text("Don need a blue coat.");
-        writer.append(id3, text3);
-
-        Text id4 = new Text("Document 4");
-        Text text4 = new Text("Mike bought a blue boat.");
-        writer.append(id4, text4);
-
-        Text id5 = new Text("Document 5");
-        Text text5 = new Text("Albert wants a blue dish.");
-        writer.append(id5, text5);
-
         Text id6 = new Text("Document 6");
-        Text text6 = new Text("Lara likes blue glasses.");
+        Text text6 = new Text("Both apple and orange are fruit");
         writer.append(id6, text6);
 
-        Text id7 = new Text("Document 7");
-        Text text7 = new Text("Donna, do you have red apples?");
-        writer.append(id7, text7);
-
-        Text id8 = new Text("Document 8");
-        Text text8 = new Text("Sonia needs blue books.");
-        writer.append(id8, text8);
-
-        Text id9 = new Text("Document 9");
-        Text text9 = new Text("I like blue eyes.");
-        writer.append(id9, text9);
-
-        Text id10 = new Text("Document 10");
-        Text text10 = new Text("Arleen has a red carpet.");
-        writer.append(id10, text10);
 
         writer.close();
     }
@@ -135,16 +107,16 @@ public class ClusteringDemo {
 
             FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
                     new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
-        } else if (true) {
-            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new TanimotoDistanceMeasure(), 20, 5,
-                    true, 0, true);
+        } else if (false) {
+            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new TanimotoDistanceMeasure(), 0.1, 0.2,
+                    true, 0.3, true);
 
             FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
-                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
-        } else if (false){
+            		new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
+        } else if (true){
             // CosineDistanceMeasure
-            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new CosineDistanceMeasure(), 20, 5,
-                    true, 0, true);
+            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new CosineDistanceMeasure(), 0.2, 0.2,
+                    true, 1, true);
 
             FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
                     new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
