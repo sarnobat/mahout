@@ -38,16 +38,23 @@ public class DistanceMeasureMain {
 					+ distance);
 		}
 		{
-			Vector v1 = toVector("java is very good");
-			Vector v2 = toVector("very bad is java");
-			Vector v3 = toVector("java makes me sick");
-			ImmutableList<Vector> of = ImmutableList.of(v1, v2, v3);
+			List<Vector> of;
+			if (false) {
+				Vector v1 = toVector("java is very good");
+				Vector v2 = toVector("very bad is java");
+				Vector v3 = toVector("java makes me sick");
+				of = ImmutableList.of(v1, v2, v3);
+			} else {
+				Vector v1 = toVector("Atletico Madrid win");
+				Vector v2 = toVector("Both apple and orange are fruit");
+				Vector v3 = toVector("Both orange and apple are fruit");
+				of = ImmutableList.of(v1, v2, v3);
+			}
 			List<Vector> vectorList = new LinkedList();
 			vectorList.addAll(of);
 			List<Canopy> canopies = CanopyClusterer.createCanopies(vectorList,
 					new CosineDistanceMeasure(), 0.3, 0.3);
 			for (Canopy canopy : canopies) {
-				canopy.
 				System.out.println("DistanceMeasureMain.main() "
 						+ canopy.asFormatString());
 			}
@@ -61,7 +68,7 @@ public class DistanceMeasureMain {
 		v.set(0, 1.1);
 		int i = 0;
 		for (String word : words) {
-			v.set(word.hashCode(), 1);
+			v.set(Math.abs(word.hashCode()), 1);
 		}
 		return v;
 	}
