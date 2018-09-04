@@ -1,3 +1,18 @@
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
+SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - 
 SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() -  TOOD: I've done this wrong. I shouldn't be adding the category anywhere. https://github.com/technobium/mahout-tfidf . Skip the TFIDF example and go straight to this better clustering example than the existing one I based on: https://github.com/technobium/mahout-clustering
 SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - dictionary : term_id=0; term=0
 SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - dictionary : term_id=1000; term=burden
@@ -6329,100 +6344,242 @@ SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() = temp_intermediate/sequence do
 SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() = temp_intermediate/sequence documents::terms : category=travel; terms=[uk, usa, open, hous, open, dai, 2017, 04, 02]
 SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() = temp_intermediate/sequence documents::terms : category=video_editing; terms=[fascin, passag, time, transform, mt, st, hillari, crash, unsolv, mysteri, anthonett, cayedito, 1, year, 4, year]
 SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() = temp_intermediate/sequence documents::terms : category=wrestling; terms=[purchas, georgia, championship, wrestl, wwf, consid, tip, point, u., profession, wrestl, evolut, local, region, sideshow, nation, phenomenon]
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/aspergers/employment
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/1930s
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/1950s
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/1960s
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/1970s
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/1980s
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/1990s
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/2000s
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/2010s
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/2015-16
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/2016-17
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/2017-18
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/atletico/documentary
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/business/economics_over_truth
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/business/rohidekar
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/career/aspergers
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/career/inferiority
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/career/interview_questions
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/career/meritocracy_myth
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/equalizer/girls
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/equalizer/meritocracy_myth
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/equalizer/money
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/equalizer/social_status
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/productivity/learning
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/productivity/learning_and_memory
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/Aksu
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/T
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/aging
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/anger_complaining
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/anger_complaining_conflict
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/approval
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/approval_attention_social_status
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/aspergers
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/cliquology
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/cliquology_and_bullying
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/community_loneliness
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/confidence
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/conformism
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/counter_belieif
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/criticism
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/dad
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/decision_science
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/depression
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/dreams_recurring
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/fakeness
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/gender
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/girls
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/golden_rules
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/guilt_regret
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/happiness
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/hipocrisy
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/humor
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/hurt
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/inferiority
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/krupa
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/life_story_analysis
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/mom
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/niceness
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/optimism
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/optimism_pessimism
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/parenting_and_elders
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/personal_profile
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/productivity
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/relationships
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/self_esteem
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/self_profile
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/sensitivity
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/sex_gender
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/snippets1022166144681540366
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/social_status
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/suffering
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/superficiality
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/superficiality_and_fakeness
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/traits
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/unpleasantness
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/self/worry
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/code_reading
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/code_writing
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/composability_disposability
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/copy_paste_programming
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/data_flow_programming
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/debugging_tips
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/frameworks_libraries
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming/frameworks_libraries
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming/imperative_vs_functional
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/get_working_refactor_later
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/immutability
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/imperative_vs_functional
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/obscure_shell_syntax
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/pipelines
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/priority3
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/rapid_iteration
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/stateless
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/static_linking
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/too_soon
-SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: /Users/sarnobat/sarnobat.git/mwk/snippets/tech/programming_tips/unglorification
+SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - wt: 1.0 distance: 0.2828427124746191  vec: 3 = [2.000, 2.000] belongs to cluster 0
+SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - wt: 1.0 distance: 0.7071067811865476  vec: 5 = [8.000, 8.000] belongs to cluster 1
+SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - wt: 1.0 distance: 0.7071067811865476  vec: 6 = [9.000, 8.000] belongs to cluster 1
+SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - wt: 1.0 distance: 0.7071067811865476  vec: 7 = [8.000, 9.000] belongs to cluster 1
+SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - wt: 1.0 distance: 0.7071067811865476  vec: 8 = [9.000, 9.000] belongs to cluster 1
+SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - wt: 1.0 distance: 0.8246211251235319  vec: 1 = [2.000, 1.000] belongs to cluster 0
+SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - wt: 1.0 distance: 0.8246211251235319  vec: 2 = [1.000, 2.000] belongs to cluster 0
+SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - wt: 1.0 distance: 1.1313708498984762  vec: 0 = [1.000, 1.000] belongs to cluster 0
+SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - wt: 1.0 distance: 1.6970562748477138  vec: 4 = [3.000, 3.000] belongs to cluster 0
+SRIDHAR MahoutTermClusterMwkSnpt.vectorize() - 
+SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - 
+SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - cluster = CL-0{n=0 c=[1.000, 1.000] r=[]}
+SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - cluster = CL-1{n=0 c=[2.000, 1.000] r=[]}
+approval_attention_social_status:  20 peopl
+approval_attention_social_status:  23 event
+approval_attention_social_status:  26 attent
+approval_attention_social_status:  26 friend
+approval_attention_social_status:  30 allegi
+approval_attention_social_status:  30 brian
+approval_attention_social_status:  30 cat
+approval_attention_social_status:  30 children
+approval_attention_social_status:  30 dai
+approval_attention_social_status:  30 dinesh
+approval_attention_social_status:  30 disguis
+approval_attention_social_status:  30 facebook
+approval_attention_social_status:  30 gayatri
+approval_attention_social_status:  30 plea
+approval_attention_social_status:  30 quotat
+approval_attention_social_status:  30 reveal
+approval_attention_social_status:  30 soccer
+approval_attention_social_status:  30 suha
+approval_attention_social_status:  42 pavithra
+approval_attention_social_status:  52 photo
+aspergers:  20 peopl
+aspergers:  30 focu
+aspergers:  30 gritti
+aspergers:  30 imped
+aspergers:  30 learn
+aspergers:  30 nitti
+aspergers:  30 unnecessari
+atletico:  30 1898
+atletico:  30 19th
+atletico:  30 bring
+atletico:  30 britain
+atletico:  30 countri
+atletico:  30 foreign
+atletico:  30 found
+atletico:  30 game
+atletico:  30 industrialist
+atletico:  30 interest
+atletico:  30 local
+atletico:  30 love
+atletico:  30 man
+atletico:  30 manchest
+atletico:  30 organis
+atletico:  30 shipbuild
+atletico:  30 spain
+atletico:  30 worker
+atletico:  42 student
+atletico:  52 club
+business:  20 peopl
+business:  26 complet
+business:  26 industri
+business:  30 acquir
+business:  30 anant
+business:  30 boston
+business:  30 close
+business:  30 compani
+business:  30 export
+business:  30 famili
+business:  30 import
+business:  30 japan
+business:  30 land
+business:  30 megaproject
+business:  30 own
+business:  30 parcel
+business:  30 properti
+business:  30 protect
+business:  30 sector
+business:  42 muang
+career:  23 2017
+career:  26 04
+career:  26 complet
+career:  26 function
+career:  26 orient
+career:  30 17
+career:  30 approach
+career:  30 check
+career:  30 doescircleexist
+career:  30 minim
+career:  30 origin
+career:  30 point
+career:  30 return
+career:  30 start
+career:  30 static
+career:  30 translat
+career:  42 squash
+career:  42 string
+career:  60 command
+cliquology_and_bullying:  30 jerk
+cliquology_and_bullying:  30 school
+cliquology_and_bullying:  30 sensit
+equalizer:  26 citi
+equalizer:  29 peopl
+equalizer:  30 articul
+equalizer:  30 bai
+equalizer:  30 bit
+equalizer:  30 connect
+equalizer:  30 coolest
+equalizer:  30 equal
+equalizer:  30 inferior
+equalizer:  30 longer
+equalizer:  30 redwood
+equalizer:  30 south
+equalizer:  30 uk
+equalizer:  30 usa
+equalizer:  36 felt
+equalizer:  42 cooler
+equalizer:  42 indian
+equalizer:  42 lesser
+equalizer:  42 move
+equalizer:  52 feel
+functional_programming:  26 applic
+functional_programming:  26 function
+functional_programming:  26 orient
+functional_programming:  30 analog
+functional_programming:  30 attain
+functional_programming:  30 bought
+functional_programming:  30 care
+functional_programming:  30 data
+functional_programming:  30 effort
+functional_programming:  30 end
+functional_programming:  30 imper
+functional_programming:  30 packag
+functional_programming:  30 possess
+functional_programming:  30 postal
+functional_programming:  30 servic
+productivity:  26 attent
+productivity:  26 thing
+productivity:  26 work
+productivity:  30 e.g
+productivity:  30 easier
+productivity:  30 effect
+productivity:  30 free
+productivity:  30 highest
+productivity:  30 mental
+productivity:  30 prioriti
+productivity:  30 resourc
+productivity:  30 scarc
+productivity:  30 task
+productivity:  42 prune
+programming_tips:  26 work
+programming_tips:  30 activ
+programming_tips:  30 email
+programming_tips:  30 enhanc
+programming_tips:  30 knowledg
+programming_tips:  30 labor
+programming_tips:  30 list
+programming_tips:  30 mechan
+programming_tips:  30 paper
+programming_tips:  30 passiv
+programming_tips:  30 refactor
+programming_tips:  30 repli
+programming_tips:  30 scan
+programming_tips:  30 search
+programming_tips:  30 shop
+programming_tips:  30 weekdai
+programming_tips:  30 weekend
+programming_tips:  42 code
+programming_tips:  42 tv
+programming_tips:  42 watch
+self:  30 acquaint
+self:  30 bart
+self:  30 best
+self:  30 conveni
+self:  30 geograph
+self:  30 milhous
+self:  30 superfici
+self:  30 well
+self:  36 friend
+soccer:  23 2017
+soccer:  30 02
+soccer:  30 03
+soccer:  30 bridg
+soccer:  30 chang
+soccer:  30 lot
+soccer:  30 riazor
+soccer:  30 san
+soccer:  30 siro
+soccer:  30 stadium
+soccer:  30 stamford
+travel:  26 discov
+travel:  30 1348
+travel:  30 1616
+travel:  30 1776
+travel:  30 1850
+travel:  30 2001
+travel:  30 al
+travel:  30 america
+travel:  30 bronz
+travel:  30 commun
+travel:  30 digit
+travel:  30 ic
+travel:  30 reconquista
+travel:  30 shakespear
+travel:  30 terror
+travel:  30 timelin
+travel:  42 american
+travel:  42 period
+travel:  42 roman
+travel:  79 ag
+video_editing:  23 event
+video_editing:  26 applic
+video_editing:  26 build
+video_editing:  26 felt
+video_editing:  30 anticip
+video_editing:  30 appli
+video_editing:  30 better
+video_editing:  30 bui
+video_editing:  30 enjoi
+video_editing:  30 hype
+video_editing:  30 monei
+video_editing:  30 need
+video_editing:  30 pai
+video_editing:  30 spend
+video_editing:  30 wrestl
+video_editing:  36 thing
+wrestling:  26 04
+wrestling:  30 06
+wrestling:  30 3rd
+wrestling:  30 april
+wrestling:  30 cena
+wrestling:  30 imit
+wrestling:  30 imperson
+wrestling:  30 maryz
+wrestling:  30 miz
+wrestling:  30 nikki
+wrestling:  30 wwe
+wrestling:  32 2017

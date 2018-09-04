@@ -6,12 +6,14 @@ import java.util.List;
 import org.apache.mahout.clustering.canopy.Canopy;
 import org.apache.mahout.clustering.canopy.CanopyClusterer;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
-import org.apache.mahout.math.RandomAccessSparseVector;
 import org.apache.mahout.math.SequentialAccessSparseVector;
 import org.apache.mahout.math.Vector;
 
 import com.google.common.collect.ImmutableList;
 
+/**
+ * I used this to fix {@link ClusteringDemo2} to get useful clustering.
+ */
 public class DistanceMeasureMain {
 
 	public static void main(String[] args) {

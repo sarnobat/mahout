@@ -80,13 +80,13 @@ public class MahoutTermFinderMwkSnptRefactored {
         // https://github.com/technobium/mahout-tfidf
         doTermFinding();
         doClustering();
-        System.out.println(
+        System.err.println(
                 "SRIDHAR MahoutTermClusterMwkSnpt.main() - Once you've figured out how to get the document vectors from term finding, feed them to doClustering() instead of static points.");
     }
 
     //@Deprecated // Use {@link MahoutTermClusterMwkSnpt} instead - no, that one is the wrong files.
     private static void doClustering() throws IOException {
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.main() - ");
+    	System.err.println("MahoutTermFinderMwkSnptRefactored.doClustering()");
 
         String BASE_PATH = System.getProperty("user.dir") + "_clustering";
         String POINTS_PATH = BASE_PATH + "/points";
@@ -111,7 +111,7 @@ public class MahoutTermFinderMwkSnptRefactored {
         }
 
         try {
-            System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - ");
+            System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - ");
             Configuration configuration = new Configuration();
 
             // Create input directories for data
@@ -153,7 +153,7 @@ public class MahoutTermFinderMwkSnptRefactored {
             // Read and print output values
             readAndPrintOutputValues(configuration,
                     new Path(OUTPUT_PATH + "/" + Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000"));
-            System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - end");
+            System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - end");
         } catch (final Exception e) {
             LOG.error("MahoutTryIt failed", e);
             e.printStackTrace();
@@ -176,23 +176,23 @@ public class MahoutTermFinderMwkSnptRefactored {
 
     private static void writePointsToFile(final Configuration configuration, final List<MwkVector> points,
             Path pointsFile) throws IOException {
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin");
+        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin");
         FileSystem fs = FileSystem.getLocal(configuration);
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 1");
+        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 1");
         SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, pointsFile, IntWritable.class,
                 VectorWritable.class);
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 2");
+        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 2");
 
         int recNum = 0;
         final VectorWritable vec = new VectorWritable();
 
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 3");
+        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 3");
         for (final MwkVector point : points) {
-            System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - point = " + point);
+            System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - point = " + point);
             vec.set(point.getVector());
             writer.append(new IntWritable(recNum++), vec);
         }
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - end");
+        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - end");
         writer.close();
     }
 
@@ -474,9 +474,9 @@ public class MahoutTermFinderMwkSnptRefactored {
             }
             tfidf = termToOrdinalMappings2;
         }
+        System.err.println("MahoutTermFinderMwkSnptRefactored.doTermFinding() - hereafter, we deal exclusively with maps, not sequence files.");
         Preconditions.checkState(
                 !Paths.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000").toFile().exists());
-        System.exit(-1);
 
         {
 
@@ -710,7 +710,7 @@ public class MahoutTermFinderMwkSnptRefactored {
                 for (java.nio.file.Path fileInPath : stream) {
                     if (Files.isDirectory(fileInPath)) {
                         // listFiles(entry);
-                        System.out.println(
+                        System.err.println(
                                 "SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: "
                                         + fileInPath);
                     } else {
