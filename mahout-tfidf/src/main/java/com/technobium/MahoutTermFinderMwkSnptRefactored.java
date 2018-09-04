@@ -688,8 +688,13 @@ public class MahoutTermFinderMwkSnptRefactored {
                 + MyEnglishAnalyzer.class + " using reflection (yuck). Outputting to: " + tokenizedDocumentsPath);
         System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.tokenizeDocuments() - " + documentsSequencePath + " ===> "
                 + tokenizedDocumentsPath);
-        DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
-                configuration);
+        try { 
+	        DocumentProcessor.tokenizeDocuments(documentsSequencePath, MyEnglishAnalyzer.class, tokenizedDocumentsPath,
+	                configuration);
+        } catch (IllegalStateException e) {
+        	e.printStackTrace();
+        	System.exit(-1);
+        }
         return tokenizedDocumentsPath;
     }
 
