@@ -51,6 +51,7 @@ import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
  * I'm not sure why we're trying to cluster the mwk files (as opposed to mwk
  * snippets). Each mwk file is suppsoed to be different.
  */
+@Deprecated
 public class MahoutTermClusterMwkSnptPointless {
 
     public static void main(String args[]) throws Exception {
