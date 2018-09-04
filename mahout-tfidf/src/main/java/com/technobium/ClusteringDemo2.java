@@ -45,7 +45,7 @@ public class ClusteringDemo2 {
 		tfidfPath = new Path(outputFolder + "tfidf");
 		termFrequencyVectorsPath = new Path(outputFolder
 				+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
-		
+
 		createTestDocuments();
 		calculateTfIdf();
 		clusterDocs();
@@ -57,7 +57,7 @@ public class ClusteringDemo2 {
 				+ "clusters/clusteredPoints/part-m-00000"));
 	}
 
-	private static  void createTestDocuments() throws IOException {
+	private static void createTestDocuments() throws IOException {
 		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem,
 				configuration, documentsSequencePath, Text.class, Text.class);
 
@@ -68,16 +68,16 @@ public class ClusteringDemo2 {
 		Text id6 = new Text("Document 6");
 		Text text6 = new Text("Both apple and orange are fruit");
 		writer.append(id6, text6);
-		
+
 		Text id7 = new Text("Document 7");
 		Text text7 = new Text("Both orange and apple are fruit");
 		writer.append(id7, text7);
-		
+
 		writer.close();
 	}
 
-	private static  void calculateTfIdf() throws ClassNotFoundException, IOException,
-			InterruptedException {
+	private static void calculateTfIdf() throws ClassNotFoundException,
+			IOException, InterruptedException {
 		DocumentProcessor.tokenizeDocuments(documentsSequencePath,
 				StandardAnalyzer.class, tokenizedDocumentsPath, configuration);
 
@@ -96,8 +96,8 @@ public class ClusteringDemo2 {
 				PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
 	}
 
-	private static void clusterDocs() throws ClassNotFoundException, IOException,
-			InterruptedException {
+	private static void clusterDocs() throws ClassNotFoundException,
+			IOException, InterruptedException {
 		String vectorsFolder = outputFolder + "tfidf/tfidf-vectors/";
 		String canopyCentroids = outputFolder + "canopy-centroids";
 		String clusterOutput = outputFolder + "clusters";
