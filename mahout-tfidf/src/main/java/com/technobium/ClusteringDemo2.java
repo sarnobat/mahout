@@ -31,30 +31,36 @@ public class ClusteringDemo2 {
 		String outputFolder = "output/";
 		Path documentsSequencePath = new Path(outputFolder, "sequence");
 
-		createTestDocuments(FileSystem.get(configuration), documentsSequencePath, configuration);
+		// 1)
+		writeDocumentsToSequenceFile(FileSystem.get(configuration),
+				documentsSequencePath, configuration);
+
+		// 2)
 		calculateTfIdf(documentsSequencePath, new Path(outputFolder,
 				DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER),
 				configuration, new Path(outputFolder
-						+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER), new Path(outputFolder + "tfidf"),
-				outputFolder);
+						+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER),
+				new Path(outputFolder + "tfidf"), outputFolder);
+
+		// 3)
 		clusterDocs(outputFolder + "tfidf/tfidf-vectors/", outputFolder
 				+ "canopy-centroids", outputFolder + "clusters", configuration);
 
 		printSequenceFile(documentsSequencePath, configuration);
 
 		System.out.println("\n Clusters: ");
+
+		// 4)
 		printSequenceFile(new Path(outputFolder
 				+ "clusters/clusteredPoints/part-m-00000"), configuration);
 	}
 
-	private static void createTestDocuments(FileSystem fileSystem3,
+	private static void writeDocumentsToSequenceFile(FileSystem fileSystem3,
 			Path documentsSequencePath, Configuration configuration3)
 			throws IOException {
-		FileSystem fileSystem2 = fileSystem3;
-		Path documentsSequencePath2 = documentsSequencePath;
-		Configuration configuration2 = configuration3;
-		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem2,
-				configuration2, documentsSequencePath2, Text.class, Text.class);
+
+		SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem3,
+				configuration3, documentsSequencePath, Text.class, Text.class);
 
 		Text id1 = new Text("Document 1");
 		Text text1 = new Text("Atletico Madrid win");
@@ -106,25 +112,20 @@ public class ClusteringDemo2 {
 			String canopyCentroids2, String clusterOutput2,
 			Configuration configuration2) throws ClassNotFoundException,
 			IOException, InterruptedException {
-		String vectorsFolder = vectorsFolder2;
-		String canopyCentroids = canopyCentroids2;
-		String clusterOutput = clusterOutput2;
 
-		FileSystem fs = FileSystem.get(configuration2);
-		Path oldClusterPath = new Path(clusterOutput);
-
-		if (fs.exists(oldClusterPath)) {
-			fs.delete(oldClusterPath, true);
+		if (FileSystem.get(configuration2).exists(new Path(clusterOutput2))) {
+			FileSystem.get(configuration2).delete(new Path(clusterOutput2),
+					true);
 		}
 		{
 			// CosineDistanceMeasure
-			CanopyDriver.run(new Path(vectorsFolder),
-					new Path(canopyCentroids), new CosineDistanceMeasure(),
-					0.2, 0.2, true, 1, true);
+			CanopyDriver.run(new Path(vectorsFolder2), new Path(
+					canopyCentroids2), new CosineDistanceMeasure(), 0.2, 0.2,
+					true, 1, true);
 
-			FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(
-					canopyCentroids, "clusters-0-final"), new Path(
-					clusterOutput), 0.01, 20, 2, true, true, 0, false);
+			FuzzyKMeansDriver.run(new Path(vectorsFolder2), new Path(
+					canopyCentroids2, "clusters-0-final"), new Path(
+					clusterOutput2), 0.01, 20, 2, true, true, 0, false);
 		}
 	}
 
