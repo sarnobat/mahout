@@ -51,7 +51,8 @@ import com.google.common.collect.HashBiMap;
 /**
  * TFIDF (term frequency / document frequency) - for use on small *mwk files
  */
-// This was un-abstracted so that we can try and find phrases for the clustering code. 
+// This was un-abstracted so that we can try and find phrases for the clustering code.
+// This doesn't fail, but the documents are wrong.
 public class MahoutTermFinderMwkSnpt {
 
     private static final int THRESHOLD = 1;
@@ -96,6 +97,7 @@ public class MahoutTermFinderMwkSnpt {
                             // listFiles(entry);
                         } else {
                             if (fileInPath.toFile().exists()) {
+                            	// This is wrong, the id is the parent dir, not the file 
                                 writer.append(id,
                                         new Text(FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile())));
                             }
