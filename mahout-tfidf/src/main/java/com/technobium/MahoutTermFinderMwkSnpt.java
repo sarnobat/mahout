@@ -96,6 +96,7 @@ public class MahoutTermFinderMwkSnpt {
                             // listFiles(entry);
                         } else {
                             if (fileInPath.toFile().exists()) {
+                            	// I think this is wrong.
                                 writer.append(id,
                                         new Text(FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile())));
                             }

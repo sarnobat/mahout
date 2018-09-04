@@ -68,6 +68,7 @@ import com.google.common.collect.HashBiMap;
  */
 // This was un-abstracted so that we can try and find phrases for the clustering
 // code.
+@Deprecated // This is broken - I think because I removed the writing of the documents, which is incorrect.
 public class MahoutTermFinderMwkSnptRefactored {
 
     private static final Logger LOG = LoggerFactory.getLogger(MahoutTermFinderMwkSnptRefactored.class);
