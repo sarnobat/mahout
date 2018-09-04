@@ -735,7 +735,7 @@ public class MahoutTermFinderMwkSnptRefactored {
         return documentsSequencePath;
     }
 
-    public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
+    private static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
         private final CharArraySet stemExclusionSet;
 
         private static class DefaultSetHolder {
