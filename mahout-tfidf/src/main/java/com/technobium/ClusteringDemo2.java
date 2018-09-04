@@ -52,19 +52,16 @@ public class ClusteringDemo2 {
 
 		// 2) calculate TF IDF
 		{
-			Path documentsSequencePath2 = documentsSequencePath;
 			Path tokenizedDocumentsPath2 = new Path(outputFolder,
 					DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-			Configuration configuration2 = new Configuration();
-			DocumentProcessor.tokenizeDocuments(documentsSequencePath2,
+			DocumentProcessor.tokenizeDocuments(documentsSequencePath,
 					StandardAnalyzer.class, tokenizedDocumentsPath2,
-					configuration2);
+					new Configuration());
 
-			String outputFolder2 = outputFolder;
 			DictionaryVectorizer.createTermFrequencyVectors(
-					tokenizedDocumentsPath2, new Path(outputFolder2),
+					tokenizedDocumentsPath2, new Path(outputFolder),
 					DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER,
-					configuration2, 1, 1, 0.0f,
+					new Configuration(), 1, 1, 0.0f,
 					PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false,
 					false);
 
@@ -73,10 +70,10 @@ public class ClusteringDemo2 {
 			Path tfidfPath2 = new Path(outputFolder + "tfidf");
 			Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter
 					.calculateDF(termFrequencyVectorsPath2, tfidfPath2,
-							configuration2, 100);
+							new Configuration(), 100);
 
 			TFIDFConverter.processTfIdf(termFrequencyVectorsPath2, tfidfPath2,
-					configuration2, documentFrequencies, 1, 100,
+					new Configuration(), documentFrequencies, 1, 100,
 					PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
 		}
 		// 3) Cluster documents
@@ -102,10 +99,8 @@ public class ClusteringDemo2 {
 		}
 		// 4) Print documents
 		{
-			Configuration configuration2 = new Configuration();
-			SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(
-					documentsSequencePath, configuration2);
-			for (Pair<Writable, Writable> pair : iterable) {
+			for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
+					documentsSequencePath, new Configuration())) {
 				System.out.format("%10s -> %s\n", pair.getFirst(),
 						pair.getSecond());
 			}
@@ -114,12 +109,10 @@ public class ClusteringDemo2 {
 
 		// 5) Print clsuters
 		{
-			Configuration configuration2 = new Configuration();
-			SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(
+			for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
 					new Path(outputFolder
 							+ "clusters/clusteredPoints/part-m-00000"),
-					configuration2);
-			for (Pair<Writable, Writable> pair : iterable) {
+					new Configuration())) {
 				System.out.format("%10s -> %s\n", pair.getFirst(),
 						pair.getSecond());
 			}
