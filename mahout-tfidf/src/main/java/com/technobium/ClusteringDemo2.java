@@ -25,32 +25,20 @@ import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
  */
 public class ClusteringDemo2 {
 
-
 	public static void main(String args[]) throws Exception {
 
+		Configuration configuration = new Configuration();
+		String outputFolder = "output/";
+		Path documentsSequencePath = new Path(outputFolder, "sequence");
 
-		String outputFolder;
-		Configuration configuration;
-		FileSystem fileSystem;
-		Path documentsSequencePath;
-		Path tokenizedDocumentsPath;
-		Path tfidfPath;
-		Path termFrequencyVectorsPath;
-		
-		configuration = new Configuration();
-		fileSystem = FileSystem.get(configuration);
-
-		outputFolder = "output/";
-		documentsSequencePath = new Path(outputFolder, "sequence");
-		tokenizedDocumentsPath = new Path(outputFolder,
-				DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-		tfidfPath = new Path(outputFolder + "tfidf");
-		termFrequencyVectorsPath = new Path(outputFolder
-				+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
-
-		createTestDocuments(fileSystem, documentsSequencePath, configuration);
-		calculateTfIdf(documentsSequencePath, tokenizedDocumentsPath, configuration, termFrequencyVectorsPath, tfidfPath, outputFolder);
-		clusterDocs(outputFolder + "tfidf/tfidf-vectors/", outputFolder + "canopy-centroids", outputFolder + "clusters", configuration);
+		createTestDocuments(FileSystem.get(configuration), documentsSequencePath, configuration);
+		calculateTfIdf(documentsSequencePath, new Path(outputFolder,
+				DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER),
+				configuration, new Path(outputFolder
+						+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER), new Path(outputFolder + "tfidf"),
+				outputFolder);
+		clusterDocs(outputFolder + "tfidf/tfidf-vectors/", outputFolder
+				+ "canopy-centroids", outputFolder + "clusters", configuration);
 
 		printSequenceFile(documentsSequencePath, configuration);
 
@@ -59,7 +47,9 @@ public class ClusteringDemo2 {
 				+ "clusters/clusteredPoints/part-m-00000"), configuration);
 	}
 
-	private static void createTestDocuments(FileSystem fileSystem3, Path documentsSequencePath, Configuration configuration3) throws IOException {
+	private static void createTestDocuments(FileSystem fileSystem3,
+			Path documentsSequencePath, Configuration configuration3)
+			throws IOException {
 		FileSystem fileSystem2 = fileSystem3;
 		Path documentsSequencePath2 = documentsSequencePath;
 		Configuration configuration2 = configuration3;
@@ -81,17 +71,22 @@ public class ClusteringDemo2 {
 		writer.close();
 	}
 
-	private static void calculateTfIdf(Path documentsSequencePath3, Path tokenizedDocumentsPath3, Configuration configuration3, Path termFrequencyVectorsPath3, Path tfidfPath3, String outputFolder3) throws ClassNotFoundException,
-			IOException, InterruptedException {
+	private static void calculateTfIdf(Path documentsSequencePath3,
+			Path tokenizedDocumentsPath3, Configuration configuration3,
+			Path termFrequencyVectorsPath3, Path tfidfPath3,
+			String outputFolder3) throws ClassNotFoundException, IOException,
+			InterruptedException {
 		Path documentsSequencePath2 = documentsSequencePath3;
 		Path tokenizedDocumentsPath2 = tokenizedDocumentsPath3;
 		Configuration configuration2 = configuration3;
-		DocumentProcessor.tokenizeDocuments(documentsSequencePath2,
-				StandardAnalyzer.class, tokenizedDocumentsPath2, configuration2);
+		DocumentProcessor
+				.tokenizeDocuments(documentsSequencePath2,
+						StandardAnalyzer.class, tokenizedDocumentsPath2,
+						configuration2);
 
 		String outputFolder2 = outputFolder3;
-		DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath2,
-				new Path(outputFolder2),
+		DictionaryVectorizer.createTermFrequencyVectors(
+				tokenizedDocumentsPath2, new Path(outputFolder2),
 				DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER,
 				configuration2, 1, 1, 0.0f, PartialVectorMerger.NO_NORMALIZING,
 				true, 1, 100, false, false);
@@ -107,7 +102,9 @@ public class ClusteringDemo2 {
 				PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
 	}
 
-	private static void clusterDocs(String vectorsFolder2, String canopyCentroids2, String clusterOutput2, Configuration configuration2) throws ClassNotFoundException,
+	private static void clusterDocs(String vectorsFolder2,
+			String canopyCentroids2, String clusterOutput2,
+			Configuration configuration2) throws ClassNotFoundException,
 			IOException, InterruptedException {
 		String vectorsFolder = vectorsFolder2;
 		String canopyCentroids = canopyCentroids2;
@@ -131,7 +128,8 @@ public class ClusteringDemo2 {
 		}
 	}
 
-	private static void printSequenceFile(Path path, Configuration configuration3) {
+	private static void printSequenceFile(Path path,
+			Configuration configuration3) {
 		Configuration configuration2 = configuration3;
 		SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(
 				path, configuration2);
