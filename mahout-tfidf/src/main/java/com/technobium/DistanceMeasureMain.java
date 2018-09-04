@@ -12,7 +12,7 @@ import org.apache.mahout.math.Vector;
 import com.google.common.collect.ImmutableList;
 
 /**
- * I used this to fix {@link ClusteringDemo2} to get useful clustering.
+ * I used this to fix {@link ClusteringDemo} to get useful clustering.
  */
 public class DistanceMeasureMain {
 

@@ -1,6 +1,5 @@
 package com.technobium;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
@@ -14,8 +13,6 @@ import org.apache.mahout.clustering.canopy.CanopyDriver;
 import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
-import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
-import org.apache.mahout.common.distance.TanimotoDistanceMeasure;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
 import org.apache.mahout.vectorizer.DictionaryVectorizer;
 import org.apache.mahout.vectorizer.DocumentProcessor;
@@ -23,142 +20,102 @@ import org.apache.mahout.vectorizer.common.PartialVectorMerger;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 
 /**
- * this one doesn't work, I think because the documents are too similar transitively.
+ * This one works. Use it as a working baseline
  */
 public class ClusteringDemo {
 
-    String outputFolder;
-    Configuration configuration;
-    FileSystem fileSystem;
-    Path documentsSequencePath;
-    Path tokenizedDocumentsPath;
-    Path tfidfPath;
-    Path termFrequencyVectorsPath;
+	public static void main(String args[]) throws Exception {
 
-    public static void main(String args[]) throws Exception {
-        ClusteringDemo tester = new ClusteringDemo();
+		String outputFolder = "output/";
+		Path documentsSequencePath = new Path(outputFolder, "sequence");
 
-        tester.createTestDocuments();
-        tester.calculateTfIdf();
-        tester.clusterDocs();
+		// 1) create documents
+		{
+			SequenceFile.Writer writer = new SequenceFile.Writer(
+					FileSystem.get(new Configuration()), new Configuration(),
+					documentsSequencePath, Text.class, Text.class);
 
-        tester.printSequenceFile(tester.documentsSequencePath);
+			Text id1 = new Text("Document 1");
+			Text text1 = new Text("Atletico Madrid win");
+			writer.append(id1, text1);
 
-        System.out.println("\n Clusters: ");
-        tester.printSequenceFile(new Path(tester.outputFolder + "clusters/clusteredPoints/part-m-00000"));
-    }
+			Text id6 = new Text("Document 6");
+			Text text6 = new Text("Both apple and orange are fruit");
+			writer.append(id6, text6);
 
-    public ClusteringDemo() throws IOException {
-        configuration = new Configuration();
-        fileSystem = FileSystem.get(configuration);
+			Text id7 = new Text("Document 7");
+			Text text7 = new Text("Both orange and apple are fruit");
+			writer.append(id7, text7);
 
-        outputFolder = "output/";
-        documentsSequencePath = new Path(outputFolder, "sequence");
-        tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-        tfidfPath = new Path(outputFolder + "tfidf");
-        termFrequencyVectorsPath = new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
-    }
+			writer.close();
+		}
 
-    public void createTestDocuments() throws IOException {
-        SequenceFile.Writer writer = new SequenceFile.Writer(fileSystem, configuration, documentsSequencePath,
-                Text.class, Text.class);
+		// 2) calculate TF IDF
+		{
+			Path tokenizedDocumentsPath2 = new Path(outputFolder,
+					DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
+			DocumentProcessor.tokenizeDocuments(documentsSequencePath,
+					StandardAnalyzer.class, tokenizedDocumentsPath2,
+					new Configuration());
 
-        Text id1 = new Text("Document 1");
-        Text text1 = new Text("John saw a red car.");
-        writer.append(id1, text1);
+			DictionaryVectorizer.createTermFrequencyVectors(
+					tokenizedDocumentsPath2, new Path(outputFolder),
+					DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER,
+					new Configuration(), 1, 1, 0.0f,
+					PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false,
+					false);
 
-        Text id2 = new Text("Document 2");
-        Text text2 = new Text("Marta found a red bike.");
-        writer.append(id2, text2);
+			Path termFrequencyVectorsPath2 = new Path(outputFolder
+					+ DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER);
+			Path tfidfPath2 = new Path(outputFolder + "tfidf");
+			Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter
+					.calculateDF(termFrequencyVectorsPath2, tfidfPath2,
+							new Configuration(), 100);
 
-        Text id3 = new Text("Document 3");
-        Text text3 = new Text("Don need a blue coat.");
-        writer.append(id3, text3);
+			TFIDFConverter.processTfIdf(termFrequencyVectorsPath2, tfidfPath2,
+					new Configuration(), documentFrequencies, 1, 100,
+					PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
+		}
+		// 3) Cluster documents
+		{
+			String vectorsFolder2 = outputFolder + "tfidf/tfidf-vectors/";
+			String canopyCentroids2 = outputFolder + "canopy-centroids";
+			String clusterOutput2 = outputFolder + "clusters";
+			Configuration configuration2 = new Configuration();
+			if (FileSystem.get(configuration2).exists(new Path(clusterOutput2))) {
+				FileSystem.get(configuration2).delete(new Path(clusterOutput2),
+						true);
+			}
+			{
+				// CosineDistanceMeasure
+				CanopyDriver.run(new Path(vectorsFolder2), new Path(
+						canopyCentroids2), new CosineDistanceMeasure(), 0.2,
+						0.2, true, 1, true);
 
-        Text id4 = new Text("Document 4");
-        Text text4 = new Text("Mike bought a blue boat.");
-        writer.append(id4, text4);
+				FuzzyKMeansDriver.run(new Path(vectorsFolder2), new Path(
+						canopyCentroids2, "clusters-0-final"), new Path(
+						clusterOutput2), 0.01, 20, 2, true, true, 0, false);
+			}
+		}
+		// 4) Print documents
+		{
+			for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
+					documentsSequencePath, new Configuration())) {
+				System.out.format("%10s -> %s\n", pair.getFirst(),
+						pair.getSecond());
+			}
+		}
+		System.out.println("\n Clusters: ");
 
-        Text id5 = new Text("Document 5");
-        Text text5 = new Text("Albert wants a blue dish.");
-        writer.append(id5, text5);
-
-        Text id6 = new Text("Document 6");
-        Text text6 = new Text("Lara likes blue glasses.");
-        writer.append(id6, text6);
-
-        Text id7 = new Text("Document 7");
-        Text text7 = new Text("Donna, do you have red apples?");
-        writer.append(id7, text7);
-
-        Text id8 = new Text("Document 8");
-        Text text8 = new Text("Sonia needs blue books.");
-        writer.append(id8, text8);
-
-        Text id9 = new Text("Document 9");
-        Text text9 = new Text("I like blue eyes.");
-        writer.append(id9, text9);
-
-        Text id10 = new Text("Document 10");
-        Text text10 = new Text("Arleen has a red carpet.");
-        writer.append(id10, text10);
-
-        writer.close();
-    }
-
-    public void calculateTfIdf() throws ClassNotFoundException, IOException, InterruptedException {
-        DocumentProcessor.tokenizeDocuments(documentsSequencePath, StandardAnalyzer.class, tokenizedDocumentsPath,
-                configuration);
-
-        DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
-                DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
-                PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
-
-        Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter.calculateDF(termFrequencyVectorsPath, tfidfPath,
-                configuration, 100);
-
-        TFIDFConverter.processTfIdf(termFrequencyVectorsPath, tfidfPath, configuration, documentFrequencies, 1, 100,
-                PartialVectorMerger.NO_NORMALIZING, false, false, false, 1);
-    }
-
-    void clusterDocs() throws ClassNotFoundException, IOException, InterruptedException {
-        String vectorsFolder = outputFolder + "tfidf/tfidf-vectors/";
-        String canopyCentroids = outputFolder + "canopy-centroids";
-        String clusterOutput = outputFolder + "clusters";
-
-        FileSystem fs = FileSystem.get(configuration);
-        Path oldClusterPath = new Path(clusterOutput);
-
-        if (fs.exists(oldClusterPath)) {
-            fs.delete(oldClusterPath, true);
-        }
-        if (false) {
-            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new EuclideanDistanceMeasure(), 20, 5,
-                    true, 0, true);
-
-            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
-                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
-        } else if (true) {
-            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new TanimotoDistanceMeasure(), 20, 5,
-                    true, 0, true);
-
-            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
-                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
-        } else if (false){
-            // CosineDistanceMeasure
-            CanopyDriver.run(new Path(vectorsFolder), new Path(canopyCentroids), new CosineDistanceMeasure(), 20, 5,
-                    true, 0, true);
-
-            FuzzyKMeansDriver.run(new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"),
-                    new Path(clusterOutput), 0.01, 20, 2, true, true, 0, false);
-        }
-    }
-
-    void printSequenceFile(Path path) {
-        SequenceFileIterable<Writable, Writable> iterable = new SequenceFileIterable<Writable, Writable>(path,
-                configuration);
-        for (Pair<Writable, Writable> pair : iterable) {
-            System.out.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
-        }
-    }
+		// 5) Print clusters
+		{
+			for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
+					new Path(outputFolder
+							+ "clusters/clusteredPoints/part-m-00000"),
+					new Configuration())) {
+				System.out.format("%10s -> %s\n", pair.getFirst(),
+						pair.getSecond());
+			}
+		}
+	}
 }
