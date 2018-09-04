@@ -70,3 +70,7 @@ hdfs dfs -text output/wordcount/part-r-00000
 	sonia	1
 	wants	1
 	you	1
+	
+## Clustering
+
+For a barebones example, see ClusteringDemo2 (it just uses a java.util.Collection of vectors; it's more common to use sequence files).

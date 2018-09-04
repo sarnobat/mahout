@@ -79,11 +79,12 @@ public class MahoutTermFinderMwkSnptRefactored {
         // anywhere.
         // https://github.com/technobium/mahout-tfidf
         doTermFinding();
+        doClustering();
         System.out.println(
                 "SRIDHAR MahoutTermClusterMwkSnpt.main() - Once you've figured out how to get the document vectors from term finding, feed them to doClustering() instead of static points.");
     }
 
-    @Deprecated // Use {@link MahoutTermClusterMwkSnpt} instead
+    //@Deprecated // Use {@link MahoutTermClusterMwkSnpt} instead - no, that one is the wrong files.
     private static void doClustering() throws IOException {
         System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.main() - ");
 
