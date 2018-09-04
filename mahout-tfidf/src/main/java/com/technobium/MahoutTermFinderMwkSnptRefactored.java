@@ -383,7 +383,7 @@ public class MahoutTermFinderMwkSnptRefactored {
             }
             {
                 Path termFrequencies = new Path(
-                        "/Users/ssarnobat/github/mahout/mahout-tfidf/temp_intermediate/tf-vectors/part-r-00000");
+                        "temp_intermediate/tf-vectors/part-r-00000");
                 Map<String, String> map = termFrequencyVectorsToMap(configuration, termFrequencies);
                 for (String term : map.keySet()) {
                     System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - tf vectors: category=" + term
