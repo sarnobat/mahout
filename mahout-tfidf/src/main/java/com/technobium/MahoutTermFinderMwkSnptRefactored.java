@@ -67,8 +67,8 @@ import com.google.common.collect.HashBiMap;
  * TFIDF (term frequency / document frequency) - for use on small *mwk files
  */
 // This was un-abstracted so that we can try and find phrases for the clustering
-// code.
-@Deprecated // This is broken - I think because I removed the writing of the documents, which was incorrect.
+// code. It also has preconditions.checkState() to aid code comprehension.
+// This is broken, I don't know why. We might have to redo this unabstracting, but don't lose the preconditions.
 public class MahoutTermFinderMwkSnptRefactored {
 
     private static final Logger LOG = LoggerFactory.getLogger(MahoutTermFinderMwkSnptRefactored.class);
