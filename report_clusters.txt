@@ -1,0 +1,8 @@
+
+         0 -> wt: 1.0 distance: 0.0  vec: Document 1 = [1:1.405, 4:1.405, 6:1.405]
+         1 -> wt: 1.0 distance: 0.0  vec: Document 6 = [0:1.000, 2:1.000, 3:1.000, 5:1.000]
+         1 -> wt: 1.0 distance: 0.0  vec: Document 7 = [0:1.000, 2:1.000, 3:1.000, 5:1.000]
+ Clusters: 
+Document 1 -> Atletico Madrid win
+Document 6 -> Both apple and orange are fruit
+Document 7 -> Both orange and apple are fruit
