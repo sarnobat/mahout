@@ -27,6 +27,12 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * Extracted from term finder. I'm doing this to try and cluster my real mwk
+ * snippets rather than hardcoded single sentences.
+ * 
+ * But this doesn't have stop word analysis. So check {@link WritePointsToSequenceFile2}
+ */
 public class WritePointsToSequenceFile {
 
 	private static final Logger LOG = LoggerFactory
@@ -74,11 +80,9 @@ public class WritePointsToSequenceFile {
 
 			// Write data to sequence hadoop sequence files
 			String string = POINTS_PATH + "/pointsFile";
-			Preconditions.checkState(!Paths.get(string)
-					.toFile().exists());
+			Preconditions.checkState(!Paths.get(string).toFile().exists());
 			writePointsToFile(new Configuration(), vectors, new Path(string));
-			Preconditions.checkState(Paths.get(string)
-					.toFile().exists());
+			Preconditions.checkState(Paths.get(string).toFile().exists());
 
 			System.err
 					.println("SRIDHAR MahoutTermClusterMwkSnpt.start() - end");
