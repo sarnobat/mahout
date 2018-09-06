@@ -33,6 +33,7 @@ import com.google.common.base.Preconditions;
  * 
  * But this doesn't have stop word analysis. So check {@link WritePointsToSequenceFile2}
  */
+@Deprecated // Use {@link MahoutTermFinderMwkSnptRefactoredCluster}
 public class WritePointsToSequenceFile {
 
 	private static final Logger LOG = LoggerFactory

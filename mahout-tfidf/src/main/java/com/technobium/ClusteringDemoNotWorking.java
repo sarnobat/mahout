@@ -25,7 +25,7 @@ import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 /**
  * this one doesn't work, I think because the documents are too similar transitively.
  */
-@Deprecated
+@Deprecated // Use {@link ClusteringDemo}
 public class ClusteringDemoNotWorking {
 
     String outputFolder;

@@ -50,6 +50,7 @@ import com.google.common.base.Preconditions;
  * my mwk snippets to a sequence file. This also does not contain stop word analysis.
  *
  */
+@Deprecated // Use {@link MahoutTermFinderMwkSnptRefactoredCluster}
 public class WritePointsToSequenceFile2 {
 
 	private static final Logger LOG = LoggerFactory

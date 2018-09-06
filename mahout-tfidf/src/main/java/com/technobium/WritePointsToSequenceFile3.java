@@ -37,6 +37,7 @@ import com.google.common.base.Preconditions;
 /**
  * Write documents to sequence file, with stop word analysis
  */
+@Deprecated // Use {@link MahoutTermFinderMwkSnptRefactoredCluster}
 public class WritePointsToSequenceFile3 {
 
     public static void main(final String[] args) throws Exception {

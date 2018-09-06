@@ -64,7 +64,7 @@ import com.google.common.base.Preconditions;
  * I couldn't get this to work. Try {@link MahoutTermFinderMwkSnptRefactoredCluster} instead.
  *
  */
-@Deprecated
+@Deprecated // Use {@link MahoutTermFinderMwkSnptRefactoredCluster}
 public class MahoutTermClusterMwkSnpt {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(MahoutTermFinderMwkSnptRefactored.class);
