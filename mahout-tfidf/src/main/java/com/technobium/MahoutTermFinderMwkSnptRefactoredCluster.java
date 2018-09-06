@@ -173,16 +173,22 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				}
 			}
 
-			Path tfidfPath = new Path(tempIntermediate + "/tfidf/");
 			{
+				Path tfidfPat = new Path(tempIntermediate + "/tfidf/");
 				Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter
-						.calculateDF(documentVectorOutputFolderPath, tfidfPath,
+						.calculateDF(documentVectorOutputFolderPath, tfidfPat,
 								configuration, 100);
 
 				TFIDFConverter.processTfIdf(documentVectorOutputFolderPath,
-						tfidfPath, configuration, documentFrequencies, 1, 100,
+						tfidfPat, configuration, documentFrequencies, 1, 100,
 						PartialVectorMerger.NO_NORMALIZING, false, false,
 						false, 1);
+				Path tfidfPath = new Path(tempIntermediate + "/tfidf/tfidf-vectors/part-r-00000");
+				Map<String, String> tfidfScoresMap = toMap(new Configuration(), tfidfPath);
+				for (String document : tfidfScoresMap.keySet()) {
+					System.out
+							.println("3c).\t" + document + " :: " + tfidfScoresMap.get(document));
+				}
 			}
 		}
 		Path dictionaryFilePath = new Path(tempIntermediate,

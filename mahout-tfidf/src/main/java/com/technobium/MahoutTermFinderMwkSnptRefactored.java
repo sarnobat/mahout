@@ -70,6 +70,7 @@ import com.google.common.collect.HashBiMap;
 // This is broken, I don't know why (the incorrect document ID is the case even
 // with the non-refactored one but that one doesn't throw an exception). We
 // might have to redo this unabstracting, but don't lose the preconditions.
+@Deprecated // Use {@link MahoutTermFinderMwkSnpt}
 public class MahoutTermFinderMwkSnptRefactored {
 
     private static final Logger LOG = LoggerFactory.getLogger(MahoutTermFinderMwkSnptRefactored.class);
