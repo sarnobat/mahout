@@ -1,6 +1,8 @@
 package com.technobium;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -70,7 +72,8 @@ import com.google.common.collect.Ordering;
 public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 	private static final boolean DEBUG = false;
-	private static final int MAX_DOCS = Integer.parseInt(System.getProperty("docs","20"));
+	private static final int MAX_DOCS = Integer.parseInt(System.getProperty(
+			"docs", "20"));
 
 	public static void main(final String[] args) throws Exception {
 		System.out
@@ -79,6 +82,12 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 	}
 
 	private static void doTermFinding() throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String line;
+		while ((line = br.readLine()) != null) {
+			System.err.println("[DEBUG] current line is: " + line);
+		}
 
 		System.setProperty("org.apache.commons.logging.Log",
 				"org.apache.commons.logging.impl.NoOpLog");
@@ -109,7 +118,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					home + "/sarnobat.git/mwk/snippets/video_editing",
 					home + "/sarnobat.git/mwk/snippets/wrestling", };
 		} else {
-			dirs = new String[] { home + "/sarnobat.git/mwk/snippets/", };
+			dirs = new String[] { System.getProperty("dir", home
+					+ "/sarnobat.git/mwk/snippets/"), };
 		}
 
 		// ----------------------------------------------------------------------
@@ -274,6 +284,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			System.err
 					.println("MahoutTermFinderMwkSnptRefactored.doTermFinding() - hereafter, we deal exclusively with maps, not sequence files.");
 		}
+		System.err.println("Read " + MAX_DOCS + " documents.");
 	}
 
 	// this is giving me : [ERROR] Failed to execute goal
@@ -456,58 +467,63 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		for (String path : mwkSnippetCategoryDirs) {
 			DirectoryStream<java.nio.file.Path> stream = Files
 					.newDirectoryStream(Paths.get(path));
-			try {
-				int i = 0;
-				int total = 0;
-				for (java.nio.file.Path fileInPath : stream) {
-					if (Files.isDirectory(fileInPath)) {
-						// listFiles(entry);
-						if (DEBUG) {
-							System.err
-									.println("2)\tSRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: "
-											+ fileInPath);
-						}
-					} else {
-						if (fileInPath.toFile().exists()) {
-							Text cateogoryDir = new Text(fileInPath
-									.getFileName().toString());
-							String readFileToString = FileUtils
-									.readFileToString(Paths.get(
-											fileInPath.toUri()).toFile());
-							if (i % 100 == 0) {
-								if (DEBUG) {
-									System.err
-											.println("2)\tSRIDHAR MahoutTermFinderMwkSnpt.main() - "
-													+ cateogoryDir
-													+ "::"
-													+ StringUtils.substring(
-															readFileToString,
-															0, 30));
-								}
-							}
-							if (total > MAX_DOCS) {
-								break;
-							}
-							if (DEBUG) {
-								System.out
-										.println("2)\tMahoutTermFinderMwkSnptRefactoredCluster.writeToSequenceFile() added document to sequence file: "
-												+ fileInPath.toString());
-							}
-							writer.append(cateogoryDir, new Text(
-									readFileToString));
-							total++;
-						}
-					}
-					++i;
-				}
-			} catch (IOException e3) {
-				throw e3;
-			} finally {
-			}
+			writeToSequenceFile(writer, stream);
 		}
 
 		writer.close();
 		return documentsSequencePath;
+	}
+
+	private static void writeToSequenceFile(SequenceFile.Writer writer,
+			Iterable<java.nio.file.Path> files) throws IOException {
+		try {
+			int i = 0;
+			int total = 0;
+			for (java.nio.file.Path filePath : files) {
+				if (Files.isDirectory(filePath)) {
+					// listFiles(entry);
+					if (DEBUG) {
+						System.err
+								.println("2)\tSRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: "
+										+ filePath);
+					}
+				} else {
+					if (filePath.toFile().exists()) {
+						Text cateogoryDir = new Text(filePath
+								.getFileName().toString());
+						String readFileToString = FileUtils
+								.readFileToString(Paths.get(
+										filePath.toUri()).toFile());
+						if (i % 100 == 0) {
+							if (DEBUG) {
+								System.err
+										.println("2)\tSRIDHAR MahoutTermFinderMwkSnpt.main() - "
+												+ cateogoryDir
+												+ "::"
+												+ StringUtils.substring(
+														readFileToString,
+														0, 30));
+							}
+						}
+						if (total > MAX_DOCS) {
+							break;
+						}
+						if (DEBUG) {
+							System.out
+									.println("2)\tMahoutTermFinderMwkSnptRefactoredCluster.writeToSequenceFile() added document to sequence file: "
+											+ filePath.toString());
+						}
+						writer.append(cateogoryDir, new Text(
+								readFileToString));
+						total++;
+					}
+				}
+				++i;
+			}
+		} catch (IOException e3) {
+			throw e3;
+		} finally {
+		}
 	}
 
 	public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
@@ -638,8 +654,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			sb.append(term);
 			sb.append(" : ");
 			sb.append(Double.toString(score).substring(0, 3));
-			//sb.append(" > ");
-			//sb.append(threshold);
+			// sb.append(" > ");
+			// sb.append(threshold);
 			sb.append(", ");
 		}
 		return sb.toString();
@@ -747,12 +763,11 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			}
 			// if (DEBUG) {
 			for (String clusterID : clusterToDocuments.keySet()) {
-				System.out.println("\tclusterDocuments() cluster = "
-						+ clusterID);
+				System.out.println("\tcluster = " + clusterID);
 				Collection<String> documents = clusterToDocuments
 						.get(clusterID);
 				for (String document : documents) {
-					System.out.println("\t\tclusterDocuments() - document = "
+					System.out.println("\t\tdoc = "
 							+ document
 							+ printVectorTerms(
 									((VectorWritable) documentIdToVectorMap
