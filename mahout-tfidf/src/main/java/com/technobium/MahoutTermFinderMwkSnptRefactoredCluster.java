@@ -574,6 +574,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 						stemExclusionSet);
 			}
 			tokenStream = new PorterStemFilter(tokenStream);
+			tokenStream = new NumbersFilter(tokenStream);
 			return new TokenStreamComponents(source, tokenStream);
 		}
 
