@@ -6,6 +6,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -38,6 +39,9 @@ import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
+import org.apache.mahout.math.SequentialAccessSparseVector;
+import org.apache.mahout.math.Vector;
+import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.vectorizer.DictionaryVectorizer;
 import org.apache.mahout.vectorizer.DocumentProcessor;
 import org.apache.mahout.vectorizer.common.PartialVectorMerger;
@@ -253,6 +257,16 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
                 termToOrdinalMappings2.put(sequenceFile.getFirst().toString(), sequenceFile.getSecond());
             }
         }
+        // 4) Print documents
+        {
+        	org.apache.hadoop.fs.Path documentsSequencePath = new org.apache.hadoop.fs.Path(
+        			"temp_intermediate/tokenized-documents/part-m-00000");
+        	for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
+        			documentsSequencePath, new Configuration())) {
+        		System.out.format("%10s -> %s\n", pair.getFirst(),
+        				pair.getSecond());
+        	}
+        }
 
 		{
 			System.out
@@ -263,13 +277,48 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
         System.err.println("MahoutTermFinderMwkSnptRefactored.doTermFinding() - hereafter, we deal exclusively with maps, not sequence files.");
     }
 
-
+    private static Vector toVector(String string) {
+		String[] words = string.split("\\s");
+		Vector v = new SequentialAccessSparseVector(Integer.MAX_VALUE);
+		v.set(0, 1.1);
+		int i = 0;
+		for (String word : words) {
+			v.set(Math.abs(word.hashCode()), 1);
+		}
+		return v;
+	}
+    
 	private static void clusterDocuments(String tempIntermediate)
 			throws IOException, InterruptedException, ClassNotFoundException {
 		String outputFolder = tempIntermediate;
 		// 3) Cluster documents
 		{
 			String vectorsFolder2 = outputFolder + "/tfidf/tfidf-vectors/";
+			// check the distance between 2 documents at random, so we know the values of t1 and t2 to use.
+			{
+				SequenceFileIterable<Writable, Writable> sequenceFiles2 = new SequenceFileIterable<Writable, Writable>(
+						new Path(vectorsFolder2 + "part-r-00000"), new Configuration());
+	            Map<String, Object> termToOrdinalMappings2 = new HashMap<String, Object>();
+	            int i = 0;
+	            for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
+	                termToOrdinalMappings2.put(sequenceFile.getFirst().toString(), sequenceFile.getSecond());
+	                if (i > 1) { 
+	                	break;
+	                }
+	            }
+	            
+				Iterator<Object> iterator = termToOrdinalMappings2.values()
+						.iterator();
+				Vector v1 = ((VectorWritable) iterator.next()).get();
+				Vector v2 = ((VectorWritable) iterator.next()).get();
+				double distance = new CosineDistanceMeasure().distance(v1, v2);
+				System.out
+						.println("MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = " + v1);
+				System.out
+				.println("MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = " + v2);
+				System.out
+						.println("MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = " + distance);
+			}
 			String canopyCentroids2 = outputFolder + "/canopy-centroids";
 			String clusterOutput2 = outputFolder + "/clusters";
 			Configuration configuration2 = new Configuration();
@@ -282,21 +331,11 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				// CosineDistanceMeasure
 				CanopyDriver.run(new Path(vectorsFolder2), new Path(
 						canopyCentroids2), new CosineDistanceMeasure(),
-						0.2, 0.2, true, 1, true);
+						0.9, 0.9, true, 1, true);
 
 				FuzzyKMeansDriver.run(new Path(vectorsFolder2), new Path(
 						canopyCentroids2, "clusters-0-final"), new Path(
 						clusterOutput2), 0.01, 20, 2, true, true, 0, false);
-			}
-		}
-		// 4) Print documents
-		{
-			org.apache.hadoop.fs.Path documentsSequencePath = new org.apache.hadoop.fs.Path(
-					"temp_intermediate/tokenized-documents/part-m-00000");
-			for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
-					documentsSequencePath, new Configuration())) {
-				System.out.format("%10s -> %s\n", pair.getFirst(),
-						pair.getSecond());
 			}
 		}
 		System.out.println("\n Clusters: ");
