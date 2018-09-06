@@ -62,6 +62,7 @@ import com.google.common.collect.Multimap;
  */
 // This was un-abstracted so that we can try and find phrases for the clustering
 // code.
+@Deprecated // Use {@link MahoutTermFinderMwkSnptRefactoredCluster}
 public class MahoutTermFinderMwkSnptRefactoredClusterWithPreconditions {
 
 	public static void main(final String[] args) throws Exception {
