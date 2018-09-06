@@ -492,20 +492,21 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					}
 				} else {
 					if (filePath.toFile().exists()) {
-						Text cateogoryDir = new Text(filePath
-								.getFileName().toString());
+						Text cateogoryDir = new Text(filePath.getFileName()
+								.toString());
 						String readFileToString = FileUtils
-								.readFileToString(Paths.get(
-										filePath.toUri()).toFile());
+								.readFileToString(Paths.get(filePath.toUri())
+										.toFile());
 						if (i % 100 == 0) {
 							if (DEBUG) {
 								System.err
 										.println("2)\tSRIDHAR MahoutTermFinderMwkSnpt.main() - "
 												+ cateogoryDir
 												+ "::"
-												+ StringUtils.substring(
-														readFileToString,
-														0, 30));
+												+ StringUtils
+														.substring(
+																readFileToString,
+																0, 30));
 							}
 						}
 						if (total > MAX_DOCS) {
@@ -516,8 +517,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 									.println("2)\tMahoutTermFinderMwkSnptRefactoredCluster.writeToSequenceFile() added document to sequence file: "
 											+ filePath.toString());
 						}
-						writer.append(cateogoryDir, new Text(
-								readFileToString));
+						writer.append(cateogoryDir, new Text(readFileToString));
 						total++;
 					}
 				}
@@ -779,10 +779,16 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				}
 			}
 			// }
-			if (DEBUG) {
-				for (String clusterID : clusterToDocuments.keySet()) {
+			for (String clusterID : clusterToDocuments.keySet()) {
+				int size = +clusterToDocuments.get(clusterID).size();
+				if (size > 1) {
 					System.out.println("5b)\t" + clusterID + " :: "
 							+ clusterToDocuments.get(clusterID));
+				} else {
+					if (DEBUG) {
+						System.out.println("5b)\t" + clusterID + " :: "
+								+ clusterToDocuments.get(clusterID));
+					}
 				}
 			}
 			System.out
