@@ -238,8 +238,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 		// 5) Do clustering
 		{
-			System.out
-					.println("5)\tnow run clustering");
+			System.out.println("5)\tnow run clustering");
 			clusterDocuments(tempIntermediate);
 		}
 		if (DEBUG) {
@@ -331,7 +330,10 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 						clusterOutput2), 0.01, 20, 2, true, true, 0, false);
 			}
 		}
-		System.out.println("\n Clusters: ");
+
+		if (DEBUG) {
+			System.out.println("5)\nClusters: ");
+		}
 		// 5) Print clusters
 		{
 			Multimap<String, String> clusterToDocuments = HashMultimap.create();
