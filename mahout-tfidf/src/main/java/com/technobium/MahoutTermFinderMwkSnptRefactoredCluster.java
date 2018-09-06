@@ -66,7 +66,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 	private static final boolean DEBUG = false;
 
 	public static void main(final String[] args) throws Exception {
-		System.out.println("MahoutTermFinderMwkSnptRefactoredCluster.main() - begin");
+		System.out
+				.println("MahoutTermFinderMwkSnptRefactoredCluster.main() - begin");
 		doTermFinding();
 	}
 
@@ -103,6 +104,10 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		} else {
 			dirs = new String[] { home + "/sarnobat.git/mwk/snippets/", };
 		}
+
+		// ----------------------------------------------------------------------
+		// 1) Reading documents
+		// ----------------------------------------------------------------------
 		System.out.println("1)\tWriting documents to sequence file");
 		Path sequenceFilePath = writeToSequenceFile(configuration, new Path(
 				tempIntermediate, "sequence"), dirs);
@@ -126,6 +131,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			}
 		}
 
+		// ----------------------------------------------------------------------
+		// 2) Tokenizing documents
+		// ----------------------------------------------------------------------
 		System.out.println("2)\tTokenizing documents");
 		{
 			Path tokenizedDocumentsPath;
@@ -158,6 +166,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				}
 			}
 
+			// ----------------------------------------------------------------------
+			// 2) Counting term frequencies
+			// ----------------------------------------------------------------------
 			System.out.println("3)\tCreating term frequencies");
 			Path documentVectorOutputFolderPath = createTermFrequencyVectors(
 					configuration, tempIntermediate, tokenizedDocumentsPath);
@@ -183,6 +194,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				}
 			}
 
+			// ----------------------------------------------------------------------
+			// 4) Counting document frequencies
+			// ----------------------------------------------------------------------
 			System.out.println("4)\tCreating document frequencies");
 			{
 				Path tfidfPat = new Path(tempIntermediate + "/tfidf/");
@@ -225,6 +239,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			}
 		}
 
+		// ----------------------------------------------------------------------
+		// 5) Clustering
+		// ----------------------------------------------------------------------
 		// just printing
 		System.err.println("4)\tCreating TFIDF Vectors");
 		{
@@ -250,6 +267,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			System.err
 					.println("MahoutTermFinderMwkSnptRefactored.doTermFinding() - hereafter, we deal exclusively with maps, not sequence files.");
 		}
+		System.out
+				.println("TODO: convert the vector numbers to words, so you can see more easily why the distanes are what they are.");
 	}
 
 	/**
