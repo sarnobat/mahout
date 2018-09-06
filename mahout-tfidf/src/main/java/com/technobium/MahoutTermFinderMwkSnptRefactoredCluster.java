@@ -672,17 +672,18 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 							documentID);
 				}
 			}
-
-			for (String clusterID : clusterToDocuments.keySet()) {
-				System.out
-						.println("\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() cluster = "
-								+ clusterID);
-				Collection<String> documents = clusterToDocuments
-						.get(clusterID);
-				for (String document : documents) {
+			if (DEBUG) {
+				for (String clusterID : clusterToDocuments.keySet()) {
 					System.out
-							.println("\t\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() - document = "
-									+ document);
+							.println("\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() cluster = "
+									+ clusterID);
+					Collection<String> documents = clusterToDocuments
+							.get(clusterID);
+					for (String document : documents) {
+						System.out
+								.println("\t\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() - document = "
+										+ document);
+					}
 				}
 			}
 			if (DEBUG) {
