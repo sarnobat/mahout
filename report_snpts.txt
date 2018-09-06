@@ -37,6 +37,7 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 3)	Creating term frequencies
 4)	Creating document frequencies
 5)	Clustering
+<<<<<<< HEAD
 	5) clusterDocuments() v1 = 	20null : 6.6, action : 6.6, index.php : 6.6, main_pag : 6.6, mediawiki : 6.6, 
 	5) clusterDocuments() v2 = 	cyclic : 4.7, dif : 4.7, easili : 6.0, git : 4.7, handsoff : 4.7, iter : 6.6, memo : 4.7, miss : 6.6, piec : 4.7, prototyp : 4.7, pull : 4.7, releas : 4.7, request : 4.7, spot : 6.6, stash : 4.7, typo : 4.7, unit : 4.7, version : 4.7, 
 	5) clusterDocuments() v3 = 	ashwini : 4.7, movi : 4.2, recommend : 4.2, secret : 4.7, stori : 4.2, 
@@ -255,11 +256,326 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 			5b) doc = snpt_1499636081774_40680__832759.mwk
 				27 : 4.2
 				832759 : 4.7
+=======
+	5) clusterDocuments() v1 = 	account : 5.0, chose : 5.0, contradictori : 5.0, employ : 5.0, geologi : 7.1, good : 5.9, ground : 5.0, program : 5.3, seemingli : 5.0, 
+	5) clusterDocuments() v2 = 	20null : 7.1, action : 7.1, index.php : 7.1, main_pag : 7.1, mediawiki : 7.1, 
+	5) clusterDocuments() v3 = 	cyclic : 5.0, dif : 5.0, easili : 6.5, git : 5.0, handsoff : 5.0, iter : 6.5, memo : 5.0, miss : 7.1, piec : 5.0, pull : 5.0, releas : 5.0, spot : 6.5, stash : 5.0, typo : 5.0, unit : 5.0, 
+	5)	clusterDocuments() distance = 1.0
+	cluster = 88
+		doc = snpt_1499636082231_46545__stages of sleep (original).mwk	bed : 6.5, sleep : 7.5, sleepi : 7.1, weekdai : 7.1, weekend : 7.1, 
+	cluster = 89
+		doc = snpt_1499636082234_23790__Its one of the few thi.mwk	brother : 5.0, childhood : 4.6, realiti : 4.3, tv : 8.0, younger : 5.0, 
+	cluster = 90
+		doc = snpt_1499636082241_28957__httplocalhostmediaw.mwk	20null : 7.1, action : 7.1, index.php : 7.1, main_pag : 7.1, mediawiki : 7.1, 
+	cluster = 91
+		doc = snpt_1499636082254_54881__for burning feet.mwk	1000mcg : 5.0, b12 : 5.0, burn : 5.0, feet : 6.5, vitamin : 5.0, 
+	cluster = 92
+		doc = snpt_1499636082274_83501__Felix tribute.mwk	20uk : 10., 4451 : 10., cat : 13., cmsf : 10., felix : 16., netgear.rohidekar.com : 10., static2 : 10., 
+	cluster = 93
+		doc = snpt_1499636082318_59318__Ginger (written by dad 2012-04-18).mwk	ginger : 7.1, hous : 7.3, infront : 7.1, walk : 7.1, will : 7.2, 
+	cluster = 94
+		doc = snpt_1499636082320_11744__Murali's recurring thoughts.mwk	acquir : 5.0, advanc : 5.0, author : 5.0, class : 5.0, cynic : 5.0, higher : 5.0, invest : 5.0, leewai : 5.0, net : 5.0, recur : 5.0, sacrif : 5.0, thought : 5.8, 
+	cluster = 95
+		doc = snpt_1499636082320_86129__Parenting.mwk	engag : 4.6, name : 5.0, older : 4.6, photo : 5.8, shirt : 5.0, t : 4.6, they'r : 5.0, young : 4.6, 
+	cluster = 96
+		doc = snpt_1499636082325_72988__Understanding my low self esteem.mwk	achiev : 5.0, esteem : 5.0, fear : 5.0, forc : 5.0, lesson : 6.5, masculin : 5.0, mom : 7.5, panic : 5.0, pillar : 5.0, quest : 5.0, son : 5.0, strength : 5.0, uncertain : 5.0, uncertainti : 5.0, undet : 5.0, 
+	cluster = 97
+		doc = snpt_1499636082327_52558__Understanding myself.mwk	allegedyli : 5.0, angri : 5.0, disturb : 5.0, doctor : 5.0, fuzzi : 5.0, homework : 5.0, ineffici : 5.0, intoler : 5.0, justifi : 5.0, mistak : 7.1, neg : 5.0, sound : 5.0, toxic : 5.0, 
+	cluster = 10
+		doc = snpt_1499636080537_30499__web applications notes.mwk	applic : 6.1, file : 9.7, inf : 7.1, servlet : 7.1, web : 6.1, 
+	cluster = 98
+		doc = snpt_1499636082335_71973__flat holdings.mwk	2015 : 8.7, flat : 10., prakash : 10., road : 8.0, st : 8.7, 
+	cluster = 11
+		doc = snpt_1499636080539_73368__seemingly contradictory.mwk	account : 5.0, chose : 5.0, contradictori : 5.0, employ : 5.0, geologi : 7.1, good : 5.9, ground : 5.0, program : 5.3, seemingli : 5.0, 
+	cluster = 99
+		doc = snpt_1499636082339_83826__odbUtilC.mwk	odbutil.c : 5.0, otmiskindof : 5.0, 
+	cluster = 12
+		doc = snpt_1499636080587_68372__how to read just one li.mwk	pipe : 5.0, 
+	cluster = 13
+		doc = snpt_1499636080599_48222__consequences of women m.mwk	ariana : 5.0, facil : 5.0, femal : 5.0, form : 5.0, jaspreet : 5.0, marri : 6.1, student : 5.0, year : 5.1, 
+	cluster = 14
+		doc = snpt_1499636080624_1067__Framework platform fre.mwk	appli : 6.1, framework : 6.5, free : 7.1, labor : 6.1, platform : 6.5, 
+	cluster = 15
+		doc = snpt_1499636080663_12173__In systems theory the.mwk	conflict : 5.0, escal : 5.0, feedback : 5.0, model : 4.6, posit : 4.6, process : 4.6, theori : 4.6, 
+	cluster = 16
+		doc = snpt_1499636080766_60353__WN Direct.mwk	5 : 6.1, 7 : 7.1, direct : 4.6, wn : 5.0, wnu058732517 : 5.0, 
+	cluster = 17
+		doc = snpt_1499636080868_53255__Add to iPod.mwk	coronation.mp3 : 5.0, ipod : 5.0, king : 4.6, ring : 5.0, wwf : 5.0, 
+	cluster = 18
+		doc = snpt_1499636080901_76280__watch -n 5  find \| wc.mwk	5 : 4.3, wc : 5.0, 
+	cluster = 19
+		doc = snpt_1499636080917_10896__‘There will never be an.mwk	aguero : 8.7, atletico : 8.0, costa : 7.1, falcao : 7.1, fernando : 7.1, radamel : 7.1, sergio : 7.1, torr : 7.1, 
+	cluster = 0
+		doc = snpt_1499636080309_6749__“We had a great experie.mwk	fact : 5.0, fulli : 5.0, great : 5.8, honest : 5.0, quiet : 5.0, sincer : 5.0, sridhar : 8.8, stai : 5.0, 
+	cluster = 1
+		doc = snpt_1499636080334_60175__olympus voice recorder.mwk	broke : 5.0, devic : 5.0, fine : 5.0, mic : 7.1, olympu : 5.0, pin : 5.0, useless : 5.0, voic : 5.0, 
+	cluster = 2
+		doc = snpt_1499636080358_48865__Los Angeles.mwk	autism : 7.1, plug : 7.1, print : 6.1, ticket : 7.1, www.eventbrite.com : 7.1, 
+	cluster = 3
+		doc = snpt_1499636081875_56801__yahoo sarnobat_2000 pas.mwk	14 : 4.6, imperi : 5.0, password : 6.1, sarnobat_2000 : 5.0, yahoo : 5.0, 
+		doc = snpt_1499636082390_93113__murali apple ID passwor.mwk	07 : 4.6, appl : 5.0, empti : 5.0, paces1 : 5.0, password : 4.3, 
+		doc = snpt_1499636080367_9762__new comcast wifi router.mwk	69975691 : 5.0, c2fcd107e61cf186 : 5.0, comcast : 5.0, router : 5.0, wifi : 4.6, 
+	cluster = 4
+		doc = snpt_1499636080398_20064__Favorite expressions.mwk	20 : 4.3, bit : 4.1, express : 4.1, favorit : 5.0, jame : 5.0, jess : 5.0, 
+	cluster = 5
+		doc = snpt_1499636080400_63901__documentaries to look f.mwk	17 : 4.1, bank : 5.0, clear : 5.0, documentari : 7.1, 
+	cluster = 6
+		doc = snpt_1499636080404_5779__“If you are going to go.mwk	adag : 5.0, churchil : 5.0, coin : 5.0, go : 5.3, hell : 5.0, robust : 5.0, sir : 5.0, winston : 5.0, 
+	cluster = 7
+		doc = snpt_1499636080428_32500__.mwk	d3 : 14., document : 13., element : 12., standard : 11., visual : 14., 
+	cluster = 8
+		doc = snpt_1499636080430_66715__Standards further benef.mwk	11 : 4.6, custom : 4.6, demand : 4.6, document : 5.8, librari : 4.6, network : 4.6, refer : 4.6, standard : 6.5, suppli : 4.6, 
+	cluster = 9
+		doc = snpt_1499636080433_2643__Non-alphas in the year.mwk	aaron : 5.0, alpha : 5.0, christoph : 5.0, davi : 5.0, duri : 5.0, jen : 5.0, kemp : 5.0, lee : 5.0, tim : 5.0, tom : 5.0, touch : 5.0, treorchi : 5.0, year : 5.1, 
+	cluster = 20
+		doc = snpt_1499636080926_29463__Jan LA van de Snepsch.mwk	berra : 5.0, jan : 5.0, l.a : 5.0, practic : 5.5, snepscheut : 5.0, theori : 6.5, yogi : 5.0, 
+	cluster = 21
+		doc = snpt_1499636080933_7146__Pavithra.mwk	beauti : 7.1, correct : 7.1, languag : 9.2, massiv : 7.1, power : 8.0, sql : 7.1, 
+	cluster = 22
+		doc = snpt_1499636080950_18375__I think sometimes we ju.mwk	accept : 4.6, extrem : 4.6, interpret : 5.0, opposit : 5.0, sign : 5.0, wrong : 4.6, 
+	cluster = 23
+		doc = snpt_1499636080982_46571__“Yesterdays best pract.mwk	applic : 8.7, control : 10., environ : 7.1, interfac : 6.5, jetti : 7.1, 
+	cluster = 24
+		doc = snpt_1499636081042_50961__A single conversation w.mwk	better : 4.3, convers : 4.3, man : 4.6, studi : 4.3, ten : 5.0, wise : 4.6, 
+	cluster = 25
+		doc = snpt_1499636081085_40383__Ordering fallacy.mwk	adjust : 5.0, concret : 5.0, fallaci : 5.0, gate : 5.0, initi : 5.0, linear : 5.0, order : 5.0, phase : 5.0, requir : 5.8, vagu : 5.0, 
+	cluster = 26
+		doc = snpt_1499636081220_79442__Heading for a list at t.mwk	1d : 5.0, column : 5.0, command : 5.0, hh:mm : 5.0, ls : 5.0, perm : 5.0, printf : 7.1, sed : 5.0, 
+	cluster = 27
+		doc = snpt_1499636081236_29762__false wisdom.mwk	expertis : 5.0, fals : 4.3, hollow : 5.0, wisdom : 4.6, 
+		doc = snpt_1499636082382_74269__All generalizations ar.mwk	except : 4.6, express : 4.1, fals : 4.3, gener : 4.1, prove : 5.0, rule : 4.3, 
+	cluster = 28
+		doc = snpt_1499636081242_15115__Hoarders dream gestal.mwk	dream : 4.6, dvd : 5.0, gestalt : 5.0, hoarder : 5.0, review : 5.0, 
+	cluster = 29
+		doc = snpt_1499636081252_93892__Idioms are peculiar Ev.mwk	deciph : 4.6, idiom : 5.0, individu : 5.0, mean : 7.1, peculiar : 4.6, 
+	cluster = 30
+		doc = snpt_1499636081259_16321__Reusable software? Jus.mwk	2015 : 6.1, blog : 7.1, code : 6.8, josdejong.com : 7.1, reus : 7.1, 
+	cluster = 31
+		doc = snpt_1499636081264_40418__Men fight because it fe.mwk	adrenalin : 5.0, battl : 5.0, blood : 5.0, chop : 5.0, destroi : 7.1, explod : 5.0, fight : 8.7, fort : 5.0, grapefruit : 5.0, hormon : 5.0, kick : 5.0, machin : 5.0, mma : 5.0, musk : 5.0, potent : 5.0, pound : 5.0, shoot : 5.0, stuff : 9.2, surg : 5.0, testosteron : 7.1, thrill : 5.0, ultim : 5.0, wrestl : 5.0, 
+	cluster = 32
+		doc = snpt_1499636081283_88254__Design iterating prot.mwk	cyclic : 5.0, dif : 5.0, easili : 6.5, git : 5.0, handsoff : 5.0, iter : 6.5, memo : 5.0, miss : 7.1, piec : 5.0, pull : 5.0, releas : 5.0, spot : 6.5, stash : 5.0, typo : 5.0, unit : 5.0, 
+	cluster = 33
+		doc = snpt_1499636081293_89593__319 PM] Justin Dahmub.mwk	19 : 9.7, 3 : 7.9, dahmub : 10., justin : 10., pm : 11., 
+	cluster = 34
+		doc = snpt_1499636081301_88566__Poorvi possible degree.mwk	industri : 5.0, manag : 5.3, organiz : 5.0, poorvi : 5.0, relat : 5.0, scienc : 6.5, suggest : 5.0, 
+	cluster = 35
+		doc = snpt_1499636081312_62705__Tomorrows World.mwk	1965 : 5.0, bbc : 5.0, examin : 5.0, film : 5.0, flagship : 5.0, invent : 5.0, mix : 5.0, programm : 5.0, quirki : 5.0, report : 5.0, 
+	cluster = 36
+		doc = snpt_1499636081315_86866__Although satire is usua.mwk	draw : 5.0, humor : 5.0, issu : 5.0, meant : 5.0, purpos : 5.0, satir : 5.0, societi : 5.0, wider : 5.0, wit : 5.0, 
+	cluster = 37
+		doc = snpt_1499636081325_29655__Sticking purely to work.mwk	accomplish : 5.0, expert : 5.0, inspir : 5.0, stick : 5.0, work : 5.7, 
+	cluster = 38
+		doc = snpt_1499636081326_35993__When people talk tough.mwk	asshol : 5.0, gut : 5.0, imagin : 5.0, offic : 6.5, polic : 7.1, 
+	cluster = 39
+		doc = snpt_1499636081344_42385__Wisdom is knowing what.mwk	advic : 5.0, ag : 5.0, cant : 5.0, deal : 5.0, dont : 5.0, honor : 5.0, invit : 5.0, know : 10., numer : 5.0, offer : 5.0, realis : 5.0, simpli : 5.0, wisdom : 9.2, wise : 6.5, 
+	cluster = 40
+		doc = snpt_1499636081353_1142__Multi line logging is b.mwk	bad : 4.6, compar : 4.6, log : 6.5, multi : 5.0, similar : 5.0, statement : 4.6, 
+	cluster = 41
+		doc = snpt_1499636081362_11264__For expenses.mwk	balanc : 5.0, bar : 5.0, expens : 5.0, flow : 4.6, stack : 4.6, tree : 5.0, 
+	cluster = 42
+		doc = snpt_1499636081379_96907__Being disgusted about t.mwk	complain : 7.1, construct : 4.3, creat : 4.6, disgust : 5.0, state : 4.1, 
+	cluster = 43
+		doc = snpt_1499636081405_95874__Aditya Mittal.mwk	aditya : 5.0, advantag : 7.1, comparative_advantag : 5.0, en.wikipedia.org : 6.5, export : 5.0, import : 5.0, mittal : 5.0, pareto : 5.0, pareto_effici : 5.0, produc : 8.7, wiki : 6.5, 
+	cluster = 44
+		doc = snpt_1499636081419_16999__All good rules have exc.mwk	ars : 5.0, dog : 4.3, except : 4.6, rule : 4.3, shine : 5.0, sun : 5.0, 
+	cluster = 45
+		doc = snpt_1499636081452_83089__People whove hurt me a.mwk	ali : 5.0, apeksha : 5.0, bhavana : 5.0, forgiv : 7.1, goodwil : 5.0, haripriya : 5.0, kavitha : 5.0, rangarajan : 5.0, sagar : 5.0, sharadha : 5.0, teju : 5.0, vandita : 5.0, who'v : 5.0, 
+	cluster = 46
+		doc = snpt_1499636081495_21494__<--.mwk	annoi : 5.0, bottl : 5.0, burp : 5.0, can : 5.0, drink : 5.0, headphon : 5.0, loud : 7.1, maid : 5.0, take : 5.0, unopen : 5.0, water : 5.0, 
+	cluster = 47
+		doc = snpt_1499636081541_76698__Modal logics are in par.mwk	compon : 5.0, contract : 5.0, formalis : 5.0, formul : 5.0, logic : 6.1, modal : 7.1, notat : 5.0, provid : 6.5, servic : 7.1, usin : 5.0, 
+	cluster = 48
+		doc = snpt_1499636081608_57873__Maybe something has bee.mwk	argentinian : 7.1, english : 7.1, maradona : 10., phrase : 8.7, tortois : 13., translat : 7.1, 
+	cluster = 49
+		doc = snpt_1499636081636_87807__Mona Khan.mwk	30 : 4.6, assist : 5.0, instructor : 5.0, khan : 5.0, mona : 5.0, 
+	cluster = 50
+		doc = snpt_1499636081659_64550__httpswwwyelpcomse.mwk	95128 : 8.7, advisor : 8.7, find_desc : 8.7, find_loc : 8.7, www.yelp.com : 8.7, 
+	cluster = 51
+		doc = snpt_1499636081674_69922__Bob Marley — The truth.mwk	bob : 5.0, marlei : 5.0, suffer : 4.6, truth : 5.0, worth : 5.0, 
+		doc = snpt_1499636081723_40082__do auction myself.mwk	05 : 5.0, auction : 7.1, local : 4.6, 
+	cluster = 52
+		doc = snpt_1499636081681_13319__genetic crafting.mwk	10 : 4.6, breed : 5.0, craft : 5.0, cross : 4.6, genet : 5.0, 
+		doc = snpt_1499636081672_32774__murali wifi.mwk	2.4 : 5.0, estosila : 5.0, wifi : 4.6, 
+		doc = snpt_1499636082008_10334__101016	101016	Inter.mwk	10 : 9.2, 109.84 : 5.0, 16 : 5.5, charg : 5.0, purchas : 5.0, 
+	cluster = 53
+		doc = snpt_1499636081686_94369__sf 1989 earthqake cnn d.mwk	1989 : 5.0, appreci : 5.0, cnn : 5.0, earthqak : 5.0, life : 6.8, moment : 7.1, preciou : 5.0, sf : 5.0, 
+	cluster = 54
+		doc = snpt_1499636081800_59607__temporal logic.mwk	22 : 4.6, logic : 4.3, memoryless : 5.0, properti : 5.0, tempor : 5.0, 
+		doc = snpt_1499636081774_40680__832759.mwk	27 : 4.6, 832759 : 5.0, 
+	cluster = 55
+		doc = snpt_1499636081778_25786__Marketing to organized.mwk	26 : 4.6, calendar : 4.6, googl : 4.6, market : 4.6, nich : 5.0, organ : 4.6, rss : 5.0, 
+	cluster = 56
+		doc = snpt_1499636081780_98492__# goal - make every bra.mwk	atleticomadridenglish : 7.1, auto : 5.0, cd : 5.0, coagulatepip : 5.0, creep : 5.0, db : 7.1, github : 5.0, httpcat : 5.0, ln : 14., reachabl : 5.0, sarnobat.git : 8.7, unauthor : 5.0, 
+	cluster = 57
+		doc = snpt_1499636081868_68513__harry beilin.mwk	100 : 5.0, 1550 : 5.0, 219 : 5.0, 650 : 5.0, 7239 : 5.0, alan : 5.0, beilin : 5.0, camino : 5.0, harri : 5.0, menlo : 5.0, pinel : 5.0, realtor : 5.0, suit : 5.0, 
+	cluster = 58
+		doc = snpt_1499636081913_13583__Patelco refinance appli.mwk	22 : 4.6, letter : 5.0, minimum : 5.0, patelco : 5.0, refin : 4.6, sarnobat17 : 5.0, 
+	cluster = 59
+		doc = snpt_1499636081918_14054__Atlético Madrid slipped.mwk	atlético : 8.7, final : 7.5, madrid : 6.5, minut : 7.1, second : 9.2, 
+	cluster = 60
+		doc = snpt_1499636081930_72283__perception is reality.mwk	percept : 5.0, realiti : 6.1, subject : 5.0, 
+	cluster = 61
+		doc = snpt_1499636081969_13193__inconsistent vs intelli.mwk	inconsist : 5.0, intellig : 5.0, 
+	cluster = 62
+		doc = snpt_1499636081971_29673__overfitting = creating.mwk	categori : 7.1, difficult : 5.0, item : 7.1, overfit : 5.0, travel : 6.5, trip : 5.0, 
+	cluster = 63
+		doc = snpt_1499636081975_27435__brand portfolio.mwk	brand : 4.6, hold : 4.6, portfolio : 5.0, 
+	cluster = 64
+		doc = snpt_1499636081988_48297__Ajay Ranga Murali (oc.mwk	accur : 5.0, analysi : 5.0, ranga : 5.0, speak : 5.0, syndrom : 5.0, 
+	cluster = 65
+		doc = snpt_1499636082020_24249__child theater actors.mwk	actor : 7.1, child : 6.1, children : 6.1, i’m : 7.1, warchu : 7.1, 
+	cluster = 66
+		doc = snpt_1499636082021_60851__“You follow your kids.mwk	drawn : 5.0, follow : 4.1, kid : 4.1, passion : 5.0, they’r : 4.6, 
+	cluster = 67
+		doc = snpt_1499636082056_68261__Siberian railroad documentary.mwk	chrome : 26., http : 21., oq : 21., search : 23., www.google.com : 25., 
+	cluster = 68
+		doc = snpt_1499636082073_34654__im only half joking.mwk	half : 4.6, joke : 4.6, 
+	cluster = 69
+		doc = snpt_1499636082085_35892__How to avoid space after a contex special character tag?.mwk	img : 8.7, localhost : 9.2, space : 9.2, tag : 8.7, underscor : 10., 
+	cluster = 70
+		doc = snpt_1499636082091_86588__Murali Srinivasan Vajap.mwk	attent : 7.5, effort : 7.1, facebook : 10., opinion : 8.7, post : 13., 
+	cluster = 71
+		doc = snpt_1499636082096_89078__“When people use terms.mwk	discuss : 5.0, inquiri : 5.0, intend : 5.0, intuit : 5.0, termin : 4.6, 
+	cluster = 72
+		doc = snpt_1499636082131_98896__httpwwwvirtualsalt.mwk	html : 4.3, life1 : 5.0, www.virtualsalt.com : 5.0, 
+	cluster = 73
+		doc = snpt_1499636082132_50759__Reading to gain knowled.mwk	abil : 7.1, complex : 5.0, essai : 5.0, familar : 5.0, forward : 5.0, help : 5.1, light : 5.0, paragraph : 5.0, read : 9.3, sentenc : 5.0, switch : 5.0, vocabulari : 5.0, work : 5.7, 
+	cluster = 74
+		doc = snpt_1499636082136_91753__you should not be worri.mwk	aren't : 5.0, compel : 5.0, instinct : 5.0, mate : 5.0, matern : 5.0, seek : 5.0, semblanc : 5.0, women : 5.8, 
+	cluster = 75
+		doc = snpt_1499636082139_79901__>>>>>>> 11b75f1939adece.mwk	7th : 5.0, 976 : 5.0, al : 5.0, caliph : 5.0, centuri : 7.1, death : 5.0, downgo : 5.0, economi : 5.0, empir : 5.0, extend : 5.0, hakam : 5.0, historian : 5.0, iberia : 5.0, islam : 7.1, mecca : 5.0, medina : 5.0, 
+	cluster = 76
+		doc = snpt_1499636082145_15110__1) (not sure need a bi.mwk	affection : 5.0, faultless : 5.0, hate : 5.0, men : 6.1, natur : 5.0, women : 7.1, 
+	cluster = 77
+		doc = snpt_1499636082156_61956__Win some lose some.mwk	win : 5.0, 
+	cluster = 78
+		doc = snpt_1499636082157_39844__to make a point without.mwk	blame : 5.0, internet : 7.1, readi : 5.0, unplug : 7.1, verb : 5.0, word : 5.0, 
+	cluster = 79
+		doc = snpt_1499636082158_53710__Why people stop what th.mwk	awar : 5.0, counter : 5.0, exampl : 5.0, notic : 5.0, particip : 5.0, rohidekar : 5.0, tragedi : 5.0, whatsapp : 5.0, 
+	cluster = 100
+		doc = snpt_1499636082340_24825__Behavior.mwk	attempt : 5.0, bubbl : 5.0, challeng : 5.0, constantli : 5.0, darker : 5.0, deserv : 5.0, fake : 5.0, husband : 5.0, i'm : 5.5, job : 5.3, let : 5.0, overweight : 5.0, put : 5.0, snarki : 5.0, tell : 7.1, 
+	cluster = 101
+		doc = snpt_1499636082344_35051__elka 2014-04-25.mwk	2014 : 5.0, 25 : 5.0, 360 : 5.0, coach : 5.0, counsellor : 5.0, elka : 5.0, execut : 5.0, fall : 5.0, psychotherapi : 5.0, 
+	cluster = 102
+		doc = snpt_1499636082361_30890__Career paradox.mwk	british : 5.0, career : 5.5, comput : 8.2, disadvantag : 5.0, fund : 5.0, guilti : 5.0, paradox : 5.0, parent : 5.8, smart : 5.0, you'r : 5.5, 
+	cluster = 103
+		doc = snpt_1499636082369_34704__Etouch evaluation 2012-12-31.mwk	debug : 6.5, deprec : 7.1, fix : 7.1, interview : 7.1, learnt : 6.5, log : 6.5, megastor : 7.1, 
+	cluster = 104
+		doc = snpt_1499636082385_30861__Kindle samples.mwk	17 : 5.8, 2012 : 7.5, kindl : 8.7, octob : 8.0, sampl : 10., 
+	cluster = 105
+		doc = snpt_1499636082387_79413__apache web server on Wi.mwk	allow : 5.0, apach : 5.0, folder : 5.0, hoist : 5.0, html : 6.1, local : 6.5, onlin : 5.0, server : 5.0, sorter : 5.0, transfer : 5.0, webserv : 5.0, 
+	cluster = 106
+		doc = snpt_1499636082411_34561__Murali Srinivasan Vajap.mwk	block : 7.1, blond : 7.1, brain : 6.5, girl : 7.9, place : 6.8, skill : 6.5, 
+	cluster = 80
+		doc = snpt_1499636082159_21168__Hospitality studies and.mwk	bag : 5.0, coat : 5.0, consider : 5.0, grand : 5.0, hospit : 5.0, locat : 5.0, main : 5.0, meet : 5.0, paper : 5.0, picnic : 5.0, shoe : 5.0, signag : 5.0, sole : 5.0, spare : 5.0, toilet : 5.0, 
+	cluster = 107
+		doc = snpt_1499636082413_27774__Organization.mwk	113 : 7.1, 127 : 7.1, 129 : 7.1, 137 : 7.1, chart : 7.1, detail : 8.7, diari : 7.1, freedom : 7.1, keep : 7.5, logbook : 7.1, 
+	cluster = 81
+		doc = snpt_1499636082196_51305__Topical songs.mwk	dead : 5.0, hero : 5.0, lyric : 5.0, reson : 5.0, somedai : 5.0, song : 5.0, topic : 5.0, 
+	cluster = 82
+		doc = snpt_1499636082212_45646__(winhttrack -qi%e1C1%Ps.mwk	2008 : 5.0, 3.0x : 5.0, 4.5 : 5.0, 98 : 5.0, ad.doubleclick.net : 5.0, coliseum : 5.0, compat : 5.0, copier : 5.0, e1c1 : 5.0, en : 6.5, foobar : 5.0, httrack : 7.1, i0p3dak0h0 : 5.0, kf2a25000 : 5.0, mime:appl : 5.0, mirror : 5.0, mozilla : 5.0, o1 : 5.0, png : 5.0, ps2u1 : 5.0, qi : 5.0, site : 5.0, thewrestlingkingsclassiccovers.weebly.com : 5.0, tinyp : 5.0, un0 : 5.0, websit : 5.0, winhttrack : 5.0, xr : 5.0, 
+	cluster = 83
+		doc = snpt_1499636082219_30140__only ever writing to n.mwk	space : 4.6, write : 4.3, 
+	cluster = 84
+		doc = snpt_1499636082220_68868__Bureaucracy in programming.mwk	descript : 7.1, engin : 10., i’ll : 7.1, mainten : 11., separ : 7.1, structur : 7.1, track : 7.1, 
+	cluster = 85
+		doc = snpt_1499636082222_33864__Bureaucracy in programming.mwk	09 : 4.6, 2011 : 5.0, bureaucraci : 4.6, mainten : 4.6, michaelochurch.wordpress.com : 5.0, represent : 4.6, taxat : 5.0, 
+	cluster = 86
+		doc = snpt_1499636082225_63928__As a fellow dancer myse.mwk	calm : 5.0, danc : 11., dancer : 7.1, didnt : 5.0, doesnt : 5.0, emot : 5.0, fellow : 5.0, gui : 10., job : 6.5, otherword : 5.0, percent : 5.0, portrai : 5.0, realiz : 5.0, suppos : 5.0, travi : 5.0, ur : 5.0, 
+	cluster = 87
+		doc = snpt_1499636082230_15116__Ashwini movie recommendation.mwk	ashwini : 5.0, movi : 4.6, recommend : 4.6, secret : 4.6, stori : 4.3, 
+5b)	3 :: [snpt_1499636081875_56801__yahoo sarnobat_2000 pas.mwk, snpt_1499636082390_93113__murali apple ID passwor.mwk, snpt_1499636080367_9762__new comcast wifi router.mwk]
+			5b) doc = snpt_1499636081875_56801__yahoo sarnobat_2000 pas.mwk
+				14 : 4.6
+				imperi : 5.0
+				password : 6.1
+				sarnobat_2000 : 5.0
+				yahoo : 5.0
+				
+			5b) doc = snpt_1499636082390_93113__murali apple ID passwor.mwk
+				07 : 4.6
+				appl : 5.0
+				empti : 5.0
+				paces1 : 5.0
+				password : 4.3
+				
+			5b) doc = snpt_1499636080367_9762__new comcast wifi router.mwk
+				69975691 : 5.0
+				c2fcd107e61cf186 : 5.0
+				comcast : 5.0
+				router : 5.0
+				wifi : 4.6
+				
+5b)	27 :: [snpt_1499636081236_29762__false wisdom.mwk, snpt_1499636082382_74269__All generalizations ar.mwk]
+			5b) doc = snpt_1499636081236_29762__false wisdom.mwk
+				expertis : 5.0
+				fals : 4.3
+				hollow : 5.0
+				wisdom : 4.6
+				
+			5b) doc = snpt_1499636082382_74269__All generalizations ar.mwk
+				except : 4.6
+				express : 4.1
+				fals : 4.3
+				gener : 4.1
+				prove : 5.0
+				rule : 4.3
+				
+5b)	51 :: [snpt_1499636081674_69922__Bob Marley — The truth.mwk, snpt_1499636081723_40082__do auction myself.mwk]
+			5b) doc = snpt_1499636081674_69922__Bob Marley — The truth.mwk
+				bob : 5.0
+				marlei : 5.0
+				suffer : 4.6
+				truth : 5.0
+				worth : 5.0
+				
+			5b) doc = snpt_1499636081723_40082__do auction myself.mwk
+				05 : 5.0
+				auction : 7.1
+				local : 4.6
+				
+5b)	52 :: [snpt_1499636081681_13319__genetic crafting.mwk, snpt_1499636081672_32774__murali wifi.mwk, snpt_1499636082008_10334__101016	101016	Inter.mwk]
+			5b) doc = snpt_1499636081681_13319__genetic crafting.mwk
+				10 : 4.6
+				breed : 5.0
+				craft : 5.0
+				cross : 4.6
+				genet : 5.0
+				
+			5b) doc = snpt_1499636081672_32774__murali wifi.mwk
+				2.4 : 5.0
+				estosila : 5.0
+				wifi : 4.6
+				
+			5b) doc = snpt_1499636082008_10334__101016	101016	Inter.mwk
+				10 : 9.2
+				109.84 : 5.0
+				16 : 5.5
+				charg : 5.0
+				purchas : 5.0
+				
+5b)	54 :: [snpt_1499636081800_59607__temporal logic.mwk, snpt_1499636081774_40680__832759.mwk]
+			5b) doc = snpt_1499636081800_59607__temporal logic.mwk
+				22 : 4.6
+				logic : 4.3
+				memoryless : 5.0
+				properti : 5.0
+				tempor : 5.0
+				
+			5b) doc = snpt_1499636081774_40680__832759.mwk
+				27 : 4.6
+				832759 : 5.0
+>>>>>>> f5d6e58... Clusters are poor or absent, trying to improve.
 				
 TODO: I think we need to accept that not everything will be in a cluster, the unclustered documents will be a long-tail. We need to add more documents, reduce the cluster radius, and hope we find some good clusters.
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 07:42 min
-[INFO] Finished at: 2018-09-17T00:11:37-07:00
+<<<<<<< HEAD
+[INFO] Total time: 01:22 min
+[INFO] Finished at: 2018-09-16T23:25:36-07:00
+=======
+[INFO] Total time: 01:30 min
+[INFO] Finished at: 2018-09-16T21:50:40-07:00
+>>>>>>> f5d6e58... Clusters are poor or absent, trying to improve.
 [INFO] ------------------------------------------------------------------------
