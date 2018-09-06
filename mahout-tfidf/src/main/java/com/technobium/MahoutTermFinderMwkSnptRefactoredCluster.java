@@ -76,6 +76,10 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 	private static final boolean DEBUG = Boolean.valueOf(System.getProperty(
 			"debug", "false"));
+	private static final boolean SHOW_TERMS = Boolean.valueOf(System
+			.getProperty("showTerms", "true"));
+	@Deprecated
+	// limit using stdin - find | head -150
 	private static final int MAX_DOCS = Integer.parseInt(System.getProperty(
 			"docs", "20"));
 
@@ -89,11 +93,16 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String line;
+		int i = 0;
+		List<String> lines = new LinkedList<String>();
 		while ((line = br.readLine()) != null) {
 			if (DEBUG) {
 				System.err.println("[DEBUG] current line is: " + line);
 			}
+			lines.add(line);
+			i++;
 		}
+		System.out.println("1) Read " + i + " lines.");
 
 		System.setProperty("org.apache.commons.logging.Log",
 				"org.apache.commons.logging.impl.NoOpLog");
@@ -132,9 +141,14 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		// 1) Reading documents
 		// ----------------------------------------------------------------------
 		System.out.println("1)\tWriting documents to sequence file");
-		Path sequenceFilePath = writeToSequenceFile(configuration, new Path(
-				tempIntermediate, "sequence"), dirs);
-
+		Path sequenceFilePath;
+		if (i > 0) {
+			sequenceFilePath = writeToSequenceFile(configuration, new Path(
+					tempIntermediate, "sequence"), dirs, lines);
+		} else {
+			sequenceFilePath = writeToSequenceFile(configuration, new Path(
+					tempIntermediate, "sequence"), dirs);
+		}
 		// just printing
 		{
 
@@ -458,6 +472,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		return tokenizedDocumentsPath;
 	}
 
+	@Deprecated
+	// use stdin to read files
 	private static Path writeToSequenceFile(Configuration configuration,
 			Path documentsSequencePath, String[] mwkSnippetCategoryDirs)
 			throws IOException {
@@ -480,6 +496,70 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		return documentsSequencePath;
 	}
 
+	private static Path writeToSequenceFile(Configuration configuration,
+			Path documentsSequencePath, String[] mwkSnippetCategoryDirs,
+			Iterable<String> lines) throws IOException {
+		SequenceFile.Writer writer = new SequenceFile.Writer(
+				FileSystem.get(configuration), configuration,
+				documentsSequencePath, Text.class, Text.class);
+
+		try {
+			int i = 0;
+			int total = 0;
+			for (String line : lines) {
+				java.nio.file.Path filePath = Paths.get(line);
+				if (Files.isDirectory(filePath)) {
+					// listFiles(entry);
+					if (DEBUG) {
+						System.err
+								.println("2)\tSRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: "
+										+ filePath);
+					}
+				} else {
+					if (filePath.toFile().exists()) {
+						Text cateogoryDir = new Text(filePath.getFileName()
+								.toString());
+						String readFileToString = FileUtils
+								.readFileToString(Paths.get(filePath.toUri())
+										.toFile());
+						if (i % 100 == 0) {
+							if (DEBUG) {
+								System.err
+										.println("2)\tSRIDHAR MahoutTermFinderMwkSnpt.main() - "
+												+ cateogoryDir
+												+ "::"
+												+ StringUtils
+														.substring(
+																readFileToString,
+																0, 30));
+							}
+						}
+						if (total > MAX_DOCS) {
+							break;
+						}
+						if (DEBUG) {
+							System.out
+									.println("2)\tMahoutTermFinderMwkSnptRefactoredCluster.writeToSequenceFile() added document to sequence file: "
+											+ filePath.toString());
+						}
+						writer.append(cateogoryDir, new Text(readFileToString));
+						total++;
+					}
+				}
+				++i;
+			}
+			System.out.println("2) Read " + total + " docs.");
+		} catch (IOException e3) {
+			throw e3;
+		} finally {
+		}
+
+		writer.close();
+		return documentsSequencePath;
+	}
+
+	@Deprecated
+	// use stdin
 	private static void writeToSequenceFile(SequenceFile.Writer writer,
 			Iterable<java.nio.file.Path> files) throws IOException {
 		try {
@@ -526,6 +606,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				}
 				++i;
 			}
+			System.out.println("2) Read " + total + " docs.");
 		} catch (IOException e3) {
 			throw e3;
 		} finally {
@@ -791,7 +872,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 							+ distance2);
 				}
 				double distance3 = distanceMeasure.distance(v1, v3);
-				System.out.println("\t5)\tclusterDocuments() distance = "
+				System.out.println("\t5) clusterDocuments() distance = "
 						+ distance3);
 				double distance = distanceMeasure.distance(v2, v3);
 				if (DEBUG) {
@@ -862,13 +943,13 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					System.out.println("5b)\t" + clusterID + " :: "
 							+ clusterToDocuments.get(clusterID));
 					for (String document : clusterToDocuments.get(clusterID)) {
+						String printVectorTerms = printVectorTerms(
+								((VectorWritable) documentIdToVectorMap.get(document))
+										.get(), dictionaryMap, "\n\t\t\t\t");
 						System.out.println("\t\t\t5b) doc = "
 								+ document
-								+ "\n\t\t\t"
-								+ printVectorTerms(
-										((VectorWritable) documentIdToVectorMap
-												.get(document)).get(),
-										dictionaryMap, "\n\t\t\t\t"));
+								+ (SHOW_TERMS ? "\n\t\t\t" + printVectorTerms
+										: ""));
 					}
 				} else {
 					if (DEBUG) {
