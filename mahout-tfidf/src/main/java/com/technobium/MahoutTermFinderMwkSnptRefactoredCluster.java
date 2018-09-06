@@ -65,13 +65,6 @@ import com.google.common.collect.Multimap;
 public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 	public static void main(final String[] args) throws Exception {
-		// TODO: after finding the logic that is common to both, perform the
-		// clustering
-		// doClustering();
-		// TOOD: I think I've done this wrong. I shouldn't be adding the
-		// category
-		// anywhere.
-		// https://github.com/technobium/mahout-tfidf
 		doTermFinding();
 	}
 
@@ -83,40 +76,33 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		Configuration configuration = new Configuration();
 		String tempIntermediate = "temp_intermediate/";
 
-		Path documentsSequencePath1 = writeToSequenceFile(
-				configuration,
-				new Path(tempIntermediate, "sequence"),
-				new String[] {
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/aspergers",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/atletico",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/business",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/career",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/equalizer",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/productivity",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/self",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/self/approval_attention_social_status",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/self/cliquology_and_bullying/",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/soccer",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/tech/programming_tips",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/travel",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/video_editing",
-						System.getProperty("user.home")
-								+ "/sarnobat.git/mwk/snippets/wrestling", });
+		String home = System.getProperty("user.home");
+		String[] dirs;
+		if (false) {
+			dirs = new String[] {
+					home + "/sarnobat.git/mwk/snippets/aspergers",
+					home + "/sarnobat.git/mwk/snippets/atletico",
+					home + "/sarnobat.git/mwk/snippets/business",
+					home + "/sarnobat.git/mwk/snippets/career",
+					home + "/sarnobat.git/mwk/snippets/equalizer",
+					home + "/sarnobat.git/mwk/snippets/productivity",
+					home + "/sarnobat.git/mwk/snippets/self",
+					home
+							+ "/sarnobat.git/mwk/snippets/self/approval_attention_social_status",
+					home
+							+ "/sarnobat.git/mwk/snippets/self/cliquology_and_bullying/",
+					home + "/sarnobat.git/mwk/snippets/soccer",
+					home + "/sarnobat.git/mwk/snippets/tech/programming_tips",
+					home
+							+ "/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming",
+					home + "/sarnobat.git/mwk/snippets/travel",
+					home + "/sarnobat.git/mwk/snippets/video_editing",
+					home + "/sarnobat.git/mwk/snippets/wrestling", };
+		} else {
+			dirs = new String[] { home + "/sarnobat.git/mwk/snippets/", };
+		}
+		Path documentsSequencePath1 = writeToSequenceFile(configuration,
+				new Path(tempIntermediate, "sequence"), dirs);
 		{
 
 			Map<String, String> sequencesMap = sequenceFileToMap(configuration,
@@ -199,7 +185,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 						configuration, termFrequencies);
 				for (String term : map.keySet()) {
 					System.out
-							.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() = "
+							.println("2)\tSRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() = "
 									+ documentsSequencePath1
 									+ " documents::terms : category="
 									+ term
@@ -237,7 +223,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 						configuration, termFrequencies);
 				for (String term : map.keySet()) {
 					System.out
-							.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - tf vectors: category="
+							.println("3)\tSRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - tf vectors: category="
 									+ term
 									+ "; term frequencies="
 									+ map.get(term));
@@ -275,10 +261,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			Preconditions.checkState(!Paths
 					.get("temp_intermediate/tfidf/frequency.file-0").toFile()
 					.exists());
-			// System.err.println("MahoutTermFinder.calculateTfIdf() - Creating
-			// term vectors
-			// using input file " + new Path(outputFolder +
-			// DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
+
 			Path tfidfPath = new Path(tempIntermediate + "/tfidf/");
 			System.err
 					.println("MahoutTermFinder.calculateTfIdf() - adding document frequencies to file "
@@ -363,10 +346,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					dictionaryFilePath, configuration);
 			Map<String, Object> termToOrdinalMappings2 = new HashMap<String, Object>();
 			for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
-				// System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - sequenceFile = "
-				// + sequenceFile);
-				// System.err.format("%10s -> %s\n", pair.getFirst(),
-				// pair.getSecond());
 				termToOrdinalMappings2.put(sequenceFile.getFirst().toString(),
 						sequenceFile.getSecond());
 			}
@@ -382,8 +361,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					tfIdfVectorsPath, configuration);
 			Map<String, Object> termToOrdinalMappings2 = new HashMap<String, Object>();
 			for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
-				// System.err.format("%10s -> %s\n", pair.getFirst(),
-				// pair.getSecond());
 				termToOrdinalMappings2.put(sequenceFile.getFirst().toString(),
 						sequenceFile.getSecond());
 			}
@@ -394,15 +371,15 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					"temp_intermediate/tokenized-documents/part-m-00000");
 			for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
 					documentsSequencePath, new Configuration())) {
-				System.out.format("%10s -> %s\n", pair.getFirst(),
-						pair.getSecond());
+				System.out.format("4)\tprintDocuments() - %10s -> %s\n",
+						pair.getFirst(), pair.getSecond());
 			}
 		}
 
 		// 5) Do clustering
 		{
 			System.out
-					.println("MahoutTermClusterMwkSnpt.doTermFinding() - now run clustering");
+					.println("5)\tMahoutTermClusterMwkSnpt.doTermFinding() - now run clustering");
 			clusterDocuments(tempIntermediate);
 		}
 
@@ -420,6 +397,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			// values of t1 and t2 to use.
 			DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
 			// DistanceMeasure distanceMeasure = new TanimotoDistanceMeasure();
+
+			// Just check our distance measure threshold is of the right
+			// magnitude
 			{
 				SequenceFileIterable<Writable, Writable> sequenceFiles2 = new SequenceFileIterable<Writable, Writable>(
 						new Path(vectorsFolder2 + "part-r-00000"),
@@ -440,13 +420,13 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				Vector v2 = ((VectorWritable) iterator.next()).get();
 				double distance = distanceMeasure.distance(v1, v2);
 				System.out
-						.println("MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
+						.println("5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
 								+ v1);
 				System.out
-						.println("MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
+						.println("5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
 								+ v2);
 				System.out
-						.println("MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
+						.println("5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
 								+ distance);
 			}
 			String canopyCentroids2 = outputFolder + "/canopy-centroids";
@@ -520,7 +500,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			Writable value = (Writable) ReflectionUtils.newInstance(
 					reader.getValueClass(), conf);
 			while (reader.next(key, value)) {
-				// System.out.println("Key: " + key + " value:" + value);
 				sequencesMap.put(key.toString(), value.toString());
 			}
 		} catch (Exception e) {
@@ -649,7 +628,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					if (Files.isDirectory(fileInPath)) {
 						// listFiles(entry);
 						System.err
-								.println("SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: "
+								.println("2)\tSRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() - skipping nested dir: "
 										+ fileInPath);
 					} else {
 						if (fileInPath.toFile().exists()) {
@@ -660,7 +639,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 											fileInPath.toUri()).toFile());
 							if (i % 100 == 0) {
 								System.err
-										.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - "
+										.println("2)\tSRIDHAR MahoutTermFinderMwkSnpt.main() - "
 												+ cateogoryDir
 												+ "::"
 												+ StringUtils
@@ -668,19 +647,15 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 																readFileToString,
 																0, 30));
 							}
-							// System.out.println("SRIDHAR
-							// MahoutTermClusterMwkSnpt.writeToSequenceFile() -
-							// writing to sequence file: " + fileInPath);
-							if (total > 2) {
+							if (total > 60) {
 								break;
 							}
+							System.out
+									.println("2)\tMahoutTermFinderMwkSnptRefactoredCluster.writeToSequenceFile() added document to sequence file: "
+											+ fileInPath.toString());
 							writer.append(cateogoryDir, new Text(
 									readFileToString));
 							total++;
-							// TODO: this is wrong, it's overwriting previous
-							// files in the same dir
-							// I shouldn't be adding the category anywhere.
-							// https://github.com/technobium/mahout-tfidf
 						}
 					}
 					++i;
