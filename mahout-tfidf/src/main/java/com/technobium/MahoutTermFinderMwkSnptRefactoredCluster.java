@@ -568,8 +568,38 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 	}
 
-	private static String printVectorTerms(Vector v1) {
-		return v1.toString();
+	private static Vector removeLowScores(Vector v1) {
+		Vector prunedVector = new RandomAccessSparseVector(1000);
+		for (Element e : v1.all()) {
+			double score = e.get();
+			int termId = e.index();
+			if (score > 0.1) {
+				prunedVector.set(termId,score);
+				System.out
+						.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() " + termId + " :: " + score);
+			} else {
+//				System.out
+//						.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() zero score: " + termId);
+			}
+		}
+		return prunedVector;
+	}
+	
+	private static String printVectorTerms(Vector v1,
+			Map<Integer, String> dictionaryMap) {
+		if (v1 instanceof NamedVector) {
+		}
+		StringBuilder sb = new StringBuilder("\t");
+		for (Element e : v1.all()) {
+			double score = e.get();
+			int termId = e.index();
+			String term = dictionaryMap.get(termId);
+			sb.append(term);
+			sb.append(" : ");
+			sb.append(score);
+			sb.append(", ");
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -578,11 +608,11 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 	private static void clusterDocuments(String tempIntermediate)
 			throws IOException, InterruptedException, ClassNotFoundException {
 		String outputFolder = tempIntermediate;
-		
+
 		Map<Integer, String> dictionaryMap = dictionaryToMap(
 				new Configuration(), new Path(
 						"temp_intermediate/dictionary.file-0"));
-		
+
 		// 3) Cluster documents
 		{
 			String vectorsFolder2 = outputFolder + "/tfidf/tfidf-vectors/";
@@ -608,12 +638,15 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 				Iterator<Object> iterator = termToOrdinalMappings2.values()
 						.iterator();
-				Vector v1 = ((VectorWritable) iterator.next()).get();
+				Vector v1 = //removeLowScores(
+						((VectorWritable) iterator.next()).get()
+						//)
+						;
 				Vector v2 = ((VectorWritable) iterator.next()).get();
 				Vector v3 = ((VectorWritable) iterator.next()).get();
-				System.out
-						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
-								+ printVectorTerms(v1));
+				//System.out
+					//	.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
+						//		+ printVectorTerms(v1, dictionaryMap));
 				System.out
 						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
 								+ v2);
