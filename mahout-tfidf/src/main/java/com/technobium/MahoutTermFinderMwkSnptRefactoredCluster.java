@@ -1,12 +1,10 @@
 package com.technobium;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,22 +34,14 @@ import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.analysis.util.StopwordAnalyzerBase;
 import org.apache.lucene.util.Version;
 import org.apache.mahout.clustering.canopy.CanopyDriver;
-import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
 import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
-import org.apache.mahout.clustering.kmeans.Kluster;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
-import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
-import org.apache.mahout.math.RandomAccessSparseVector;
-import org.apache.mahout.math.Vector;
-import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.vectorizer.DictionaryVectorizer;
 import org.apache.mahout.vectorizer.DocumentProcessor;
 import org.apache.mahout.vectorizer.common.PartialVectorMerger;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 
@@ -64,8 +54,6 @@ import com.google.common.base.Preconditions;
 // code.
 public class MahoutTermFinderMwkSnptRefactoredCluster {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MahoutTermFinderMwkSnptRefactoredCluster.class);
-
     public static void main(final String[] args) throws Exception {
         // TODO: after finding the logic that is common to both, perform the clustering
         // doClustering();
@@ -74,122 +62,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
         // https://github.com/technobium/mahout-tfidf
         doTermFinding();
     }
-
-    private static void writePointsToFile(final Configuration configuration, final List<MwkVector> points,
-            Path pointsFile) throws IOException {
-        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - begin");
-        FileSystem fs = FileSystem.getLocal(configuration);
-        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 1");
-        SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, pointsFile, IntWritable.class,
-                VectorWritable.class);
-        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 2");
-
-        int recNum = 0;
-        final VectorWritable vec = new VectorWritable();
-
-        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - 3");
-        for (final MwkVector point : points) {
-            System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - point = " + point);
-            vec.set(point.getVector());
-            writer.append(new IntWritable(recNum++), vec);
-        }
-        System.err.println("SRIDHAR MahoutTermClusterMwkSnpt.writePointsToFile() - end");
-        writer.close();
-    }
-
-    private static void writeClusterInitialCenters(final Configuration configuration, final List<MwkVector> points,
-            String clusterPath, int clusterDesiredCount, Path clusterOutputFilePath) throws IOException {
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - ");
-        final Path writerPath = clusterOutputFilePath;
-
-        FileSystem fs = FileSystem.getLocal(configuration);
-        // final Path path = new Path(POINTS_PATH + "/pointsFile");
-        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, configuration, writerPath, Text.class,
-                Kluster.class);
-
-        for (int i = 0; i < clusterDesiredCount; i++) {
-            final MwkVector vec = points.get(i);
-
-            // write the initial centers
-            final Kluster cluster = new Kluster(vec.getVector(), i, new EuclideanDistanceMeasure());
-            writer.append(new Text(cluster.getIdentifier()), cluster);
-            System.out.println(
-                    "SRIDHAR MahoutTermClusterMwkSnpt.writeClusterInitialCenters() - cluster = " + cluster.toString());
-        }
-
-        writer.close();
-    }
-
-    private static void readAndPrintOutputValues(final Configuration configuration, Path clusteredPointsInputPath)
-            throws IOException {
-        FileSystem fs = FileSystem.getLocal(configuration);
-        final SequenceFile.Reader reader = new SequenceFile.Reader(fs, clusteredPointsInputPath, configuration);
-
-        final IntWritable key = new IntWritable();
-        final WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
-        int count = 0;
-        while (reader.next(key, value)) {
-            System.out.printf(
-                    "SRIDHAR MahoutTermClusterMwkSnpt.readAndPrintOutputValues() - " + "%s belongs to cluster %s\n",
-                    value.toString(), key.toString());
-            LOG.info("{} belongs to cluster {}", value.toString(), key.toString());
-            count++;
-        }
-        reader.close();
-        if (count == 0) {
-            throw new RuntimeException("No  output pairs");
-        }
-    }
-
-    // Read the points to vector from 2D array
-    private static List<MwkVector> vectorize(final double[][] raw) {
-        System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.vectorize() - ");
-        final List<MwkVector> points = new ArrayList<MwkVector>();
-
-        for (int i = 0; i < raw.length; i++) {
-            MwkVector vec = new MwkVector(new RandomAccessSparseVector(raw[i].length));
-            vec.getVector().assign(raw[i]);
-            points.add(vec);
-        }
-
-        return points;
-    }
-
-    private static class MwkVector {
-
-        private final Vector vector;
-
-        @Deprecated
-        MwkVector(Vector vector) {
-            this.vector = vector;
-        }
-
-        MwkVector(Path mwkFile) {
-            this.vector = toVector(mwkFile);
-        }
-
-        private static Vector toVector(Path fileInPath) {
-            // TODO Auto-generated method stub
-            // return null;
-            File file = Paths.get(fileInPath.toUri()).toFile();
-            if (file.exists()) {
-                try {
-                    Text text = new Text(FileUtils.readFileToString(file));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                // writer.append(id, text);
-            }
-            throw new RuntimeException("Finish implementing this");
-        }
-
-        // TODO: this violates Demeter. Fix later once we have it working.
-        Vector getVector() {
-            return vector;
-        }
-    }
-
-    private static final int THRESHOLD = 1;
 
     private static void doTermFinding() throws Exception {
 
@@ -356,7 +228,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
         System.err.println("MahoutTermFinder.main() - ??? ===> " + dictionaryFilePath);
         System.err.println("MahoutTermFinder.main() - Reading dictionary into map. Dictionary of terms with IDs: "
                 + dictionaryFilePath + " (large)");
-        Map<String, Object> dictionary;
         {
             // Create a vector numerical value for each term (e.g. "atletico" -> 4119)
             SequenceFileIterable<Writable, Writable> sequenceFiles2 = new SequenceFileIterable<Writable, Writable>(
@@ -368,11 +239,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
                 // System.err.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
                 termToOrdinalMappings2.put(sequenceFile.getFirst().toString(), sequenceFile.getSecond());
             }
-            dictionary = termToOrdinalMappings2;
         }
 
         System.err.println("MahoutTermFinder.main() - Creating TFIDF Vectors");
-        Map<String, Object> tfidf;
         {
             // Create a vector numerical value for each term (e.g. "atletico" -> 4119)
             Path tfIdfVectorsPath = new Path(tempIntermediate, "tfidf/tfidf-vectors/part-r-00000");
@@ -383,7 +252,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
                 // System.err.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
                 termToOrdinalMappings2.put(sequenceFile.getFirst().toString(), sequenceFile.getSecond());
             }
-            tfidf = termToOrdinalMappings2;
         }
 
 		{
@@ -493,11 +361,11 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
             reader = new SequenceFile.Reader(fs, path, configuration);
             Writable key = (Writable) ReflectionUtils.newInstance(reader.getKeyClass(), configuration);
             Writable value = (Writable) ReflectionUtils.newInstance(reader.getValueClass(), configuration);
-            long position = reader.getPosition();
+            //long position = reader.getPosition();
             while (reader.next(key, value)) {
                 termFrequenciesMap.put(key.toString(), value.toString());
                 // System.out.println("TF vector: Key: " + key + " value:" + value);
-                position = reader.getPosition();
+                //position = reader.getPosition();
             }
         } catch (Exception e) {
             e.printStackTrace();
