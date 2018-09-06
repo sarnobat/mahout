@@ -604,20 +604,21 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			Map<Integer, String> dictionaryMap) {
 		if (v1 instanceof NamedVector) {
 		}
-		Map<Integer,Double> termScores = new HashMap<Integer,Double>();
+		Map<Integer, Double> termScores = new HashMap<Integer, Double>();
 		StringBuilder sb = new StringBuilder("\t");
 		for (Element e : v1.all()) {
 			double score = e.get();
-			//if (score < 0.1) {
+			// if (score < 0.1) {
 			int termId = e.index();
-			termScores.put(termId,score);
+			termScores.put(termId, score);
 		}
 		LinkedList<Double> scores = new LinkedList(termScores.values());
 		Collections.sort(scores);
-		List<Double> topScores = Lists.reverse(scores).subList(0, Math.min(5,scores.size()));
+		List<Double> topScores = Lists.reverse(scores).subList(0,
+				Math.min(5, scores.size()));
 		double threshold = Ordering.<Double> natural().min(topScores);
 
-		for (int termId : termScores.keySet()){
+		for (int termId : termScores.keySet()) {
 			double score = termScores.get(termId);
 			if (score < threshold) {
 				continue;
@@ -671,30 +672,24 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 						.next()).get());
 				Vector v2 = ((VectorWritable) vectorsIterator.next()).get();
 				Vector v3 = ((VectorWritable) vectorsIterator.next()).get();
-				System.out
-						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
-								+ printVectorTerms(v1, dictionaryMap));
-				System.out
-						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
-								+ printVectorTerms(v2, dictionaryMap));
-				System.out
-						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v3 = "
-								+ printVectorTerms(v3, dictionaryMap));
+				System.out.println("\t5) clusterDocuments() v1 = "
+						+ printVectorTerms(v1, dictionaryMap));
+				System.out.println("\t5) clusterDocuments() v2 = "
+						+ printVectorTerms(v2, dictionaryMap));
+				System.out.println("\t5) clusterDocuments() v3 = "
+						+ printVectorTerms(v3, dictionaryMap));
 				double distance2 = distanceMeasure.distance(v1, v2);
 				if (DEBUG) {
-					System.out
-							.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
-									+ distance2);
+					System.out.println("\t5) clusterDocuments() distance = "
+							+ distance2);
 				}
 				double distance3 = distanceMeasure.distance(v1, v3);
-				System.out
-						.println("\t5)\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
-								+ distance3);
+				System.out.println("\t5)\tclusterDocuments() distance = "
+						+ distance3);
 				double distance = distanceMeasure.distance(v2, v3);
 				if (DEBUG) {
-					System.out
-							.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
-									+ distance);
+					System.out.println("\t5) clusterDocuments() distance = "
+							+ distance);
 				}
 			}
 			String canopyCentroids2 = outputFolder + "/canopy-centroids";
@@ -738,28 +733,30 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 							documentID);
 				}
 			}
-//			if (DEBUG) {
-				for (String clusterID : clusterToDocuments.keySet()) {
-					System.out
-							.println("\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() cluster = "
-									+ clusterID);
-					Collection<String> documents = clusterToDocuments
-							.get(clusterID);
-					for (String document : documents) {
-						System.out
-								.println("\t\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() - document = "
-										+ document
-										+ printVectorTerms(((VectorWritable)documentIdToVectorMap
-												.get(document)).get(), dictionaryMap));
-					}
+			// if (DEBUG) {
+			for (String clusterID : clusterToDocuments.keySet()) {
+				System.out.println("\tclusterDocuments() cluster = "
+						+ clusterID);
+				Collection<String> documents = clusterToDocuments
+						.get(clusterID);
+				for (String document : documents) {
+					System.out.println("\t\tclusterDocuments() - document = "
+							+ document
+							+ printVectorTerms(
+									((VectorWritable) documentIdToVectorMap
+											.get(document)).get(),
+									dictionaryMap));
 				}
-//			}
+			}
+			// }
 			if (DEBUG) {
 				for (String clusterID : clusterToDocuments.keySet()) {
 					System.out.println("5b)\t" + clusterID + " :: "
 							+ clusterToDocuments.get(clusterID));
 				}
 			}
+			System.out
+					.println("TODO: I think we need to accept that not everything will be in a cluster, the unclustered documents will be a long-tail. We need to add more documents, reduce the cluster radius, and hope we find some good clusters.");
 		}
 	}
 }
