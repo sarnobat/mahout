@@ -568,12 +568,21 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 	}
 
+	private static String printVectorTerms(Vector v1) {
+		return v1.toString();
+	}
+
 	/**
 	 * converts tfidf-vectors/part-r-00000 to clusters/part-r-00000
 	 */
 	private static void clusterDocuments(String tempIntermediate)
 			throws IOException, InterruptedException, ClassNotFoundException {
 		String outputFolder = tempIntermediate;
+		
+		Map<Integer, String> dictionaryMap = dictionaryToMap(
+				new Configuration(), new Path(
+						"temp_intermediate/dictionary.file-0"));
+		
 		// 3) Cluster documents
 		{
 			String vectorsFolder2 = outputFolder + "/tfidf/tfidf-vectors/";
@@ -595,9 +604,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
 					termToOrdinalMappings2.put(sequenceFile.getFirst()
 							.toString(), sequenceFile.getSecond());
-					// if (i > 1) {
-					// break;
-					// }
 				}
 
 				Iterator<Object> iterator = termToOrdinalMappings2.values()
@@ -607,7 +613,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				Vector v3 = ((VectorWritable) iterator.next()).get();
 				System.out
 						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
-								+ v1);
+								+ printVectorTerms(v1));
 				System.out
 						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
 								+ v2);
