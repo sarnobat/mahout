@@ -71,7 +71,8 @@ import com.google.common.collect.Ordering;
 // code.
 public class MahoutTermFinderMwkSnptRefactoredCluster {
 
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = Boolean.valueOf(System.getProperty(
+			"debug", "false"));
 	private static final int MAX_DOCS = Integer.parseInt(System.getProperty(
 			"docs", "20"));
 
@@ -86,7 +87,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String line;
 		while ((line = br.readLine()) != null) {
-			System.err.println("[DEBUG] current line is: " + line);
+			if (DEBUG) {
+				System.err.println("[DEBUG] current line is: " + line);
+			}
 		}
 
 		System.setProperty("org.apache.commons.logging.Log",
