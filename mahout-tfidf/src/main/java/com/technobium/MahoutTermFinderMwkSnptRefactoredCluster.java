@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -219,12 +220,19 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 
             Map<String, String> sequencesMap = sequenceFileToMap(configuration, documentsSequencePath1);
 
-            for (String sequenceKey : sequencesMap.keySet()) {
-                System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - " + documentsSequencePath1
-                        + " - key=" + sequenceKey + ", value=" + sequencesMap.get(sequenceKey).replaceAll("\\n", ""));
-            }
-            System.out.println(
-                    "SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() -  TOOD: I've done this wrong. I shouldn't be adding the category anywhere. https://github.com/technobium/mahout-tfidf . Skip the TFIDF example and go straight to this better clustering example than the existing one I based on: https://github.com/technobium/mahout-clustering");
+            // Too much output
+			if (false) {
+				for (String sequenceKey : sequencesMap.keySet()) {
+					System.out
+							.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - "
+									+ documentsSequencePath1
+									+ " - key="
+									+ sequenceKey
+									+ ", value="
+									+ sequencesMap.get(sequenceKey).replaceAll(
+											"\\n", ""));
+				}
+			}
         }
         
         {
@@ -277,9 +285,12 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
             {
                 Path path = new Path("temp_intermediate/dictionary.file-0");
                 Map<Integer, String> map = dictionaryToMap(configuration, path);
+                // too much output
+                if (false) {
                 for (int term : map.keySet()) {
                     System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - dictionary : term_id=" + term
                             + "; term=" + map.get(term));
+                }
                 }
             }
             {
@@ -413,7 +424,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		// 4) Print documents
 		{
 			org.apache.hadoop.fs.Path documentsSequencePath = new org.apache.hadoop.fs.Path(
-					"temp_intermediate/tokenized-documents/");
+					"temp_intermediate/tokenized-documents/part-m-00000");
 			for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
 					documentsSequencePath, new Configuration())) {
 				System.out.format("%10s -> %s\n", pair.getFirst(),
@@ -542,11 +553,10 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
                 documentsSequencePath, Text.class, Text.class);
 
         for (String path : mwkSnippetCategoryDirs) {
-            Text cateogoryDir = new Text(Paths.get(path).getFileName().toString());
             DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
-            System.err.println(
-                    "SRIDHAR MahoutTermFinderMwkSnpt.main() - " + cateogoryDir + "::" + Paths.get(path).toFile());
             try {
+            	int i = 0;
+            	int total = 0;
                 for (java.nio.file.Path fileInPath : stream) {
                     if (Files.isDirectory(fileInPath)) {
                         // listFiles(entry);
@@ -555,15 +565,26 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
                                         + fileInPath);
                     } else {
                         if (fileInPath.toFile().exists()) {
+                        	Text cateogoryDir = new Text(fileInPath.getFileName().toString());
+                        	String readFileToString = FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile());
+                        	if (i %100 == 0) {
+	                        	System.err.println(
+	                        			"SRIDHAR MahoutTermFinderMwkSnpt.main() - " + cateogoryDir + "::" + StringUtils.substring(readFileToString, 0,30));
+                        	}
                             // System.out.println("SRIDHAR MahoutTermClusterMwkSnpt.writeToSequenceFile() -
                             // writing to sequence file: " + fileInPath);
-                            writer.append(cateogoryDir,
-                                    new Text(FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile())));
+                        	if (total > 2) {
+                        		break;
+                        	}
+							writer.append(cateogoryDir,
+                                    new Text(readFileToString));
+							total++;
                             // TODO: this is wrong, it's overwriting previous files in the same dir
                             // I shouldn't be adding the category anywhere.
                             // https://github.com/technobium/mahout-tfidf
                         }
                     }
+                    ++i;
                 }
             } catch (IOException e3) {
                 throw e3;
@@ -575,7 +596,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
         return documentsSequencePath;
     }
 
-    private static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
+    public static class MyEnglishAnalyzer extends StopwordAnalyzerBase {
         private final CharArraySet stemExclusionSet;
 
         private static class DefaultSetHolder {
