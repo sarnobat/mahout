@@ -42,6 +42,7 @@ import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
 import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
+import org.apache.mahout.common.distance.TanimotoDistanceMeasure;
 import org.apache.mahout.common.distance.DistanceMeasure;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
 import org.apache.mahout.math.NamedVector;
@@ -69,7 +70,7 @@ import com.google.common.collect.Ordering;
 public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 	private static final boolean DEBUG = false;
-	private static final int MAX_DOCS = 40;
+	private static final int MAX_DOCS = Integer.parseInt(System.getProperty("docs","20"));
 
 	public static void main(final String[] args) throws Exception {
 		System.out
@@ -575,7 +576,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 	@Deprecated
 	// this doesn't seem to do anything, I still get zero scores when printing.
 	private static Vector removeLowScores(Vector v1) {
-		Vector prunedVector = new RandomAccessSparseVector(1000);
+		Vector prunedVector = new RandomAccessSparseVector(331);
 		for (Element e : v1.all()) {
 			double score = e.get();
 			int termId = e.index();
@@ -614,10 +615,20 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 		LinkedList<Double> scores = new LinkedList(termScores.values());
 		Collections.sort(scores);
-		List<Double> topScores = Lists.reverse(scores).subList(0,
-				Math.min(5, scores.size()));
-		double threshold = Ordering.<Double> natural().min(topScores);
+		double threshold = 0;
+		int sublistIndex = 5;
+		List<Double> reversedScores = Lists.reverse(scores);
+		while (threshold < 4) {
+			List<Double> topScores = reversedScores.subList(0,
+					Math.min(sublistIndex, scores.size()));
+			if (topScores.size() > 0) {
+				threshold = Ordering.<Double> natural().min(topScores);
+				sublistIndex--;
+			} else {
+				break;
+			}
 
+		}
 		for (int termId : termScores.keySet()) {
 			double score = termScores.get(termId);
 			if (score < threshold) {
@@ -626,7 +637,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			String term = dictionaryMap.get(termId);
 			sb.append(term);
 			sb.append(" : ");
-			sb.append(score);
+			sb.append(Double.toString(score).substring(0, 3));
+			//sb.append(" > ");
+			//sb.append(threshold);
 			sb.append(", ");
 		}
 		return sb.toString();
@@ -648,8 +661,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		// values of t1 and t2 to use.
 		final int minimumScore = 2;
 		// when I try to extend this class, it gives me an error.
-		DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
-		// DistanceMeasure distanceMeasure = new TanimotoDistanceMeasure();
+		// DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
+		DistanceMeasure distanceMeasure = new TanimotoDistanceMeasure();
 
 		SequenceFileIterable<Writable, Writable> sequenceFiles2 = new SequenceFileIterable<Writable, Writable>(
 				new Path(vectorsFolder2 + "part-r-00000"), new Configuration());
@@ -668,8 +681,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 				Iterator<Object> vectorsIterator = documentIdToVectorMap
 						.values().iterator();
-				Vector v1 = removeLowScores(((VectorWritable) vectorsIterator
-						.next()).get());
+				Vector v1 = ((VectorWritable) vectorsIterator.next()).get();
 				Vector v2 = ((VectorWritable) vectorsIterator.next()).get();
 				Vector v3 = ((VectorWritable) vectorsIterator.next()).get();
 				System.out.println("\t5) clusterDocuments() v1 = "
