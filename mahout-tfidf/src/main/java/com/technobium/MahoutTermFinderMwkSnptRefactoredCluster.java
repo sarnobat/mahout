@@ -66,6 +66,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 	private static final boolean DEBUG = false;
 
 	public static void main(final String[] args) throws Exception {
+		System.out.println("MahoutTermFinderMwkSnptRefactoredCluster.main() - begin");
 		doTermFinding();
 	}
 
@@ -102,6 +103,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		} else {
 			dirs = new String[] { home + "/sarnobat.git/mwk/snippets/", };
 		}
+		System.out.println("1)\tWriting documents to sequence file");
 		Path sequenceFilePath = writeToSequenceFile(configuration, new Path(
 				tempIntermediate, "sequence"), dirs);
 
@@ -124,6 +126,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			}
 		}
 
+		System.out.println("2)\tTokenizing documents");
 		{
 			Path tokenizedDocumentsPath;
 			try {
@@ -155,6 +158,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				}
 			}
 
+			System.out.println("3)\tCreating term frequencies");
 			Path documentVectorOutputFolderPath = createTermFrequencyVectors(
 					configuration, tempIntermediate, tokenizedDocumentsPath);
 			{
@@ -179,6 +183,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				}
 			}
 
+			System.out.println("4)\tCreating document frequencies");
 			{
 				Path tfidfPat = new Path(tempIntermediate + "/tfidf/");
 				Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter
@@ -238,7 +243,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 		// 5) Do clustering
 		{
-			System.out.println("5)\tnow run clustering");
+			System.out.println("5)\tClustering");
 			clusterDocuments(tempIntermediate);
 		}
 		if (DEBUG) {
@@ -284,31 +289,29 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				Vector v1 = ((VectorWritable) iterator.next()).get();
 				Vector v2 = ((VectorWritable) iterator.next()).get();
 				Vector v3 = ((VectorWritable) iterator.next()).get();
+				System.out
+						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
+								+ v1);
+				System.out
+						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
+								+ v2);
+				System.out
+						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v3 = "
+								+ v3);
 				double distance2 = distanceMeasure.distance(v1, v2);
 				if (DEBUG) {
 					System.out
-							.println("5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
-									+ v1);
-					System.out
-							.println("5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
-									+ v2);
-					System.out
-							.println("5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v3 = "
-									+ v3);
-					System.out
-							.println("5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
+							.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
 									+ distance2);
 				}
 				double distance3 = distanceMeasure.distance(v1, v3);
-				if (DEBUG) {
-					System.out
-							.println("5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
-									+ distance3);
-				}
+				System.out
+						.println("\t5)\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
+								+ distance3);
 				double distance = distanceMeasure.distance(v2, v3);
 				if (DEBUG) {
 					System.out
-							.println("5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
+							.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
 									+ distance);
 				}
 			}
