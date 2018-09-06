@@ -88,18 +88,19 @@ public class MahoutTermFinderMwkSnpt {
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/travel",
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", }) {
-                Text id = new Text(Paths.get(path).getFileName().toString());
                 DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
-                System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::" + Paths.get(path).toFile());
                 try {
                     for (java.nio.file.Path fileInPath : stream) {
                         if (Files.isDirectory(fileInPath)) {
                             // listFiles(entry);
                         } else {
                             if (fileInPath.toFile().exists()) {
+                            	Text id = new Text(fileInPath.getFileName().toString());
+                            	String readFileToString = FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile());
+                            	System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::" + readFileToString.substring(0,30));
                             	// This is wrong, the id is the parent dir, not the file 
-                                writer.append(id,
-                                        new Text(FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile())));
+								writer.append(id,
+                                        new Text(readFileToString));
                             }
                         }
                     }
