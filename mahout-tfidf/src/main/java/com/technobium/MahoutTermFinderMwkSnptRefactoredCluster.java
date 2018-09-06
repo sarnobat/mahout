@@ -559,13 +559,25 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			// prior to this we get the classic behavior, standardfilter does it
 			// for
 			// us.
-			if (matchVersion.onOrAfter(Version.LUCENE_31))
+			if (matchVersion.onOrAfter(Version.LUCENE_31)) {
 				result = new EnglishPossessiveFilter(matchVersion, result);
+			}
 			result = new LowerCaseFilter(matchVersion, result);
+			result = new StopFilter(matchVersion, result, getStopWords(result,
+					System.getProperty("user.home")
+							+ "/github/mahout/stopwords.txt"));
+
+			if (!stemExclusionSet.isEmpty()) {
+				result = new SetKeywordMarkerFilter(result, stemExclusionSet);
+			}
+			result = new PorterStemFilter(result);
+			return new TokenStreamComponents(source, result);
+		}
+
+		private CharArraySet getStopWords(TokenStream result, String stoplist) {
 			CharArraySet stopwords2;
 			try {
-				stopwords2 = getStopWords(System.getProperty("user.home")
-						+ "/github/mahout/stopwords.txt");
+				stopwords2 = getStopWords(stoplist);
 			} catch (IOException e) {
 				try {
 					result.close();
@@ -575,11 +587,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
-			result = new StopFilter(matchVersion, result, stopwords2);
-			if (!stemExclusionSet.isEmpty())
-				result = new SetKeywordMarkerFilter(result, stemExclusionSet);
-			result = new PorterStemFilter(result);
-			return new TokenStreamComponents(source, result);
+			return stopwords2;
 		}
 
 		private static CharArraySet getStopWords(String stoplist)
@@ -663,7 +671,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 		return sb.toString();
 	}
-	
+
 	private static String printVectorTerms(Vector v1,
 			Map<Integer, String> dictionaryMap, String newline) {
 		if (v1 instanceof NamedVector) {
