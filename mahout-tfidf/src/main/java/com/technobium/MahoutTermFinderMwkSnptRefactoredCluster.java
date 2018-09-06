@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -64,6 +65,7 @@ import com.google.common.collect.Multimap;
 public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 	private static final boolean DEBUG = false;
+	private static final int MAX_DOCS = 40;
 
 	public static void main(final String[] args) throws Exception {
 		System.out
@@ -173,9 +175,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			Path documentVectorOutputFolderPath = createTermFrequencyVectors(
 					configuration, tempIntermediate, tokenizedDocumentsPath);
 			{
-				Path path = new Path("temp_intermediate/dictionary.file-0");
 				Map<Integer, String> dictionaryMap = dictionaryToMap(
-						configuration, path);
+						configuration, new Path(
+								"temp_intermediate/dictionary.file-0"));
 			}
 			{
 				Path termFrequencies = new Path(
@@ -269,120 +271,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 		System.out
 				.println("TODO: convert the vector numbers to words, so you can see more easily why the distanes are what they are.");
-	}
-
-	/**
-	 * converts tfidf-vectors/part-r-00000 to clusters/part-r-00000
-	 */
-	private static void clusterDocuments(String tempIntermediate)
-			throws IOException, InterruptedException, ClassNotFoundException {
-		String outputFolder = tempIntermediate;
-		// 3) Cluster documents
-		{
-			String vectorsFolder2 = outputFolder + "/tfidf/tfidf-vectors/";
-			// check the distance between 2 documents at random, so we know the
-			// values of t1 and t2 to use.
-			final int minimumScore = 2;
-			// when I try to extend this class, it gives me an error.
-			DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
-			// DistanceMeasure distanceMeasure = new TanimotoDistanceMeasure();
-
-			// Just check our distance measure threshold is of the right
-			// magnitude
-			{
-				SequenceFileIterable<Writable, Writable> sequenceFiles2 = new SequenceFileIterable<Writable, Writable>(
-						new Path(vectorsFolder2 + "part-r-00000"),
-						new Configuration());
-				Map<String, Object> termToOrdinalMappings2 = new HashMap<String, Object>();
-				int i = 0;
-				for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
-					termToOrdinalMappings2.put(sequenceFile.getFirst()
-							.toString(), sequenceFile.getSecond());
-					if (i > 1) {
-						break;
-					}
-				}
-
-				Iterator<Object> iterator = termToOrdinalMappings2.values()
-						.iterator();
-				Vector v1 = ((VectorWritable) iterator.next()).get();
-				Vector v2 = ((VectorWritable) iterator.next()).get();
-				Vector v3 = ((VectorWritable) iterator.next()).get();
-				System.out
-						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
-								+ v1);
-				System.out
-						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
-								+ v2);
-				System.out
-						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v3 = "
-								+ v3);
-				double distance2 = distanceMeasure.distance(v1, v2);
-				if (DEBUG) {
-					System.out
-							.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
-									+ distance2);
-				}
-				double distance3 = distanceMeasure.distance(v1, v3);
-				System.out
-						.println("\t5)\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
-								+ distance3);
-				double distance = distanceMeasure.distance(v2, v3);
-				if (DEBUG) {
-					System.out
-							.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
-									+ distance);
-				}
-			}
-			String canopyCentroids2 = outputFolder + "/canopy-centroids";
-			String clusterOutput2 = outputFolder + "/clusters";
-			Configuration configuration2 = new Configuration();
-			if (FileSystem.get(configuration2).exists(new Path(clusterOutput2))) {
-				FileSystem.get(configuration2).delete(new Path(clusterOutput2),
-						true);
-			}
-			{
-				// CosineDistanceMeasure
-				CanopyDriver.run(new Path(vectorsFolder2), new Path(
-						canopyCentroids2), distanceMeasure, 0.9, 0.9, true, 1,
-						true);
-
-				FuzzyKMeansDriver.run(new Path(vectorsFolder2), new Path(
-						canopyCentroids2, "clusters-0-final"), new Path(
-						clusterOutput2), 0.01, 20, 2, true, true, 0, false);
-			}
-		}
-
-		if (DEBUG) {
-			System.out.println("5)\nClusters: ");
-		}
-		// 5) Print clusters
-		{
-			Multimap<String, String> clusterToDocuments = HashMultimap.create();
-			for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
-					new Path(outputFolder
-							+ "clusters/clusteredPoints/part-m-00000"),
-					new Configuration())) {
-				Writable first = pair.getFirst();
-				// System.out.format("%10s -> %s\n", first, pair.getSecond()
-				// .getClass());
-				String documentID = ((NamedVector) ((WeightedPropertyVectorWritable) pair
-						.getSecond()).getVector()).getName();
-				if (first instanceof WeightedPropertyVectorWritable) {
-					clusterToDocuments.put((first).toString(), documentID);
-				} else if (first instanceof IntWritable) {
-					clusterToDocuments.put(((IntWritable) first).toString(),
-							documentID);
-				}
-			}
-
-			if (DEBUG) {
-				for (String clusterID : clusterToDocuments.keySet()) {
-					System.out.println("5b)\t" + clusterID + " :: "
-							+ clusterToDocuments.get(clusterID));
-				}
-			}
-		}
 	}
 
 	// this is giving me : [ERROR] Failed to execute goal
@@ -592,7 +480,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 															0, 30));
 								}
 							}
-							if (total > 3) {
+							if (total > MAX_DOCS) {
 								break;
 							}
 							if (DEBUG) {
@@ -677,6 +565,132 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					false);
 			ret.addAll(ss);
 			return ret;
+		}
+	}
+
+	/**
+	 * converts tfidf-vectors/part-r-00000 to clusters/part-r-00000
+	 */
+	private static void clusterDocuments(String tempIntermediate)
+			throws IOException, InterruptedException, ClassNotFoundException {
+		String outputFolder = tempIntermediate;
+		// 3) Cluster documents
+		{
+			String vectorsFolder2 = outputFolder + "/tfidf/tfidf-vectors/";
+			// check the distance between 2 documents at random, so we know the
+			// values of t1 and t2 to use.
+			final int minimumScore = 2;
+			// when I try to extend this class, it gives me an error.
+			DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
+			// DistanceMeasure distanceMeasure = new TanimotoDistanceMeasure();
+
+			// Just check our distance measure threshold is of the right
+			// magnitude
+			{
+				SequenceFileIterable<Writable, Writable> sequenceFiles2 = new SequenceFileIterable<Writable, Writable>(
+						new Path(vectorsFolder2 + "part-r-00000"),
+						new Configuration());
+				Map<String, Object> termToOrdinalMappings2 = new HashMap<String, Object>();
+				int i = 0;
+				for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
+					termToOrdinalMappings2.put(sequenceFile.getFirst()
+							.toString(), sequenceFile.getSecond());
+					// if (i > 1) {
+					// break;
+					// }
+				}
+
+				Iterator<Object> iterator = termToOrdinalMappings2.values()
+						.iterator();
+				Vector v1 = ((VectorWritable) iterator.next()).get();
+				Vector v2 = ((VectorWritable) iterator.next()).get();
+				Vector v3 = ((VectorWritable) iterator.next()).get();
+				System.out
+						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
+								+ v1);
+				System.out
+						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
+								+ v2);
+				System.out
+						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v3 = "
+								+ v3);
+				double distance2 = distanceMeasure.distance(v1, v2);
+				if (DEBUG) {
+					System.out
+							.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
+									+ distance2);
+				}
+				double distance3 = distanceMeasure.distance(v1, v3);
+				System.out
+						.println("\t5)\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
+								+ distance3);
+				double distance = distanceMeasure.distance(v2, v3);
+				if (DEBUG) {
+					System.out
+							.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() distance = "
+									+ distance);
+				}
+			}
+			String canopyCentroids2 = outputFolder + "/canopy-centroids";
+			String clusterOutput2 = outputFolder + "/clusters";
+			Configuration configuration2 = new Configuration();
+			if (FileSystem.get(configuration2).exists(new Path(clusterOutput2))) {
+				FileSystem.get(configuration2).delete(new Path(clusterOutput2),
+						true);
+			}
+			{
+				// CosineDistanceMeasure
+				CanopyDriver.run(new Path(vectorsFolder2), new Path(
+						canopyCentroids2), distanceMeasure, 0.9, 0.9, true, 1,
+						true);
+
+				FuzzyKMeansDriver.run(new Path(vectorsFolder2), new Path(
+						canopyCentroids2, "clusters-0-final"), new Path(
+						clusterOutput2), 0.01, 20, 2, true, true, 0, false);
+			}
+		}
+
+		if (DEBUG) {
+			System.out.println("5)\nClusters: ");
+		}
+		// 5) Print clusters
+		{
+			Multimap<String, String> clusterToDocuments = HashMultimap.create();
+			for (Pair<Writable, Writable> pair : new SequenceFileIterable<Writable, Writable>(
+					new Path(outputFolder
+							+ "clusters/clusteredPoints/part-m-00000"),
+					new Configuration())) {
+				Writable first = pair.getFirst();
+				// System.out.format("%10s -> %s\n", first, pair.getSecond()
+				// .getClass());
+				String documentID = ((NamedVector) ((WeightedPropertyVectorWritable) pair
+						.getSecond()).getVector()).getName();
+				if (first instanceof WeightedPropertyVectorWritable) {
+					clusterToDocuments.put((first).toString(), documentID);
+				} else if (first instanceof IntWritable) {
+					clusterToDocuments.put(((IntWritable) first).toString(),
+							documentID);
+				}
+			}
+
+			for (String clusterID : clusterToDocuments.keySet()) {
+				System.out
+						.println("\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() cluster = "
+								+ clusterID);
+				Collection<String> documents = clusterToDocuments
+						.get(clusterID);
+				for (String document : documents) {
+					System.out
+							.println("\t\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() - document = "
+									+ document);
+				}
+			}
+			if (DEBUG) {
+				for (String clusterID : clusterToDocuments.keySet()) {
+					System.out.println("5b)\t" + clusterID + " :: "
+							+ clusterToDocuments.get(clusterID));
+				}
+			}
 		}
 	}
 }
