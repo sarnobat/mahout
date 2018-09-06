@@ -40,10 +40,8 @@ import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
 import org.apache.mahout.common.distance.DistanceMeasure;
-import org.apache.mahout.common.distance.TanimotoDistanceMeasure;
 import org.apache.mahout.common.iterator.sequencefile.SequenceFileIterable;
 import org.apache.mahout.math.NamedVector;
-import org.apache.mahout.math.SequentialAccessSparseVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.vectorizer.DictionaryVectorizer;
@@ -51,7 +49,6 @@ import org.apache.mahout.vectorizer.DocumentProcessor;
 import org.apache.mahout.vectorizer.common.PartialVectorMerger;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -124,38 +121,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 
 		{
-			{
-
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tokenized-documents/part-m-00000"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tf-vectors/part-r-00000"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/wordcount/part-r-00000"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tfidf/df-count/part-r-00000"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tfidf/frequency.file-0"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/dictionary.file-0"));
-
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tokenized-documents/_SUCCESS"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tf-vectors/_SUCCESS"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/wordcount/_SUCCESS"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tfidf/df-count/_SUCCESS"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS"));
-				Files.deleteIfExists(Paths
-						.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS"));
-			}
 			// No files created so far.
 			Path tokenizedDocumentsPath;
 			try {
@@ -171,12 +136,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 								+ ". Probably there is no public class and constructor.");
 				return;
 			}
-			Preconditions.checkState(Paths
-					.get("temp_intermediate/tokenized-documents/part-m-00000")
-					.toFile().exists());
-			Preconditions.checkState(Paths
-					.get("temp_intermediate/tokenized-documents/_SUCCESS")
-					.toFile().exists());
 
 			{
 				Path termFrequencies = new Path(
@@ -193,17 +152,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				}
 			}
 
-			Preconditions.checkState(!Paths
-					.get("temp_intermediate/dictionary.file-0").toFile()
-					.exists());
 			Path documentVectorOutputFolderPath = createTermFrequencyVectors(
 					configuration, tempIntermediate, tokenizedDocumentsPath);
-			Preconditions.checkState("temp_intermediate/tf-vectors"
-					.equals(documentVectorOutputFolderPath.toString()),
-					documentVectorOutputFolderPath);
-			Preconditions.checkState(Paths
-					.get("temp_intermediate/dictionary.file-0").toFile()
-					.exists());
 			{
 				Path path = new Path("temp_intermediate/dictionary.file-0");
 				Map<Integer, String> map = dictionaryToMap(configuration, path);
@@ -229,116 +179,22 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 									+ map.get(term));
 				}
 			}
-			Preconditions.checkState(!Paths
-					.get("temp_intermediate/tfidf/frequency.file-0").toFile()
-					.exists());
-			Preconditions.checkState(Paths
-					.get("temp_intermediate/tf-vectors/_SUCCESS").toFile()
-					.exists());
-			Preconditions.checkState(Paths
-					.get("temp_intermediate/tf-vectors/part-r-00000").toFile()
-					.exists());
-			Preconditions.checkState(Paths
-					.get("temp_intermediate/wordcount/_SUCCESS").toFile()
-					.exists());
-			Preconditions.checkState(Paths
-					.get("temp_intermediate/wordcount/part-r-00000").toFile()
-					.exists());
-
-			Preconditions.checkState(!Paths
-					.get("temp_intermediate/tfidf/df-count/part-r-00000")
-					.toFile().exists());
-			Preconditions.checkState(!Paths
-					.get("temp_intermediate/tfidf/df-count/_SUCCESS").toFile()
-					.exists());
-			Preconditions
-					.checkState(!Paths
-							.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000")
-							.toFile().exists());
-			Preconditions.checkState(!Paths
-					.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS")
-					.toFile().exists());
-			Preconditions.checkState(!Paths
-					.get("temp_intermediate/tfidf/frequency.file-0").toFile()
-					.exists());
 
 			Path tfidfPath = new Path(tempIntermediate + "/tfidf/");
-			System.err
-					.println("MahoutTermFinder.calculateTfIdf() - adding document frequencies to file "
-							+ tfidfPath);
 			{
-				System.err
-						.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - "
-								+ documentVectorOutputFolderPath + " ===> "
-								+ tfidfPath);
 				Pair<Long[], List<Path>> documentFrequencies = TFIDFConverter
 						.calculateDF(documentVectorOutputFolderPath, tfidfPath,
 								configuration, 100);
-				Preconditions.checkState(Paths
-						.get("temp_intermediate/tfidf/df-count/part-r-00000")
-						.toFile().exists());
-				Preconditions.checkState(Paths
-						.get("temp_intermediate/tfidf/df-count/_SUCCESS")
-						.toFile().exists());
-				Preconditions.checkState(Paths
-						.get("temp_intermediate/tfidf/frequency.file-0")
-						.toFile().exists());
 
-				System.err
-						.println("MahoutTermFinder.calculateTfIdf() - adding tfidf scores to file "
-								+ tfidfPath);
-				System.err
-						.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - "
-								+ documentVectorOutputFolderPath + " ===> "
-								+ tfidfPath);
-				Preconditions.checkState(!Paths
-						.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS")
-						.toFile().exists());
-				Preconditions
-						.checkState(!Paths
-								.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000")
-								.toFile().exists());
-				Preconditions.checkState("temp_intermediate/tf-vectors"
-						.equals(documentVectorOutputFolderPath.toString()),
-						documentVectorOutputFolderPath);
-				Preconditions.checkState(
-						"temp_intermediate/tfidf".equals(tfidfPath.toString()),
-						tfidfPath);
 				TFIDFConverter.processTfIdf(documentVectorOutputFolderPath,
 						tfidfPath, configuration, documentFrequencies, 1, 100,
 						PartialVectorMerger.NO_NORMALIZING, false, false,
 						false, 1);
-				Preconditions.checkState(Paths
-						.get("temp_intermediate/tfidf/tfidf-vectors/_SUCCESS")
-						.toFile().exists());
-				Preconditions
-						.checkState(Paths
-								.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000")
-								.toFile().exists());
-				Preconditions
-						.checkState(Paths
-								.get("temp_intermediate/tfidf/tfidf-vectors/part-r-00000")
-								.toFile().exists());
-				Preconditions
-						.checkState(!Paths
-								.get("temp_intermediate/tfidf/partial-vectors-0/_SUCCESS")
-								.toFile().exists());
-				Preconditions
-						.checkState(!Paths
-								.get("temp_intermediate/tfidf/partial-vectors-0/part-r-00000")
-								.toFile().exists());
 			}
 		}
 		Path dictionaryFilePath = new Path(tempIntermediate,
 				"dictionary.file-0");
-		Preconditions.checkState(Paths
-				.get("temp_intermediate/dictionary.file-0").toFile().exists());
 
-		System.err.println("MahoutTermFinder.main() - ??? ===> "
-				+ dictionaryFilePath);
-		System.err
-				.println("MahoutTermFinder.main() - Reading dictionary into map. Dictionary of terms with IDs: "
-						+ dictionaryFilePath + " (large)");
 		{
 			// Create a vector numerical value for each term (e.g. "atletico" ->
 			// 4119)
