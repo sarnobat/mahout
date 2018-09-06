@@ -269,8 +269,6 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			System.err
 					.println("MahoutTermFinderMwkSnptRefactored.doTermFinding() - hereafter, we deal exclusively with maps, not sequence files.");
 		}
-		System.out
-				.println("TODO: convert the vector numbers to words, so you can see more easily why the distanes are what they are.");
 	}
 
 	// this is giving me : [ERROR] Failed to execute goal
@@ -431,6 +429,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 							+ " ===> "
 							+ tokenizedDocumentsPath);
 		}
+		// TODO: eliminating common words (e.g. "big"), numbers etc.is probably not worth the effort. 
 		DocumentProcessor.tokenizeDocuments(documentsSequencePath,
 				MyEnglishAnalyzer.class, tokenizedDocumentsPath, configuration);
 		return tokenizedDocumentsPath;
@@ -568,6 +567,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 	}
 
+	@Deprecated // this doesn't seem to do anything, I still get zero scores when printing.
 	private static Vector removeLowScores(Vector v1) {
 		Vector prunedVector = new RandomAccessSparseVector(1000);
 		for (Element e : v1.all()) {
@@ -582,6 +582,11 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 //						.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() zero score: " + termId);
 			}
 		}
+		System.out
+		.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() before = " + v1.size());
+		System.out
+				.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() after = " + prunedVector.size());
+		
 		return prunedVector;
 	}
 	
@@ -592,6 +597,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		StringBuilder sb = new StringBuilder("\t");
 		for (Element e : v1.all()) {
 			double score = e.get();
+			if (score < 0.1){
+				continue;
+			}
 			int termId = e.index();
 			String term = dictionaryMap.get(termId);
 			sb.append(term);
@@ -638,21 +646,21 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 
 				Iterator<Object> iterator = termToOrdinalMappings2.values()
 						.iterator();
-				Vector v1 = //removeLowScores(
+				Vector v1 = removeLowScores(
 						((VectorWritable) iterator.next()).get()
-						//)
+						)
 						;
 				Vector v2 = ((VectorWritable) iterator.next()).get();
 				Vector v3 = ((VectorWritable) iterator.next()).get();
-				//System.out
-					//	.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
-						//		+ printVectorTerms(v1, dictionaryMap));
+				System.out
+						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
+								+ printVectorTerms(v1, dictionaryMap));
 				System.out
 						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v2 = "
-								+ v2);
+								+ printVectorTerms(v2, dictionaryMap));
 				System.out
 						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v3 = "
-								+ v3);
+								+ printVectorTerms(v3, dictionaryMap));
 				double distance2 = distanceMeasure.distance(v1, v2);
 				if (DEBUG) {
 					System.out
