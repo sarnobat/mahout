@@ -26,6 +26,7 @@ import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.util.ReflectionUtils;
+import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
@@ -36,6 +37,7 @@ import org.apache.lucene.analysis.miscellaneous.SetKeywordMarkerFilter;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.analysis.util.FilteringTokenFilter;
 import org.apache.lucene.analysis.util.StopwordAnalyzerBase;
@@ -556,22 +558,23 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		protected TokenStreamComponents createComponents(String fieldName,
 				Reader reader) {
 			final Tokenizer source = new StandardTokenizer(matchVersion, reader);
-			TokenStream result = new StandardFilter(matchVersion, source);
+			TokenStream tokenStream = new StandardFilter(matchVersion, source);
 			// prior to this we get the classic behavior, standardfilter does it
 			// for us.
 			if (matchVersion.onOrAfter(Version.LUCENE_31)) {
-				result = new EnglishPossessiveFilter(matchVersion, result);
+				tokenStream = new EnglishPossessiveFilter(matchVersion, tokenStream);
 			}
-			result = new LowerCaseFilter(matchVersion, result);
-			result = new StopFilter(matchVersion, result, getStopWords(result,
-					System.getProperty("user.home")
+			tokenStream = new LowerCaseFilter(matchVersion, tokenStream);
+			tokenStream = new StopFilter(matchVersion, tokenStream,
+					getStopWords(tokenStream, System.getProperty("user.home")
 							+ "/github/mahout/stopwords.txt"));
 
 			if (!stemExclusionSet.isEmpty()) {
-				result = new SetKeywordMarkerFilter(result, stemExclusionSet);
+				tokenStream = new SetKeywordMarkerFilter(tokenStream,
+						stemExclusionSet);
 			}
-			result = new PorterStemFilter(result);
-			return new TokenStreamComponents(source, result);
+			tokenStream = new PorterStemFilter(tokenStream);
+			return new TokenStreamComponents(source, tokenStream);
 		}
 
 		private CharArraySet getStopWords(TokenStream result, String stoplist) {
