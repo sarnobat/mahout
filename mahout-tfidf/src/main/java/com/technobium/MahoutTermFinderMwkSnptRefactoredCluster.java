@@ -102,7 +102,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				new Path(tempIntermediate, "sequence"), dirs);
 		{
 
-			Map<String, String> sequencesMap = sequenceFileToMap(configuration,
+			Map<String, String> sequencesMap = toMap2(configuration,
 					documentsSequencePath1);
 
 			// Too much output
@@ -140,15 +140,16 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			{
 				Path termFrequencies = new Path(
 						"temp_intermediate/tokenized-documents/part-m-00000");
-				Map<String, String> map = termFrequencyVectorsToMap(
+				Map<String, String> tokenizedDocumentsMap = toMap(
 						configuration, termFrequencies);
-				for (String term : map.keySet()) {
+				for (String term : tokenizedDocumentsMap.keySet()) {
 					System.out
 							.println("2)\tSRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() = "
 									+ documentsSequencePath1
 									+ " documents::terms : category="
 									+ term
-									+ "; terms=" + map.get(term));
+									+ "; terms="
+									+ tokenizedDocumentsMap.get(term));
 				}
 			}
 
@@ -156,21 +157,13 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					configuration, tempIntermediate, tokenizedDocumentsPath);
 			{
 				Path path = new Path("temp_intermediate/dictionary.file-0");
-				Map<Integer, String> map = dictionaryToMap(configuration, path);
-				// too much output
-				if (false) {
-					for (int term : map.keySet()) {
-						System.out
-								.println("SRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - dictionary : term_id="
-										+ term + "; term=" + map.get(term));
-					}
-				}
+				Map<Integer, String> dictionaryMap = dictionaryToMap(
+						configuration, path);
 			}
 			{
 				Path termFrequencies = new Path(
 						"temp_intermediate/tf-vectors/part-r-00000");
-				Map<String, String> map = termFrequencyVectorsToMap(
-						configuration, termFrequencies);
+				Map<String, String> map = toMap(configuration, termFrequencies);
 				for (String term : map.keySet()) {
 					System.out
 							.println("3)\tSRIDHAR MahoutTermClusterMwkSnpt.doTermFinding() - tf vectors: category="
@@ -341,30 +334,28 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 	}
 
-	private static Map<String, String> sequenceFileToMap(
-			Configuration configuration, Path documentsSequencePath1)
-			throws IOException {
-		Map<String, String> sequencesMap = new HashMap<String, String>();
-		Path path = documentsSequencePath1;
-		Configuration conf = configuration;
-		FileSystem fs = FileSystem.getLocal(conf);
+	@Deprecated // duplicate method
+	private static Map<String, String> toMap2(Configuration conf,
+			Path documentsSequencePath) throws IOException {
+		Map<String, String> map = new HashMap<String, String>();
 		SequenceFile.Reader reader = null;
 		try {
-			reader = new SequenceFile.Reader(fs, path, conf);
+			reader = new SequenceFile.Reader(FileSystem.getLocal(conf),
+					documentsSequencePath, conf);
 			Writable key = (Writable) ReflectionUtils.newInstance(
 					reader.getKeyClass(), conf);
 			Writable value = (Writable) ReflectionUtils.newInstance(
 					reader.getValueClass(), conf);
 			while (reader.next(key, value)) {
-				sequencesMap.put(key.toString(), value.toString());
+				map.put(key.toString(), value.toString());
 			}
-		} catch (Exception e) {
+		} catch (Exception e) { // do we need this?
 			e.printStackTrace();
 			System.exit(-1);
 		} finally {
 			reader.close();
 		}
-		return sequencesMap;
+		return map;
 	}
 
 	private static Map<Integer, String> dictionaryToMap(
@@ -383,19 +374,19 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		return map;
 	}
 
-	private static Map<String, String> termFrequencyVectorsToMap(
-			Configuration configuration, Path path) throws IOException {
-		Map<String, String> termFrequenciesMap = new HashMap<String, String>();
+	private static Map<String, String> toMap(Configuration conf,
+			Path documentsSequencePath) throws IOException {
+		Map<String, String> map = new HashMap<String, String>();
 		SequenceFile.Reader reader = null;
 		try {
-			FileSystem fs = FileSystem.getLocal(configuration);
-			reader = new SequenceFile.Reader(fs, path, configuration);
+			reader = new SequenceFile.Reader(FileSystem.getLocal(conf),
+					documentsSequencePath, conf);
 			Writable key = (Writable) ReflectionUtils.newInstance(
-					reader.getKeyClass(), configuration);
+					reader.getKeyClass(), conf);
 			Writable value = (Writable) ReflectionUtils.newInstance(
-					reader.getValueClass(), configuration);
+					reader.getValueClass(), conf);
 			while (reader.next(key, value)) {
-				termFrequenciesMap.put(key.toString(), value.toString());
+				map.put(key.toString(), value.toString());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -403,7 +394,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		} finally {
 			reader.close();
 		}
-		return termFrequenciesMap;
+		return map;
 	}
 
 	private static Path createTermFrequencyVectors(Configuration configuration,
