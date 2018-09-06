@@ -557,8 +557,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			final Tokenizer source = new StandardTokenizer(matchVersion, reader);
 			TokenStream result = new StandardFilter(matchVersion, source);
 			// prior to this we get the classic behavior, standardfilter does it
-			// for
-			// us.
+			// for us.
 			if (matchVersion.onOrAfter(Version.LUCENE_31)) {
 				result = new EnglishPossessiveFilter(matchVersion, result);
 			}
@@ -597,6 +596,24 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					false);
 			ret.addAll(ss);
 			return ret;
+		}
+
+		private static class NumbersFilter extends FilteringTokenFilter {
+
+			private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
+
+			public NumbersFilter(TokenStream in) {
+				super(Version.LUCENE_46, in);
+			}
+
+			protected boolean accept() {
+				String token = new String(termAtt.buffer(), 0, termAtt.length());
+				if (token.matches("[0-9,.]+")) {
+					return false;
+				}
+				return true;
+			}
+
 		}
 	}
 
