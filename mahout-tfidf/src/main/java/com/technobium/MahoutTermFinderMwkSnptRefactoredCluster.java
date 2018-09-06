@@ -6,8 +6,10 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -53,7 +55,9 @@ import org.apache.mahout.vectorizer.common.PartialVectorMerger;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 
 /**
  * TFIDF (term frequency / document frequency) - for use on small *mwk files
@@ -429,7 +433,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 							+ " ===> "
 							+ tokenizedDocumentsPath);
 		}
-		// TODO: eliminating common words (e.g. "big"), numbers etc.is probably not worth the effort. 
+		// TODO: eliminating common words (e.g. "big"), numbers etc.is probably
+		// not worth the effort.
 		DocumentProcessor.tokenizeDocuments(documentsSequencePath,
 				MyEnglishAnalyzer.class, tokenizedDocumentsPath, configuration);
 		return tokenizedDocumentsPath;
@@ -567,40 +572,56 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 	}
 
-	@Deprecated // this doesn't seem to do anything, I still get zero scores when printing.
+	@Deprecated
+	// this doesn't seem to do anything, I still get zero scores when printing.
 	private static Vector removeLowScores(Vector v1) {
 		Vector prunedVector = new RandomAccessSparseVector(1000);
 		for (Element e : v1.all()) {
 			double score = e.get();
 			int termId = e.index();
 			if (score > 0.1) {
-				prunedVector.set(termId,score);
+				prunedVector.set(termId, score);
 				System.out
-						.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() " + termId + " :: " + score);
+						.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() "
+								+ termId + " :: " + score);
 			} else {
-//				System.out
-//						.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() zero score: " + termId);
+				// System.out
+				// .println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() zero score: "
+				// + termId);
 			}
 		}
 		System.out
-		.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() before = " + v1.size());
+				.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() before = "
+						+ v1.size());
 		System.out
-				.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() after = " + prunedVector.size());
-		
+				.println("MahoutTermFinderMwkSnptRefactoredCluster.removeLowScores() after = "
+						+ prunedVector.size());
+
 		return prunedVector;
 	}
-	
+
 	private static String printVectorTerms(Vector v1,
 			Map<Integer, String> dictionaryMap) {
 		if (v1 instanceof NamedVector) {
 		}
+		Map<Integer,Double> termScores = new HashMap<Integer,Double>();
 		StringBuilder sb = new StringBuilder("\t");
 		for (Element e : v1.all()) {
 			double score = e.get();
-			if (score < 0.1){
+			//if (score < 0.1) {
+			int termId = e.index();
+			termScores.put(termId,score);
+		}
+		LinkedList<Double> scores = new LinkedList(termScores.values());
+		Collections.sort(scores);
+		List<Double> topScores = Lists.reverse(scores).subList(0, Math.min(5,scores.size()));
+		double threshold = Ordering.<Double> natural().min(topScores);
+
+		for (int termId : termScores.keySet()){
+			double score = termScores.get(termId);
+			if (score < threshold) {
 				continue;
 			}
-			int termId = e.index();
 			String term = dictionaryMap.get(termId);
 			sb.append(term);
 			sb.append(" : ");
@@ -621,37 +642,35 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				new Configuration(), new Path(
 						"temp_intermediate/dictionary.file-0"));
 
+		String vectorsFolder2 = outputFolder + "/tfidf/tfidf-vectors/";
+		// check the distance between 2 documents at random, so we know the
+		// values of t1 and t2 to use.
+		final int minimumScore = 2;
+		// when I try to extend this class, it gives me an error.
+		DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
+		// DistanceMeasure distanceMeasure = new TanimotoDistanceMeasure();
+
+		SequenceFileIterable<Writable, Writable> sequenceFiles2 = new SequenceFileIterable<Writable, Writable>(
+				new Path(vectorsFolder2 + "part-r-00000"), new Configuration());
+		int i = 0;
+		Map<String, Object> documentIdToVectorMap = new HashMap<String, Object>();
+		for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
+			documentIdToVectorMap.put(sequenceFile.getFirst().toString(),
+					sequenceFile.getSecond());
+		}
+
 		// 3) Cluster documents
 		{
-			String vectorsFolder2 = outputFolder + "/tfidf/tfidf-vectors/";
-			// check the distance between 2 documents at random, so we know the
-			// values of t1 and t2 to use.
-			final int minimumScore = 2;
-			// when I try to extend this class, it gives me an error.
-			DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
-			// DistanceMeasure distanceMeasure = new TanimotoDistanceMeasure();
-
 			// Just check our distance measure threshold is of the right
 			// magnitude
 			{
-				SequenceFileIterable<Writable, Writable> sequenceFiles2 = new SequenceFileIterable<Writable, Writable>(
-						new Path(vectorsFolder2 + "part-r-00000"),
-						new Configuration());
-				Map<String, Object> termToOrdinalMappings2 = new HashMap<String, Object>();
-				int i = 0;
-				for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
-					termToOrdinalMappings2.put(sequenceFile.getFirst()
-							.toString(), sequenceFile.getSecond());
-				}
 
-				Iterator<Object> iterator = termToOrdinalMappings2.values()
-						.iterator();
-				Vector v1 = removeLowScores(
-						((VectorWritable) iterator.next()).get()
-						)
-						;
-				Vector v2 = ((VectorWritable) iterator.next()).get();
-				Vector v3 = ((VectorWritable) iterator.next()).get();
+				Iterator<Object> vectorsIterator = documentIdToVectorMap
+						.values().iterator();
+				Vector v1 = removeLowScores(((VectorWritable) vectorsIterator
+						.next()).get());
+				Vector v2 = ((VectorWritable) vectorsIterator.next()).get();
+				Vector v3 = ((VectorWritable) vectorsIterator.next()).get();
 				System.out
 						.println("\t5) MahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() v1 = "
 								+ printVectorTerms(v1, dictionaryMap));
@@ -719,7 +738,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 							documentID);
 				}
 			}
-			if (DEBUG) {
+//			if (DEBUG) {
 				for (String clusterID : clusterToDocuments.keySet()) {
 					System.out
 							.println("\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() cluster = "
@@ -729,10 +748,12 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					for (String document : documents) {
 						System.out
 								.println("\t\tMahoutTermFinderMwkSnptRefactoredCluster.clusterDocuments() - document = "
-										+ document);
+										+ document
+										+ printVectorTerms(((VectorWritable)documentIdToVectorMap
+												.get(document)).get(), dictionaryMap));
 					}
 				}
-			}
+//			}
 			if (DEBUG) {
 				for (String clusterID : clusterToDocuments.keySet()) {
 					System.out.println("5b)\t" + clusterID + " :: "
