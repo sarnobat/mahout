@@ -188,16 +188,19 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 		doc = snpt_1499636081969_13193__inconsistent vs intelli.mwk	inconsist : 4.6, intellig : 4.6, 
 5b)	14 :: [snpt_1499636080901_76280__watch -n 5  find \| wc.mwk, snpt_1499636081723_40082__do auction myself.mwk]
 			5b) doc = snpt_1499636080901_76280__watch -n 5  find \| wc.mwk
+				find : 3.5
 				watch : 4.2
 				wc : 4.6
 				
 			5b) doc = snpt_1499636081723_40082__do auction myself.mwk
 				auction : 6.6
+				find : 3.5
 				local : 4.2
 				
 5b)	3 :: [snpt_1499636081672_32774__murali wifi.mwk, snpt_1499636080367_9762__new comcast wifi router.mwk]
 			5b) doc = snpt_1499636081672_32774__murali wifi.mwk
 				estosila : 4.6
+				murali : 3.7
 				wifi : 4.2
 				
 			5b) doc = snpt_1499636080367_9762__new comcast wifi router.mwk
@@ -212,19 +215,23 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 				ars : 4.6
 				dog : 4.6
 				except : 4.2
+				good : 3.5
+				rule : 3.9
 				shine : 4.6
 				sun : 4.6
 				
 			5b) doc = snpt_1499636082382_74269__All generalizations ar.mwk
 				except : 4.2
 				express : 4.2
+				fals : 3.9
 				gener : 4.2
 				prove : 4.6
+				rule : 3.9
 				
 TODO: I think we need to accept that not everything will be in a cluster, the unclustered documents will be a long-tail. We need to add more documents, reduce the cluster radius, and hope we find some good clusters.
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 02:40 min
-[INFO] Finished at: 2018-09-17T22:10:15-07:00
+[INFO] Total time: 02:30 min
+[INFO] Finished at: 2018-09-17T22:16:23-07:00
 [INFO] ------------------------------------------------------------------------

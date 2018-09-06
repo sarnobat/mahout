@@ -24,4 +24,4 @@ echo "1) mwk files - finding terms (skipped - this one is slow)"
 echo "2) mwk snpt files - finding terms"
 mvn exec:java --quiet --settings ~/sarnobat.git/mac/.m2/settings.xml -Dexec.mainClass="com.technobium.MahoutTermFinderMwkSnpt" -Dorg.slf4j.simpleLogger.defaultLogLevel=warning | sort > ../report_mwk_snpts.txt
 echo "2) mwk snpt files - clsutering"
-find ~/sarnobat.git/mwk/snippets/ -maxdepth 1 -type f | mvn exec:java  --settings ~/sarnobat.git/mac/.m2/settings.xml -Dexec.mainClass="com.technobium.MahoutTermFinderMwkSnptRefactoredCluster" -Ddebug=false -Ddocs=40
+find ~/sarnobat.git/mwk/snippets/ -maxdepth 1 -type f | mvn exec:java  --settings ~/sarnobat.git/mac/.m2/settings.xml -Dexec.mainClass="com.technobium.MahoutTermFinderMwkSnptRefactoredCluster" -Ddebug=false -Ddocs=80 -Dthreshold=2.5 | tee ../report_snpts.txt

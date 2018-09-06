@@ -562,7 +562,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			// prior to this we get the classic behavior, standardfilter does it
 			// for us.
 			if (matchVersion.onOrAfter(Version.LUCENE_31)) {
-				tokenStream = new EnglishPossessiveFilter(matchVersion, tokenStream);
+				tokenStream = new EnglishPossessiveFilter(matchVersion,
+						tokenStream);
 			}
 			tokenStream = new LowerCaseFilter(matchVersion, tokenStream);
 			tokenStream = new StopFilter(matchVersion, tokenStream,
@@ -724,7 +725,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 		for (int termId : termScores.keySet()) {
 			double score = termScores.get(termId);
-			if (score < threshold) {
+			if (score < Double.valueOf(System.getProperty("threshold",
+					Double.toString(threshold)))) {
 				continue;
 			}
 			String term = dictionaryMap.get(termId);
