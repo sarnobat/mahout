@@ -663,6 +663,50 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 		}
 		return sb.toString();
 	}
+	
+	private static String printVectorTerms(Vector v1,
+			Map<Integer, String> dictionaryMap, String newline) {
+		if (v1 instanceof NamedVector) {
+		}
+		Map<Integer, Double> termScores = new HashMap<Integer, Double>();
+		StringBuilder sb = new StringBuilder("\t");
+		for (Element e : v1.all()) {
+			double score = e.get();
+			// if (score < 0.1) {
+			int termId = e.index();
+			termScores.put(termId, score);
+		}
+		LinkedList<Double> scores = new LinkedList(termScores.values());
+		Collections.sort(scores);
+		double threshold = 0;
+		int sublistIndex = 5;
+		List<Double> reversedScores = Lists.reverse(scores);
+		while (threshold < 4) {
+			List<Double> topScores = reversedScores.subList(0,
+					Math.min(sublistIndex, scores.size()));
+			if (topScores.size() > 0) {
+				threshold = Ordering.<Double> natural().min(topScores);
+				sublistIndex--;
+			} else {
+				break;
+			}
+
+		}
+		for (int termId : termScores.keySet()) {
+			double score = termScores.get(termId);
+			if (score < threshold) {
+				continue;
+			}
+			String term = dictionaryMap.get(termId);
+			sb.append(term);
+			sb.append(" : ");
+			sb.append(Double.toString(score).substring(0, 3));
+			// sb.append(" > ");
+			// sb.append(threshold);
+			sb.append(newline);
+		}
+		return sb.toString();
+	}
 
 	/**
 	 * converts tfidf-vectors/part-r-00000 to clusters/part-r-00000
@@ -780,10 +824,20 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			}
 			// }
 			for (String clusterID : clusterToDocuments.keySet()) {
-				int size = +clusterToDocuments.get(clusterID).size();
+				int size = clusterToDocuments.get(clusterID).size();
+
 				if (size > 1) {
 					System.out.println("5b)\t" + clusterID + " :: "
 							+ clusterToDocuments.get(clusterID));
+					for (String document : clusterToDocuments.get(clusterID)) {
+						System.out.println("\t\t\t5b) doc = "
+								+ document
+								+ "\n\t\t\t"
+								+ printVectorTerms(
+										((VectorWritable) documentIdToVectorMap
+												.get(document)).get(),
+										dictionaryMap, "\n\t\t\t\t"));
+					}
 				} else {
 					if (DEBUG) {
 						System.out.println("5b)\t" + clusterID + " :: "
