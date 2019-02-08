@@ -80,8 +80,8 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			.getProperty("showTerms", "true"));
 	@Deprecated
 	// limit using stdin - find | head -150
-	private static final int MAX_DOCS = Integer.parseInt(System.getProperty(
-			"docs", "20"));
+//	private static final int MAX_DOCS = Integer.parseInt(System.getProperty(
+//			"docs", "20"));
 
 	public static void main(final String[] args) throws Exception {
 		System.out
@@ -304,7 +304,7 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 			System.err
 					.println("MahoutTermFinderMwkSnptRefactored.doTermFinding() - hereafter, we deal exclusively with maps, not sequence files.");
 		}
-		System.err.println("Read " + MAX_DOCS + " documents.");
+//		System.err.println("Read " + MAX_DOCS + " documents.");
 	}
 
 	// this is giving me : [ERROR] Failed to execute goal
@@ -534,9 +534,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 																0, 30));
 							}
 						}
-						if (total > MAX_DOCS) {
-							break;
-						}
+//						if (total > MAX_DOCS) {
+//							break;
+//						}
 						if (DEBUG) {
 							System.out
 									.println("2)\tMahoutTermFinderMwkSnptRefactoredCluster.writeToSequenceFile() added document to sequence file: "
@@ -592,9 +592,9 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 																0, 30));
 							}
 						}
-						if (total > MAX_DOCS) {
-							break;
-						}
+//						if (total > MAX_DOCS) {
+//							break;
+//						}
 						if (DEBUG) {
 							System.out
 									.println("2)\tMahoutTermFinderMwkSnptRefactoredCluster.writeToSequenceFile() added document to sequence file: "
@@ -922,19 +922,19 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 				}
 			}
 			// if (DEBUG) {
-			for (String clusterID : clusterToDocuments.keySet()) {
-				System.out.println("\tcluster = " + clusterID);
-				Collection<String> documents = clusterToDocuments
-						.get(clusterID);
-				for (String document : documents) {
-					System.out.println("\t\tdoc = "
-							+ document
-							+ printVectorTerms(
-									((VectorWritable) documentIdToVectorMap
-											.get(document)).get(),
-									dictionaryMap));
-				}
-			}
+//			for (String clusterID : clusterToDocuments.keySet()) {
+//				System.out.println("\tcluster = " + clusterID);
+//				Collection<String> documents = clusterToDocuments
+//						.get(clusterID);
+//				for (String document : documents) {
+//					System.out.println("\t\tdoc = "
+//							+ document
+//							+ printVectorTerms(
+//									((VectorWritable) documentIdToVectorMap
+//											.get(document)).get(),
+//									dictionaryMap));
+//				}
+//			}
 			// }
 			for (String clusterID : clusterToDocuments.keySet()) {
 				int size = clusterToDocuments.get(clusterID).size();
@@ -943,13 +943,17 @@ public class MahoutTermFinderMwkSnptRefactoredCluster {
 					System.out.println("5b)\t" + clusterID + " :: "
 							+ clusterToDocuments.get(clusterID));
 					for (String document : clusterToDocuments.get(clusterID)) {
-						String printVectorTerms = printVectorTerms(
-								((VectorWritable) documentIdToVectorMap.get(document))
-										.get(), dictionaryMap, "\n\t\t\t\t");
-						System.out.println("\t\t\t5b) doc = "
-								+ document
-								+ (SHOW_TERMS ? "\n\t\t\t" + printVectorTerms
-										: ""));
+						System.out
+								.println("\t\t\t5b) doc = "
+										+ document
+										+ (SHOW_TERMS ? "\n\t\t\t"
+												+ printVectorTerms(
+														((VectorWritable) documentIdToVectorMap
+																.get(document))
+																.get(),
+														dictionaryMap,
+														"\n\t\t\t\t")
+												: ""));
 					}
 				} else {
 					if (DEBUG) {

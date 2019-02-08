@@ -35,18 +35,31 @@ public class ClusteringDemo {
 					FileSystem.get(new Configuration()), new Configuration(),
 					documentsSequencePath, Text.class, Text.class);
 
-			Text id1 = new Text("Document 1");
-			Text text1 = new Text("Atletico Madrid win");
-			writer.append(id1, text1);
+			if (true) {
+				Text id1 = new Text("Document 1");
+				Text text1 = new Text("Atletico Madrid win");
+				writer.append(id1, text1);
 
-			Text id6 = new Text("Document 6");
-			Text text6 = new Text("Both apple and orange are fruit");
-			writer.append(id6, text6);
+				Text id6 = new Text("Document 6");
+				Text text6 = new Text("Both apple and orange are fruit");
+				writer.append(id6, text6);
 
-			Text id7 = new Text("Document 7");
-			Text text7 = new Text("Both orange and apple are fruit");
-			writer.append(id7, text7);
+				Text id7 = new Text("Document 7");
+				Text text7 = new Text("Both orange and apple are fruit");
+				writer.append(id7, text7);
+			} else {
+				Text id1 = new Text("Document 1");
+				Text text1 = new Text("attract gait heel  motion  pelvic  rotat speciﬁc stride : 5.6, vertic");
+				writer.append(id1, text1);
 
+				Text id6 = new Text("Document 6");
+				Text text6 = new Text("connector log4j logback receiv receptacl succeed");
+				writer.append(id6, text6);
+
+				Text id7 = new Text("Document 7");
+				Text text7 = new Text("delic forbid fragil modern penetr stranger");
+				writer.append(id7, text7);
+			}
 			writer.close();
 		}
 

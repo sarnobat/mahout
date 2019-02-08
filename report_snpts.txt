@@ -1,24 +1,3 @@
-[WARNING] 
-[WARNING] Some problems were encountered while building the effective settings
-[WARNING] 'profiles.profile[onsite].repositories.repository.id' must be unique but found duplicate repository with id google-api-services @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].repositories.repository.id' must be unique but found duplicate repository with id apache-releases @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].repositories.repository.id' must be unique but found duplicate repository with id apache-snapshots @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].repositories.repository.id' must be unique but found duplicate repository with id xerces-releases @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].repositories.repository.id' must be unique but found duplicate repository with id central2 @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].repositories.repository.id' must be unique but found duplicate repository with id google-api-services @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].repositories.repository.id' must be unique but found duplicate repository with id apache-releases @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].repositories.repository.id' must be unique but found duplicate repository with id apache-snapshots @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].repositories.repository.id' must be unique but found duplicate repository with id xerces-releases @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].pluginRepositories.pluginRepository.id' must be unique but found duplicate repository with id spring-maven-release @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 'profiles.profile[onsite].pluginRepositories.pluginRepository.id' must be unique but found duplicate repository with id gwt-maven-plugins @ /Users/sarnobat/sarnobat.git/mac/.m2/settings.xml
-[WARNING] 
-[INFO] Scanning for projects...
-[INFO] 
-[INFO] --------------------< com.technobium:mahout-tfidf >---------------------
-[INFO] Building mahout-tfidf 1.0-SNAPSHOT
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
-[INFO] --- exec-maven-plugin:1.5.0:java (default-cli) @ mahout-tfidf ---
 MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 1) Read 320 lines.
 1)	Writing documents to sequence file
@@ -30,503 +9,7 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 	5) clusterDocuments() v1 = 	categori : 9.8, disc : 9.8, epic : 12., orchestr : 9.8, track : 8.9, 
 	5) clusterDocuments() v2 = 	advantag : 4.8, custom : 4.4, lack : 4.8, 
 	5) clusterDocuments() v3 = 	academ : 5.6, balanc : 6.0, imposs : 5.1, klopp : 6.0, profession : 5.1, sign : 5.1, 
-	5)	clusterDocuments() distance = 1.0
-	cluster = 88
-		doc = snpt_1499636081274_5816__Short athletes.mwk	athlet : 5.6, bryan : 5.6, daniel : 6.0, maradona : 6.0, romario : 6.0, tazz : 6.0, 
-	cluster = 190
-		doc = snpt_1499636081966_37079__good positioning.mwk	call : 4.9, contain : 5.3, dispos : 5.3, posit : 4.5, store : 7.2, 
-		doc = snpt_1499636081931_2360__<<<<<<< HEAD.mwk	close : 13., compusa : 10., eventu : 10., store : 13., unit : 10., 
-		doc = snpt_1499636082349_45358__purchase funnel.mwk	book : 10., review : 6.0, sampl : 5.6, subtitl : 6.0, tabl : 5.6, 
-	cluster = 191
-		doc = snpt_1499636080227_27187__Even criminal activity.mwk	activ : 4.5, crimin : 6.0, virtual : 5.6, 
-		doc = snpt_1499636081935_18400__Fiat money is a currenc.mwk	commod : 10., feder : 8.5, fiat : 8.5, gold : 11., monei : 10., redeem : 8.5, repres : 8.9, silver : 8.5, 
-		doc = snpt_1499636082017_45628__Need to spend money to.mwk	monei : 5.6, network : 4.4, share : 5.1, spend : 4.9, ubuntu : 5.6, 
-		doc = snpt_1499636081583_70079__I think it was Dutch Ma.mwk	dutch : 6.0, mantel : 6.0, monei : 5.6, peopl : 4.2, 
-		doc = snpt_1499636081922_26166__Money is a virtual comm.mwk	commod : 5.3, virtual : 5.6, 
-		doc = snpt_1499636080618_52717__Many useful apps or pro.mwk	app : 5.6, discontinu : 6.0, gener : 4.3, 
-		doc = snpt_1499636081923_94546__fractional reserve bank.mwk	bank : 6.6, debt : 5.3, fraction : 5.6, monei : 5.6, multipli : 6.0, 
-	cluster = 193
-		doc = snpt_1499636081622_27136__Platform plugin.mwk	account : 5.3, card : 5.6, debit : 6.0, platform : 5.1, plugin : 6.0, 
-		doc = snpt_1499636081807_55753__Fractional-reserve bank.mwk	chair : 5.6, fine : 6.0, fraction : 5.6, music : 5.8, orrin : 6.0, stop : 5.6, woodward : 6.0, 
-		doc = snpt_1499636081950_6931__<<<<<<< HEAD.mwk	bank : 10., central : 5.6, deposit : 6.0, england : 5.6, gold : 5.6, guess : 5.6, note : 8.1, promisori : 8.5, trade : 5.6, 
-	cluster = 194
-		doc = snpt_1499484802109_62641.mwk	don’t : 12., finger : 9.8, gui : 12., men : 9.9, tend : 9.3, 
-		doc = snpt_1499636080670_77858__Career - self preservat.mwk	easili : 4.8, higher : 4.6, measur : 6.0, preserv : 6.0, requir : 7.0, 
-		doc = snpt_1499636081553_85858__Tight jeans are denim p.mwk	denim : 6.0, gorgeou : 6.0, jean : 6.0, pant : 6.0, squeez : 6.0, tightli : 6.0, 
-		doc = snpt_1499636082069_56755__In Catharine MacKinnon.mwk	attract : 6.1, avail : 6.0, catharin : 6.0, mackinnon : 6.0, sexual : 6.4, 
-		doc = snpt_1499636081448_33559__There should be a summe.mwk	approv : 5.3, archna : 5.6, bring : 5.6, camp : 5.3, cheer : 6.0, sleep : 6.0, weak : 5.3, 
-		doc = snpt_1499636081919_94610__equalizer.mwk	bound : 8.0, cylindr : 6.0, imperfect : 6.0, lower : 7.6, perfect : 7.0, regard : 6.0, rod : 6.0, thin : 7.2, 
-		doc = snpt_1499636080208_58303__the main charm of femal.mwk	advertis : 6.0, butt : 7.2, intim : 8.0, obviou : 6.0, openli : 6.0, part : 8.0, revealing : 6.0, risk : 6.0, skirt : 6.0, willing : 6.0, 
-		doc = snpt_1499636081088_73577__Automation (tag outsou.mwk	autom : 10., custom : 6.3, deleg : 6.0, manual : 5.6, outsourc : 6.0, tag : 5.6, 
-		doc = snpt_1499636081315_86866__Although satire is usua.mwk	attent : 5.3, construct : 5.3, critic : 5.3, draw : 5.3, humor : 5.3, meant : 6.0, satir : 6.0, wider : 5.6, wit : 5.6, 
-		doc = snpt_1499636081874_57411__a big part of the femal.mwk	bulg : 6.0, cheek : 6.0, cleavag : 6.0, concav : 6.0, gap : 6.0, lip : 6.0, navel : 6.0, offset : 6.0, vagina : 6.0, 
-		doc = snpt_1499636082210_33552__Attractiveness from a Female's Perspective.mwk	attract : 12., faith : 8.5, men : 8.1, smile : 8.0, women : 10., 
-		doc = snpt_1499636080407_88330__Younger women store fat.mwk	bottom : 5.6, fat : 7.6, fuller : 6.0, hormon : 5.6, occur : 5.6, rear : 5.6, shift : 6.0, stomach : 5.6, younger : 7.6, 
-		doc = snpt_1499636081422_83491__Men crave female sympat.mwk	crave : 5.6, men : 4.0, sympathi : 5.6, 
-		doc = snpt_1499636081460_61882__immutable laws of show.mwk	immut : 6.0, janetti : 6.0, marti : 6.0, mcmahon : 6.0, stephani : 6.0, 
-		doc = snpt_1499636081951_58409__death row.mwk	attract : 6.1, death : 5.6, gait : 5.6, heel : 7.2, locker : 6.0, motion : 5.6, pelvic : 5.6, rotat : 5.6, row : 6.0, speciﬁc : 5.6, stride : 5.6, vertic : 5.6, 
-		doc = snpt_1499636082047_77460__attractiveness has to b.mwk	attract : 6.1, gait : 5.6, heel : 7.2, motion : 5.6, pelvic : 5.6, rotat : 5.6, speciﬁc : 5.6, stride : 5.6, vertic : 5.6, 
-		doc = snpt_1499636081350_31539__log4j is popular even.mwk	connector : 6.0, log4j : 6.0, logback : 6.0, receiv : 5.6, receptacl : 6.0, succeed : 5.6, 
-		doc = snpt_1499636081967_39417__when a girl is on high.mwk	delic : 5.6, forbid : 5.6, fragil : 6.0, modern : 5.6, penetr : 6.0, stranger : 6.0, 
-	cluster = 196
-		doc = snpt_1499636080362_77568__expenditures on wasting.mwk	asset : 5.1, expenditur : 6.0, flight : 6.0, hotel : 5.6, wast : 5.6, 
-		doc = snpt_1499636081958_74794__Wifi.mwk	dispos : 7.6, github : 8.9, graph : 7.6, java : 7.6, push : 8.5, redeploy : 10., sarnobat.garagebandbroken : 8.5, 
-	cluster = 197
-		doc = snpt_1499636081962_84639__transparent furniture m.mwk	dirti : 6.0, nicer : 6.0, prototyp : 6.0, space : 5.6, total : 5.6, visibl : 5.6, 
-	cluster = 110
-		doc = snpt_1499636081434_48359__1996.mwk	cheltenham : 6.0, colleg : 8.5, highest : 6.0, imperi : 6.0, jarman : 6.0, mention : 6.0, oxford : 6.0, plant : 6.0, 
-	cluster = 111
-		doc = snpt_1499636081436_32640__One of the negative rep.mwk	cancel : 6.0, googl : 7.5, kill : 7.2, problem : 6.6, www.theatlantic.com : 6.0, 
-	cluster = 232
-		doc = snpt_1499636082154_44038__My core competency, unfair advantage.mwk	alien : 6.0, exist : 7.2, format : 6.0, normal : 7.6, reiss : 6.0, satisf : 6.0, spatial : 8.5, tabular : 6.0, timid : 6.0, unfair : 6.0, 
-	cluster = 112
-		doc = snpt_1499636081437_41439__Channel branding has be.mwk	brand : 9.9, bug : 12., channel : 20., distract : 8.5, viewer : 13., 
-		doc = snpt_1499636081508_34968__branding.mwk	countri : 4.5, flag : 5.6, photo : 4.3, profil : 5.3, 
-		doc = snpt_1499636080680_84905__Good branding.mwk	bibimbap : 6.0, bibimbowl : 6.0, descript : 5.1, word : 5.6, 
-		doc = snpt_1499636081573_17867__Branding by inventing w.mwk	invent : 6.0, zestim : 6.0, 
-	cluster = 234
-		doc = snpt_1499636082158_53710__Why people stop what th.mwk	bereav : 6.0, counter : 5.3, particip : 6.0, pass : 5.3, rel : 5.3, respect : 5.3, tragedi : 6.0, whatsapp : 5.3, won't : 5.6, 
-		doc = snpt_1499636082323_92898__Rohidekar.mwk	lookalik : 6.0, rohidekar : 5.1, softwar : 5.1, 
-	cluster = 235
-		doc = snpt_1499636082160_48645__Profitable through lack.mwk	elder : 6.0, foreign : 7.6, india : 7.0, interior : 6.0, recruit : 6.0, restaur : 6.0, u.k : 6.0, unimpress : 6.0, unknown : 6.0, 
-	cluster = 115
-		doc = snpt_1499636081778_25786__Marketing to organized.mwk	add : 4.9, calendar : 5.6, nich : 6.0, organ : 5.1, rss : 6.0, 
-		doc = snpt_1499636081465_86795__Before writing any furt.mwk	endors : 10., linkedin : 18., media : 12., poor : 9.8, social : 10., 
-		doc = snpt_1499636081896_28949__consequences of capital.mwk	consequ : 5.6, horribl : 6.0, insincer : 6.0, poor : 5.6, social : 6.1, 
-		doc = snpt_1499636081897_21257__economics under the gui.mwk	corpor : 5.6, ethnic : 6.0, gentrif : 5.6, harass : 6.0, minor : 6.0, victim : 6.0, 
-		doc = snpt_1499636082021_60851__“You follow your kids.mwk	drawn : 5.6, follow : 5.3, kid : 4.8, passion : 4.8, they’r : 5.6, 
-	cluster = 236
-		doc = snpt_1499636082178_98814__Minimal profit brands.mwk	bake : 6.0, bean : 6.0, brand : 6.0, chines : 6.0, i. : 6.0, tesco : 6.0, vega : 6.0, 
-	cluster = 116
-		doc = snpt_1499636081470_16905__Priority 3.mwk	blog : 16., fcpx : 10., hidden : 10., mean : 10., transit : 12., www.premiumbeat.com : 12., 
-	cluster = 237
-		doc = snpt_1499636082194_61350__Bad capacity planning.mwk	capac : 6.0, dryer : 8.5, plan : 5.6, sink : 6.0, urin : 6.0, 
-	cluster = 90
-		doc = snpt_1499636081293_89593__319 PM] Justin Dahmub.mwk	dahmub : 12., justin : 12., ladi : 8.0, lollllll : 6.0, pm : 13., 
-	cluster = 117
-		doc = snpt_1499636081486_86724__branding is the groupin.mwk	brander : 6.0, connor : 6.0, mark : 7.2, sobodi : 6.0, taylor : 6.0, 
-	cluster = 238
-		doc = snpt_1499636082196_51305__Topical songs.mwk	dead : 5.3, hero : 5.6, reson : 6.0, somedai : 6.0, song : 5.3, topic : 6.0, 
-	cluster = 91
-		doc = snpt_1499636081296_59696__1994 florida.mwk	daytona : 6.0, epcot : 6.0, florida : 6.0, lagoon : 6.0, mgm : 6.0, typhoon : 6.0, wild : 6.0, 
-	cluster = 239
-		doc = snpt_1499636082201_37523__bye bye old chap (Lord.mwk	alfr : 6.0, bye : 8.5, chap : 6.0, hay : 6.0, lord : 6.0, 
-	cluster = 92
-		doc = snpt_1499636081299_29256__1) Write down (in as mu.mwk	book : 7.5, knowledg : 6.8, mind : 6.6, pass : 7.6, understand : 7.0, 
-		doc = snpt_1499636080596_11313__Knowledge work cannot b.mwk	forc : 4.8, knowledg : 4.8, 
-	cluster = 93
-		doc = snpt_1499636081301_88566__Poorvi possible degree.mwk	decis : 5.3, degre : 5.3, manag : 5.7, organiz : 6.0, poorvi : 5.6, relat : 5.3, scienc : 7.6, suggest : 5.3, 
-	cluster = 96
-		doc = snpt_1499636081325_29655__Sticking purely to work.mwk	accomplish : 5.3, expert : 5.6, fals : 5.3, pure : 5.3, stick : 5.6, task : 5.3, work : 6.0, 
-		doc = snpt_1499636081929_214__the harder you work the.mwk	harder : 5.6, luckier : 6.0, 
-	cluster = 97
-		doc = snpt_1499636081331_60383__Life story.mwk	began : 5.6, civil : 6.0, neglect : 5.6, religion : 5.6, stori : 5.4, 
-	cluster = 11
-		doc = snpt_1499636080275_39757__Smartphone.mwk	atla : 6.0, calcul : 6.0, notepad : 6.0, telephon : 6.0, walkman : 6.0, 
-	cluster = 99
-		doc = snpt_1499636081351_94077__Focus.mwk	doc : 6.0, editor : 6.0, harder : 5.6, maintain : 5.6, ms : 6.0, plaintext : 6.0, word : 5.6, 
-	cluster = 12
-		doc = snpt_1499636080309_6749__“We had a great experie.mwk	extrem : 5.6, great : 6.4, guest : 5.6, honest : 5.6, polit : 5.6, quiet : 6.0, recommend : 5.6, sincer : 5.6, sridhar : 9.9, 
-	cluster = 16
-		doc = snpt_1499636081241_4732__Immigration lawyer ques.mwk	birthdat : 6.0, fiance : 6.0, immigr : 6.0, k1 : 6.0, k3 : 6.0, lawyer : 6.0, 
-		doc = snpt_1499636082088_19143__april 19th - Anshu inte.mwk	19th : 5.6, april : 5.3, interview : 5.3, ladi : 5.6, reject : 5.6, 
-		doc = snpt_1499636080380_21874__Dear Visa Officer.mwk	birth : 12., board : 12., certif : 14., correct : 12., passport : 12., 
-	cluster = 17
-		doc = snpt_1499636080404_5779__“If you are going to go.mwk	adag : 6.0, churchil : 6.0, coin : 6.0, go : 6.8, hell : 6.0, ii : 6.0, robust : 6.0, sir : 6.0, winston : 6.0, 
-	cluster = 18
-		doc = snpt_1499636080405_45027__Having a knowledge adva.mwk	circl : 5.3, know : 5.6, knowledg : 8.3, listen : 5.3, podcast : 5.3, rang : 5.3, wider : 5.6, 
-	cluster = 240
-		doc = snpt_1499636082201_54798__The best lesson of life.mwk	bunch : 5.6, contini : 6.0, frustrat : 5.6, lock : 6.0, unresult : 6.0, 
-	cluster = 241
-		doc = snpt_1499636080512_91722__Company headquarters.mwk	block : 5.6, headquart : 4.8, hr : 6.0, kansa : 6.0, mo : 6.0, 
-		doc = snpt_1499636080785_60553__Company headquarters.mwk	atlanta : 6.0, ga : 6.0, headquart : 4.8, rubbermaid : 5.6, 
-		doc = snpt_1499636082209_1363__<<<<<<< HEAD.mwk	center : 6.0, headquart : 6.8, hollywood : 6.0, major : 6.8, outlet : 6.0, portion : 6.0, sizabl : 6.0, televis : 6.0, york : 6.0, 
-	cluster = 0
-		doc = snpt_1499636081268_24511__Survivor Series classic.mwk	corrupt : 6.0, degener : 6.0, deprav : 6.0, funki : 6.0, innoc : 6.0, innuendo : 6.0, jazzi : 6.0, melodi : 6.0, pornographi : 6.0, relentlessli : 6.0, repent : 6.0, saxophon : 6.0, smutti : 6.0, solo : 6.0, soul : 6.0, superhero : 6.0, wasn't : 7.2, 
-		doc = snpt_1499636082230_15116__Ashwini movie recommendation.mwk	ashwini : 5.6, love : 4.2, movi : 4.5, recommend : 5.6, secret : 6.0, 
-		doc = snpt_1499636081585_33419__Dont chase someone els.mwk	chase : 7.6, dream : 4.8, 
-		doc = snpt_1499636080846_57946__life story.mwk	academ : 5.6, balanc : 6.0, imposs : 5.1, klopp : 6.0, profession : 5.1, sign : 5.1, 
-		doc = snpt_1499636080530_51245__A lot of hot girls le.mwk	cool : 5.6, hopelessli : 6.0, hot : 5.6, lead : 5.3, shallow : 6.0, 
-		doc = snpt_1499636081292_90842__Life story.mwk	damn : 5.6, funni : 5.6, hate : 6.0, imposs : 7.2, result : 7.0, 
-		doc = snpt_1499484801778_66589.mwk	design : 13., differ : 13., girl : 23., god : 18., gui : 28., nurtur : 16., 
-		doc = snpt_1500169560437_78850__Yeah__pedophile_is_a_bi.mwk	beauti : 7.0, nowadai : 6.0, pedophil : 6.0, rape : 6.0, youth : 6.0, 
-		doc = snpt_1499636082138_74192__<<<<<<< HEAD.mwk	peev : 6.0, srinivasan : 6.0, sympathi : 8.0, tricki : 6.0, vajapeyam : 6.0, vulner : 6.0, wors : 6.0, 
-	cluster = 121
-		doc = snpt_1499636081522_60259__yurl mirrors.mwk	count : 6.0, inventori : 6.0, playlist : 6.0, scrapbook : 6.0, shopahol : 6.0, 
-	cluster = 2
-		doc = snpt_1499636081652_37055__Unfocused strategy.mwk	book : 4.3, encyclopedia : 6.0, strategi : 5.6, unfocus : 6.0, 
-		doc = snpt_1499636080941_81671__Whenever you feel like.mwk	advantag : 4.8, critic : 5.3, rememb : 4.3, 
-		doc = snpt_1499636081493_65536__Good naming helps you r.mwk	help : 4.0, name : 4.9, recal : 5.3, whenisgood.net : 6.0, 
-		doc = snpt_1499484802030_9494.mwk	belief : 17., consciou : 12., curs : 12., instal : 12., mind : 16., subconsci : 12., tree : 17., 
-		doc = snpt_1499636080199_29909__when writers say nothi.mwk	chang : 7.4, firsthand : 6.0, lack : 4.8, pace : 5.6, writer : 5.3, 
-		doc = snpt_1499636080548_92693__Passion myth.mwk	ceo : 5.6, feedback : 5.3, instructor : 6.0, khan : 5.3, mona : 5.6, myth : 5.6, 
-		doc = snpt_1499636082031_64125__people who are never ru.mwk	deep : 5.6, despit : 4.6, inspir : 5.1, rude : 5.6, ulimit : 8.5, 
-		doc = snpt_1499636081775_9311__life story.mwk	british : 5.1, film : 5.3, movi : 4.5, 
-	cluster = 244
-		doc = snpt_1499636082212_45646__(winhttrack -qi%e1C1%Ps.mwk	3.0x : 6.0, ad.doubleclick.net : 6.0, coliseum : 6.0, copier : 6.0, e1c1 : 6.0, en : 8.0, foobar : 6.0, httrack : 8.5, i0p3dak0h0 : 6.0, kf2a25000 : 6.0, mime:appl : 6.0, mozilla : 6.0, o1 : 6.0, ps2u1 : 6.0, qi : 6.0, tinyp : 6.0, un0 : 6.0, winhttrack : 6.0, xr : 6.0, 
-	cluster = 3
-		doc = snpt_1499484802078_82328.mwk	delimit : 10., la : 8.0, liga : 8.5, marri : 8.0, offici : 8.6, ring : 8.0, xarg : 10., 
-		doc = snpt_1499636082094_95305__Dale Carnegie (told by.mwk	achiev : 4.9, carnegi : 6.0, dad : 4.9, dale : 6.0, passion : 4.8, practic : 4.8, told : 4.8, 
-	cluster = 124
-		doc = snpt_1499636081562_64009__business idea.mwk	idea : 4.3, lastalive.com : 6.0, pass : 5.3, photo : 4.3, 
-	cluster = 4
-		doc = snpt_1499636081681_13319__genetic crafting.mwk	breed : 6.0, craft : 6.0, cross : 4.8, genet : 5.6, 
-	cluster = 5
-		doc = snpt_1499484802122_1220.mwk	bodi : 20., curvi : 14., femal : 15., speci : 14., women : 16., 
-		doc = snpt_1499636081922_90035__her breasts are an exte.mwk	breast : 9.3, cater : 6.0, erotic : 6.0, extend : 6.0, extens : 8.9, fecund : 6.0, fetish : 6.0, fruit : 6.0, heart : 8.3, magnet : 6.0, notion : 6.0, plump : 6.0, recept : 6.0, ripe : 6.0, soften : 6.0, spill : 6.0, 
-		doc = snpt_1499636081659_84616__Money is a new form of.mwk	form : 6.4, free : 5.3, imperson : 5.6, relat : 5.3, slave : 5.6, slaveri : 6.0, 
-		doc = snpt_1499636082057_64703__Google makes people m.mwk	googl : 4.3, oppos : 5.3, organ : 5.1, passion : 4.8, true : 4.4, 
-		doc = snpt_1499636081621_49064__Simpsons education.mwk	astronaut : 6.0, educ : 5.6, lisa : 6.0, offer : 5.3, simpson : 5.3, solut : 5.3, 
-		doc = snpt_1499636082373_65341__how to say you want an easy job.mwk	cultur : 5.1, easi : 4.5, health : 5.3, job : 4.1, pace : 5.6, 
-		doc = snpt_1499636082011_79328__Nothing is driven by ri.mwk	fossil : 6.0, fuel : 6.0, ingredi : 6.0, permit : 6.0, righteous : 6.0, smoke : 6.0, 
-		doc = snpt_1499636081797_92987__creative idea.mwk	apart : 5.6, creativ : 5.3, pictur : 5.1, place : 4.4, sameplace.com : 6.0, 
-		doc = snpt_1499636082210_70871__Boys want to impress gi.mwk	boi : 7.2, neoten : 10., prefer : 7.2, smaller : 8.0, tilt : 8.5, 
-		doc = snpt_1499636081996_92279__the enemy of my enemy i.mwk	enemi : 8.5, friend : 4.5, oppos : 5.3, organ : 5.1, passion : 4.8, 
-		doc = snpt_1499636082138_38901__Sexual touch are all th.mwk	bite : 6.0, genit : 6.0, inner : 6.0, intercours : 6.0, kiss : 6.0, neck : 6.0, sexual : 6.4, touch : 8.9, 
-		doc = snpt_1499636081833_84094__6 Your curves The str.mwk	booti : 6.0, calv : 6.0, grabbabl : 6.0, sake : 6.0, scream : 6.0, shimmi : 6.0, shrink : 6.0, 
-		doc = snpt_1499636081766_50083__I still cant get over.mwk	crumpl : 6.0, delight : 6.0, induc : 6.0, realiti : 7.6, sleepwear : 6.0, 
-		doc = snpt_1499484801902_51863.mwk	dad : 8.6, easier : 7.2, father : 8.0, male : 7.0, mother : 8.0, 
-	cluster = 126
-		doc = snpt_1499636081572_28395__2002-05? Went to Rammst.mwk	child : 4.5, concert : 8.5, destini : 6.0, rammstein : 6.0, 
-	cluster = 247
-		doc = snpt_1499636082243_33644__Phase gate necessity example.mwk	gate : 6.0, necess : 6.0, phase : 6.0, script : 6.0, simpson : 5.3, 
-	cluster = 6
-		doc = snpt_1499484802363_25953.mwk	bra : 29., breast : 15., girl : 17., size : 14., tattoo : 13., 
-		doc = snpt_1499636081564_10409__Misheard lyrics.mwk	destin : 5.6, lyric : 4.9, misheard : 5.6, moment : 5.3, situat : 5.3, 
-		doc = snpt_1500169560685_62717__thinking outside the box.mwk	box : 4.9, color : 5.3, left : 4.9, leg : 4.8, tight : 5.6, 
-	cluster = 248
-		doc = snpt_1499636082252_58397__Hospitality studies and.mwk	guest : 5.6, hospit : 6.0, intro.mp3 : 6.0, ipod : 6.0, rumbl : 5.6, 
-	cluster = 249
-		doc = snpt_1499636082053_75016__products that businesse.mwk	aw : 7.6, godaddy.com : 8.0, graphen : 7.6, jungledisk : 9.3, linux : 7.6, 
-		doc = snpt_1499636081953_16123__products that businesse.mwk	cash : 5.3, etf : 5.6, found : 5.3, gnu : 5.6, graphen : 5.3, jungledisk : 7.6, s3 : 5.6, 
-		doc = snpt_1499636081314_74764__Underlying product that.mwk	aw : 5.3, git : 5.6, godaddy.com : 5.6, graphen : 5.3, jungledisk : 5.3, linux : 5.3, mailboxforward : 5.3, scansnap : 5.6, underli : 5.6, virtualbox : 5.3, 
-		doc = snpt_1499636082254_14539__annual accomplishments.mwk	annual : 6.0, diagram : 6.0, kernel : 5.6, loadabl : 6.0, modul : 5.6, wrote : 6.0, yurl : 5.6, 
-	cluster = 128
-		doc = snpt_1499636081575_86371__Brand everything.mwk	court : 5.6, forum : 5.6, name : 4.9, pretend : 6.0, they'r : 4.9, 
-	cluster = 129
-		doc = snpt_1499636081578_69135__Branding in unexpected.mwk	credibl : 6.0, domain : 6.0, gover : 6.0, instantli : 6.0, tld : 6.0, 
-	cluster = 21
-		doc = snpt_1499636081173_89589__Things where others hav.mwk	facebook : 5.6, grass : 5.6, greener : 6.0, iphon : 6.0, latest : 6.0, 
-		doc = snpt_1499636080428_32500__.mwk	css : 13., d3 : 17., document : 15., element : 12., visual : 15., 
-		doc = snpt_1499636081263_75118__Make a lack of customer.mwk	advantag : 4.8, custom : 4.4, lack : 4.8, 
-		doc = snpt_1499636081062_27586__disruptive technologies.mwk	ali : 6.0, disrupt : 5.1, express : 5.6, jersei : 5.6, knock : 6.0, 
-		doc = snpt_1499636081075_41787__Disruptive technology.mwk	browser : 5.6, disrupt : 5.1, paper : 5.6, sheet : 4.9, tab : 6.0, 
-		doc = snpt_1499636080430_66715__Standards further benef.mwk	demand : 5.1, document : 7.0, materi : 5.3, standard : 7.0, suppli : 5.3, 
-		doc = snpt_1499636082380_5303__PIM.mwk	pim : 5.6, setup : 6.0, side : 6.6, user : 4.6, 
-		doc = snpt_1499636081074_94133__Lack of customer need.mwk	biggest : 5.3, gmail : 6.0, inbox : 6.0, lack : 4.8, problem : 4.6, user : 4.6, 
-		doc = snpt_1499636082378_79257__PIM.mwk	pim : 5.6, sku : 6.0, 
-	cluster = 23
-		doc = snpt_1499636080508_67168__purchase funnel feedbac.mwk	axi : 8.5, bundi : 6.0, idiot : 6.0, king : 6.0, kong : 6.0, simplif : 6.0, time : 7.1, 
-	cluster = 26
-		doc = snpt_1499636080518_28215__Autobiography titles.mwk	autobiographi : 6.0, figur : 6.0, hypersensit : 6.0, mental : 6.0, sanctuari : 6.0, 
-	cluster = 28
-		doc = snpt_1499636080532_64398__The league provide mone.mwk	atletico : 6.0, cup : 5.6, provid : 6.1, repetit : 5.6, spirit : 6.0, 
-	cluster = 29
-		doc = snpt_1499636080537_30499__web applications notes.mwk	applic : 7.6, file : 9.9, inf : 8.5, servlet : 8.5, web : 7.6, 
-	cluster = 250
-		doc = snpt_1499636082254_54881__for burning feet.mwk	1000mcg : 6.0, b12 : 6.0, burn : 5.3, feet : 8.0, vitamin : 6.0, 
-	cluster = 251
-		doc = snpt_1499636082256_96274__academic chronological continuum.mwk	ag : 7.9, roman : 8.5, scienc : 7.6, thousand : 8.5, year : 8.5, 
-		doc = snpt_1499636082069_49965__we are dust in the wind.mwk	dust : 5.6, histori : 4.8, wind : 5.6, 
-	cluster = 252
-		doc = snpt_1499636082270_87840__famous march music.mwk	famou : 5.1, richard : 6.0, sprach : 6.0, strauss : 6.0, zarathustra : 6.0, 
-	cluster = 133
-		doc = snpt_1499636081629_19734__2012.mwk	bias : 8.5, cognit : 6.0, learnt : 5.3, superstit : 6.0, underpin : 6.0, 
-	cluster = 255
-		doc = snpt_1499636081288_79943__Luxury brands.mwk	luxuri : 5.3, map : 4.6, uniquemedia : 5.3, 
-		doc = snpt_1499636082319_47862__Marketing - awareness.mwk	awar : 9.9, brand : 6.0, car : 7.6, logo : 7.2, purchas : 6.6, 
-		doc = snpt_1499636082268_30554__A personal brand is one.mwk	person : 5.7, 
-		doc = snpt_1499636080511_65771__Luxury brand.mwk	hbr : 6.0, luxuri : 5.3, 
-	cluster = 134
-		doc = snpt_1499636081631_90312__Jack Bolles at XP 2000.mwk	boll : 6.0, collabor : 6.0, comment : 5.6, jack : 5.6, lone : 5.6, master : 5.6, xp : 6.0, 
-	cluster = 135
-		doc = snpt_1499636081236_29762__false wisdom.mwk	expertis : 5.6, fals : 5.3, hollow : 6.0, wisdom : 5.6, 
-		doc = snpt_1499636081639_50369__In general reading a m.mwk	answer : 7.6, eat : 7.6, fish : 8.5, he’ll : 8.5, seek : 7.0, 
-	cluster = 256
-		doc = snpt_1499636082320_86129__Parenting.mwk	engag : 5.1, name : 4.9, photo : 6.1, shirt : 5.3, sure : 4.9, t : 5.3, they'r : 4.9, 
-	cluster = 136
-		doc = snpt_1499636080777_82125__Once you have a mature.mwk	foot : 5.3, matur : 5.1, protect : 5.1, rubbermaid : 5.6, stool : 5.6, 
-		doc = snpt_1499636080344_67981__the less branding there.mwk	assum : 5.6, content : 4.9, offici : 4.9, qualiti : 4.6, 
-		doc = snpt_1499636080751_34203__Buy quality used rather.mwk	bui : 4.5, qualiti : 4.6, 
-		doc = snpt_1499636081641_15952__Brand Groupings A bran.mwk	brand : 8.5, characterist : 6.0, common : 8.0, group : 10., segment : 6.0, structur : 6.0, 
-	cluster = 258
-		doc = snpt_1499636080638_90561__Nikhita sounds sexy b.mwk	nikhita : 5.6, sexi : 5.1, sound : 6.8, undi : 6.0, 
-		doc = snpt_1499636081624_19675__Nikhita is a sexy name.mwk	nake : 6.0, nikhita : 5.6, sexi : 5.1, sound : 4.8, 
-		doc = snpt_1499636082327_52558__Understanding myself.mwk	afraid : 6.0, allegedyli : 6.0, disturb : 6.0, doctor : 6.0, fuzzi : 6.0, homework : 6.0, ineffici : 6.0, intoler : 6.0, justifi : 6.0, mistak : 8.5, toxic : 6.0, 
-	cluster = 138
-		doc = snpt_1499636080691_21869__Companies that dont ha.mwk	better : 4.0, competitor : 5.6, direct : 5.3, easili : 4.8, logitech : 6.0, 
-		doc = snpt_1499636081645_65493__Portfolio Graphics.mwk	brand : 7.0, graphic : 8.9, logo : 8.9, portfolio : 9.8, strong : 6.6, 
-		doc = snpt_1499636081533_88971__Brands with good produc.mwk	bad : 4.9, belkin : 6.0, product : 5.2, undermin : 6.0, 
-		doc = snpt_1499636080910_51393__Productivity sheet.mwk	fluid : 5.6, funnel : 5.1, sheet : 4.9, 
-	cluster = 259
-		doc = snpt_1499636082331_27804__World music.mwk	carniv : 6.0, dong : 6.0, pari : 6.0, wang : 6.0, xu : 6.0, 
-	cluster = 139
-		doc = snpt_1499636081647_15726__Over-the-top messaging.mwk	instant : 6.0, messag : 10., narrowli : 6.0, provid : 6.1, servic : 6.6, text : 7.6, third : 6.0, 
-	cluster = 31
-		doc = snpt_1499636080568_83406__Wrestler lifestyle choi.mwk	bigelow : 6.0, cliqu : 6.0, flair : 6.0, jericho : 6.0, kevin : 6.0, lifestyl : 6.0, monei : 7.9, nash : 6.0, owen : 8.0, randi : 6.0, safeti : 6.0, savag : 8.0, save : 6.0, undertak : 6.0, wrestler : 6.0, 
-	cluster = 32
-		doc = snpt_1499636080576_18013__The real case involving.mwk	bankruptci : 9.8, chapter : 12., debtor : 8.5, file : 7.7, tna : 10., 
-	cluster = 37
-		doc = snpt_1499636080624_1067__Framework platform fre.mwk	appli : 7.0, framework : 8.0, free : 7.6, labor : 7.2, platform : 7.2, 
-	cluster = 39
-		doc = snpt_1499636080630_99354__Thank MTV Once Music V.mwk	exposur : 6.0, mtv : 6.0, primari : 6.0, sing : 5.6, video : 5.5, 
-	cluster = 260
-		doc = snpt_1499636082332_86356__WWE character inspiration.mwk	charact : 5.6, inspir : 5.1, ryback : 6.0, termin : 6.0, wwe : 4.8, 
-	cluster = 261
-		doc = snpt_1499636081499_59822__Thinking outside the bo.mwk	ball : 5.3, cursor : 6.0, mous : 6.0, net : 5.6, team : 7.0, 
-		doc = snpt_1499636082335_65879__Career paradox.mwk	career : 6.1, comput : 9.1, disadvantag : 5.6, guilti : 5.6, paradox : 5.6, parent : 6.6, smart : 5.6, worri : 5.6, you'r : 7.0, 
-	cluster = 141
-		doc = snpt_1499636081651_20529__Focus.mwk	deepak : 6.0, mbb : 6.0, patient : 6.0, specialist : 6.0, uncl : 5.6, 
-	cluster = 262
-		doc = snpt_1499636082335_71973__flat holdings.mwk	alban : 8.5, flat : 12., hsbc : 8.5, prakash : 10., ridgemont : 8.5, road : 9.8, st : 9.8, twickenham : 8.5, 
-	cluster = 263
-		doc = snpt_1499636082362_87717__PWP - Pipeline with pla.mwk	adp : 5.6, advanc : 5.6, cisco : 5.6, darren : 5.6, distribut : 5.6, pipelin : 5.6, placement : 8.0, pwp : 5.6, 
-	cluster = 143
-		doc = snpt_1499636081654_78595__Youre not payed to alw.mwk	analog : 5.6, answer : 7.6, exam : 6.0, exercis : 5.6, extra : 5.6, struggl : 5.6, textbook : 6.0, weekli : 6.0, 
-	cluster = 265
-		doc = snpt_1499636082342_77896__Career - pigeonholing.mwk	cook : 6.0, dinner : 6.0, groceri : 6.0, keller : 6.0, pigeonhol : 6.0, ross : 6.0, wade : 6.0, 
-	cluster = 266
-		doc = snpt_1499636082343_44686__Cathy M 2014-04-25.mwk	cathi : 6.0, correctli : 5.6, counsel : 5.6, job : 5.8, promis : 5.6, suit : 6.0, test : 7.2, understood : 5.6, 
-	cluster = 146
-		doc = snpt_1499636081666_17938__*.mwk	command : 11., doescircleexist : 6.0, squash : 8.5, string : 7.0, translat : 6.0, 
-	cluster = 267
-		doc = snpt_1499636082392_95361__NSPSEPC01_07_The Conque.mwk	categori : 9.8, disc : 9.8, epic : 12., orchestr : 9.8, track : 8.9, 
-		doc = snpt_1499636082361_91826__sshfs -o reconnect -p.mwk	categori : 9.8, disc : 9.8, epic : 12., lyric : 12., misheard : 9.8, orchestr : 9.8, 
-	cluster = 268
-		doc = snpt_1499484802431_52625.mwk	club : 17., googleusercontent.com : 11., lh3 : 11., madrid : 11., s640 : 10., 
-		doc = snpt_1499636082366_20220__Career encouragement.mwk	atl : 5.6, barcelona : 5.6, bloomer : 5.6, club : 7.2, lionel : 5.6, sidelin : 5.6, tico : 5.6, 
-	cluster = 147
-		doc = snpt_1499636081667_7614__private static int isPr.mwk	int : 10., ispres : 10., node : 10., return : 9.3, val : 12., 
-	cluster = 148
-		doc = snpt_1499636081669_48978__import javaio*;.mwk	frames : 16., int : 11., list : 13., string : 11., void : 10., 
-		doc = snpt_1499636081935_83641__public static int facto.mwk	factori : 5.3, int : 7.2, isridharparam : 8.0, math.max : 5.6, sridharlocalvari : 8.0, 
-		doc = snpt_1499636082024_69072__=======.mwk	bottl : 5.6, int : 7.2, isridharparam : 8.0, math.max : 5.6, small : 6.3, sridharlocalvari : 8.0, 
-	cluster = 41
-		doc = snpt_1499636080412_57996__song tags.mwk	christma : 6.0, cold : 5.6, evok : 5.6, outdoor : 5.6, song : 7.6, tag : 5.6, 
-		doc = snpt_1499636080669_72019__Roundness implies comfo.mwk	evok : 17., feminin : 12., harmoni : 12., impli : 12., round : 20., 
-	cluster = 43
-		doc = snpt_1499636080674_98664__meritocracy myth.mwk	appli : 7.0, berkelei : 6.0, cornel : 6.0, graduat : 6.0, meritocraci : 6.0, reappli : 6.0, semest : 6.0, 
-	cluster = 45
-		doc = snpt_1499636080689_31809__Dont Pinch Pennies Fo.mwk	expens : 4.9, focu : 5.3, frugal : 6.0, penni : 6.0, pinch : 5.6, 
-	cluster = 47
-		doc = snpt_1499636080763_69002__japanese companies.mwk	casio : 6.0, hitachi : 6.0, honda : 6.0, jvc : 6.0, mitsubishi : 6.0, nintendo : 6.0, panason : 6.0, sanyo : 6.0, toshiba : 6.0, toyota : 6.0, yamaha : 6.0, 
-	cluster = 48
-		doc = snpt_1499636080770_29379__Life Story.mwk	direct : 5.3, driver : 6.0, john : 5.6, prakash : 5.3, st : 5.6, 
-	cluster = 270
-		doc = snpt_1499636082369_3937__Golden Rule.mwk	advantag : 4.8, disadvantag : 5.6, golden : 5.6, late : 4.9, rule : 4.9, 
-	cluster = 272
-		doc = water.mwk	water : 6.0, 
-		doc = snpt_1499636082372_712__eTouch training 27 Apr 13.mwk	bull : 9.8, commun : 8.5, control : 9.6, deal : 9.8, employe : 9.3, fox : 8.5, tonal : 8.5, 
-		doc = snpt_1499636082342_4164__Career advice from mom 2014-04.mwk	campu : 6.0, career : 6.1, entitl : 6.0, qualif : 6.0, scu : 6.0, supervis : 6.0, 
-		doc = snpt_1499636080621_74121__Career advice (from Jam.mwk	advic : 5.6, dvelop : 6.0, jame : 5.6, shilpa : 6.0, straight : 5.6, 
-		doc = snpt_1499636081969_13193__inconsistent vs intelli.mwk	inconsist : 5.6, intellig : 6.0, 
-	cluster = 151
-		doc = snpt_1499636081686_94369__sf 1989 earthqake cnn d.mwk	cnn : 6.0, earthqak : 6.0, life : 5.8, moment : 7.6, sf : 6.0, 
-	cluster = 153
-		doc = snpt_1499636081688_43853__Banks are in 2 lines of.mwk	atm : 6.0, credit : 8.0, internet : 7.2, payment : 6.0, vend : 6.0, 
-	cluster = 274
-		doc = snpt_1499636082373_96943__Key Lines 01 Oct 13.mwk	databas : 6.0, graph : 5.3, kei : 4.9, line : 5.3, oct : 6.0, 
-	cluster = 154
-		doc = snpt_1499636081706_28172__wwe impersonations.mwk	3rd : 6.0, cena : 6.0, imit : 6.0, maryz : 6.0, miz : 6.0, nikki : 6.0, 
-	cluster = 276
-		doc = snpt_1499636082379_61021__Prakash job search keywords.mwk	extent : 6.0, fluid : 8.0, physic : 6.3, theoret : 6.0, thermal : 6.0, 
-	cluster = 156
-		doc = snpt_1499636081725_3624__Microsoft autism progra.mwk	24th : 6.0, interview : 9.3, mock : 6.0, seattl : 6.0, week : 6.6, 
-	cluster = 277
-		doc = snpt_1499636082385_30861__Kindle samples.mwk	dart : 6.0, diff'rent : 6.0, kathi : 6.0, kindl : 10., ladd : 6.0, octob : 9.3, sampl : 11., seth : 6.0, sridhar : 6.3, walrath : 6.0, willi : 6.0, 
-	cluster = 157
-		doc = snpt_1499636081730_71887__final conversation with Chris.mwk	chri : 6.0, feedback : 5.3, hwat : 6.0, podcast : 5.3, tool : 5.3, 
-	cluster = 278
-		doc = snpt_1499636082387_79413__apache web server on Wi.mwk	folder : 6.0, hoist : 6.0, html : 7.2, local : 7.6, server : 6.0, sorter : 6.0, webserv : 6.0, 
-	cluster = 158
-		doc = snpt_1499636081734_53463__Often its better to pr.mwk	afford : 6.0, budget : 6.0, cartoon : 5.6, cheap : 5.6, garbag : 6.0, target : 6.0, 
-	cluster = 279
-		doc = snpt_1499636082156_61956__Win some lose some.mwk	lose : 5.6, win : 5.1, 
-		doc = snpt_1499636082413_27774__Organization.mwk	chart : 8.5, choos : 8.0, detail : 8.9, diari : 8.5, freedom : 8.0, logbook : 8.5, 
-	cluster = 50
-		doc = snpt_1499636081673_1856__staged nudity is less a.mwk	accident : 6.0, arous : 5.6, nuditi : 8.5, stage : 5.1, 
-		doc = snpt_1499636080801_25344__Breasts function of co.mwk	arous : 9.8, breast : 10., contract : 8.5, goosebump : 8.5, intens : 8.5, oxytocin : 8.5, 
-	cluster = 51
-		doc = snpt_1499636080803_82441__Mr Fuji was born in Haw.mwk	born : 8.0, fuji : 5.6, hail : 6.0, hawaii : 8.5, japanes : 5.6, ricki : 6.0, steamboat : 5.6, 
-	cluster = 52
-		doc = snpt_1499636080821_83462__The key to money well s.mwk	hair : 5.3, mattress : 6.0, spent : 5.6, tempurped : 6.0, transplant : 6.0, 
-	cluster = 53
-		doc = snpt_1499636080827_41440__1143 AM 9212016] A.mwk	anshu : 6.8, cruelti : 6.0, independ : 6.0, insecur : 6.0, priya : 8.0, swetha : 8.5, 
-	cluster = 54
-		doc = snpt_1499636080835_8778__Competition.mwk	attitud : 5.3, competit : 5.3, consol : 6.0, consum : 5.3, entrepreneur : 5.6, gratitud : 6.0, ultim : 5.6, 
-	cluster = 56
-		doc = snpt_1499636080872_11819__#meritocracy_myth.mwk	batistuta : 6.0, carrick : 6.0, epl : 6.0, gerrard : 6.0, meritocracy_myth : 6.0, midfield : 6.0, shearer : 6.0, 
-		doc = snpt_1499636081419_16999__All good rules have exc.mwk	ars : 6.0, dog : 6.0, except : 5.1, shine : 6.0, sun : 6.0, 
-	cluster = 57
-		doc = snpt_1499636080875_63255__great music doesnt need.mwk	doesnt : 6.0, great : 4.5, lyric : 4.9, music : 4.1, 
-	cluster = 280
-		doc = snpt_1499636081650_63472__Crushes.mwk	ashwini : 5.6, crush : 5.6, poorvi : 5.6, radhika : 6.0, 
-	cluster = 160
-		doc = snpt_1499636081773_31318__when you have a lot of.mwk	blindli : 6.0, cash : 7.6, debt : 9.3, pai : 7.2, regret : 6.0, 
-	cluster = 281
-		doc = snpt_1500169560639_25651__I_ve_lived_in_some_quit.mwk	hostel : 6.0, jock : 6.0, musician : 6.0, nerd : 6.0, passtim : 6.0, qct : 6.0, rough : 6.0, scholar : 6.0, snob : 6.0, spiritualist : 6.0, 
-	cluster = 282
-		doc = snpt_1500169560640_6244__activities_interests.mwk	cat : 5.6, citizenship : 6.0, danc : 5.6, geograph : 6.0, joke : 5.1, test : 5.1, 
-	cluster = 283
-		doc = snpt_1499636082073_34654__im only half joking.mwk	half : 5.1, i'm : 4.6, joke : 5.1, 
-		doc = snpt_1499636081855_69391__Life story.mwk	ask : 5.6, i'm : 4.6, inform : 5.6, leav : 6.6, presid : 5.6, 
-		doc = snpt_1500169560734_70060__normal_than_most_people.mwk	cultur : 11., girl : 11., normal : 14., sexual : 12., younger : 10., 
-	cluster = 163
-		doc = snpt_1499636081780_98492__# goal - make every bra.mwk	atleticomadridenglish : 8.5, auto : 6.0, coagulatepip : 6.0, db : 8.5, httpcat : 6.0, ln : 17., reachabl : 6.0, sarnobat.git : 10., unauthor : 6.0, 
-	cluster = 164
-		doc = snpt_1499636081794_99239__brands are basically to.mwk	atleticofan : 8.5, cd : 9.3, directori : 13., level : 12., top : 11., 
-	cluster = 167
-		doc = snpt_1499636081803_57248__the alternative to week.mwk	accomplish : 5.3, altern : 4.9, go : 6.8, unemploi : 6.0, weekend : 6.0, 
-	cluster = 201
-		doc = snpt_1499636081974_40677__<<<<<<< HEAD.mwk	distinct : 5.3, ingeni : 6.0, landmark : 6.0, sear : 6.0, tower : 5.3, 
-	cluster = 202
-		doc = snpt_1499636081976_80841__humor through imagery.mwk	dynamit : 6.0, eleph : 6.0, fly : 6.0, humor : 7.6, imageri : 8.5, mislead : 6.0, pyjama : 6.0, shot : 6.0, slapstick : 6.0, unzip : 6.0, 
-	cluster = 203
-		doc = snpt_1499636081800_59607__temporal logic.mwk	logic : 5.3, memoryless : 6.0, properti : 5.1, tempor : 5.6, 
-		doc = snpt_1499636081983_33470__japan is a closed econo.mwk	bangkok : 8.5, citi : 7.9, muang : 8.5, thani : 8.5, thong : 8.5, 
-	cluster = 204
-		doc = snpt_1499636081985_3056__equalizer.mwk	cooler : 8.5, feel : 6.7, felt : 7.0, indian : 7.6, lesser : 8.5, 
-	cluster = 205
-		doc = snpt_1499636081985_34572__racist analytics  data.mwk	africa : 6.0, analyt : 6.0, mine : 5.6, racist : 6.0, spam : 6.0, 
-	cluster = 206
-		doc = snpt_1499636081987_81660__economic globalization.mwk	bank : 6.6, countri : 7.9, currenc : 8.0, thai : 8.5, western : 8.5, 
-	cluster = 207
-		doc = snpt_1499636081988_48297__Ajay Ranga Murali (oc.mwk	accur : 6.0, ajai : 6.0, analysi : 5.6, base : 5.3, murali : 5.3, occasion : 5.3, ranga : 6.0, syndrom : 5.3, 
-	cluster = 60
-		doc = snpt_1499636080917_10896__‘There will never be an.mwk	aguero : 9.3, falcao : 8.0, fernando : 8.0, radamel : 8.5, sergio : 8.5, torr : 8.0, 
-	cluster = 208
-		doc = snpt_1499636081988_97611__Looking at airforce one.mwk	airforc : 6.0, aspir : 6.0, bu : 6.0, dissatsifact : 6.0, propag : 6.0, 
-	cluster = 61
-		doc = snpt_1499636080926_29463__Jan LA van de Snepsch.mwk	berra : 6.0, jan : 6.0, l.a : 6.0, practic : 6.8, snepscheut : 6.0, theori : 7.6, van : 6.0, yogi : 6.0, 
-	cluster = 209
-		doc = snpt_1499636081687_72585__Synergy.mwk	email : 5.6, mailboxforward : 5.3, synergi : 5.6, 
-		doc = snpt_1499636081990_74228__synergy.mwk	amazon : 7.6, echo : 6.0, integr : 6.0, ship : 6.0, synergi : 5.6, tape : 5.6, 
-	cluster = 62
-		doc = snpt_1499636080933_7146__Pavithra.mwk	java : 7.6, languag : 11., massiv : 8.5, obsess : 7.6, power : 7.7, sql : 8.5, 
-	cluster = 63
-		doc = snpt_1499636080934_23191__Im a better runner tha.mwk	australian : 6.0, awesom : 6.0, batman : 6.0, fair : 6.0, favour : 6.0, haven’t : 6.0, holi : 6.0, odd : 6.0, runner : 6.0, sponsor : 6.0, wangl : 6.0, whoah : 6.0, 
-		doc = snpt_1499636080628_83572__If youre not pissing s.mwk	aren’t : 6.0, piss : 6.0, you’r : 5.6, 
-	cluster = 65
-		doc = snpt_1499636080955_69918__Company headquarters.mwk	abercrombi : 6.0, albani : 8.5, fitch : 6.0, hollist : 6.0, ohio : 8.5, u. : 7.2, 
-	cluster = 66
-		doc = snpt_1499636080982_46571__“Yesterdays best pract.mwk	applic : 10., control : 10., environ : 8.0, interfac : 7.6, jetti : 8.5, 
-	cluster = 67
-		doc = snpt_1499636081007_47469__I cant prove this but.mwk	artifici : 6.0, buckl : 6.0, ceo : 8.0, ensur : 6.0, freight : 6.0, fulfil : 6.0, litt : 6.0, load : 7.6, pink : 6.0, recess : 6.0, stockhold : 6.0, 
-	cluster = 170
-		doc = snpt_1499636081834_78739__A.mwk	getandaddflatrepresentationofallsubtre : 12., getcount : 12., leftrepresent : 12., n.left : 12., n.right : 12., rightrepresent : 12., string : 17., treerepresent : 19., 
-	cluster = 171
-		doc = snpt_1499636081723_40082__do auction myself.mwk	auction : 8.5, local : 5.3, 
-		doc = snpt_1499636081836_67736__find all triplets with.mwk	hashset : 8.5, notorieti : 8.5, philosophi : 8.5, pointer : 8.5, sum : 8.5, 
-	cluster = 172
-		doc = snpt_1499636081847_92119__consumer products becom.mwk	comput : 4.5, consum : 5.3, expens : 4.9, gasolin : 6.0, hous : 4.5, milk : 5.3, 
-	cluster = 173
-		doc = snpt_1499636081850_97676__Tandy - Fort Worth TX.mwk	fort : 6.0, tandi : 6.0, tx : 6.0, worth : 5.6, 
-	cluster = 174
-		doc = snpt_1499636081852_62404__historical technologies.mwk	histor : 5.1, learn : 4.8, rental : 6.0, technolog : 4.5, telegraph : 6.0, 
-	cluster = 176
-		doc = snpt_1499636081333_21183__There were two versions.mwk	sax : 12., saxaphon : 10., seri : 8.6, survivor : 9.8, theme : 12., 
-		doc = snpt_1499636081870_27310__Titans Hot Ticket.mwk	hogan : 17., hulk : 13., memori : 8.9, okerlund : 10., recal : 10., 
-		doc = snpt_1499636082035_66527__remove first line of fi.mwk	file : 6.3, file.txt : 6.0, foo.txt : 6.0, jarrett : 6.0, jeff : 6.0, remov : 8.0, sed : 8.0, 
-	cluster = 177
-		doc = snpt_1499636081871_11171__But capitalism works in.mwk	19th : 5.6, bust : 5.6, centuri : 6.0, demis : 6.0, mysteri : 6.0, railwai : 5.6, surviv : 5.6, 
-	cluster = 210
-		doc = snpt_1499636081999_77277__stock music.mwk	indie.mp4 : 6.0, music : 4.1, sky : 6.0, stock : 5.3, unsort : 6.0, 
-	cluster = 178
-		doc = snpt_1499636081872_61646__51391 The WWF moved.mwk	ct : 6.0, stamford : 6.0, titan : 5.6, tower : 5.3, wwf : 5.1, 
-	cluster = 213
-		doc = snpt_1499636082020_24249__child theater actors.mwk	actor : 8.5, child : 6.4, children : 6.6, i’m : 8.0, warchu : 8.5, 
-	cluster = 215
-		doc = snpt_1499636082022_19237__disposability via compo.mwk	component : 6.0, dispos : 5.3, humor : 5.3, wrestl : 4.9, 
-	cluster = 217
-		doc = snpt_1499636082032_92576__<<<<<<< HEAD.mwk	apache2 : 8.5, libexec : 8.5, mac : 6.0, mod_include.so : 6.0, mod_perl.so : 6.0, usr : 8.5, 
-	cluster = 219
-		doc = snpt_1499636081249_34859__Priority 3.mwk	bear : 5.1, markets.html : 5.6, prioriti : 4.3, www.cnbc.com : 5.6, 
-		doc = snpt_1499636082056_68261__Siberian railroad documentary.mwk	chrome : 32., http : 24., oq : 25., search : 26., www.google.com : 30., 
-		doc = snpt_1499636081549_54612__Priority 3.mwk	07curvology.htm : 6.0, prioriti : 4.3, www.davidbainbridge.org : 6.0, 
-		doc = snpt_1499636082370_64985__government jobs.mwk	2c : 6.0, backfil : 6.0, job : 5.8, programm : 6.0, www.governmentjobs.com : 6.0, 
-		doc = snpt_1499636082300_98661__Rohidekar.mwk	info : 6.0, load : 5.3, probe : 6.0, space : 5.6, voyag : 6.0, 
-		doc = snpt_1499636081642_86570__Priority 3.mwk	bps1804_2 : 6.0, htm : 6.0, kmailers_univers : 6.0, kunivers : 6.0, mktg_kmailer : 6.0, www.themanagementor.com : 6.0, 
-		doc = snpt_1499636082222_33864__Bureaucracy in programming.mwk	bureaucraci : 5.6, fail : 5.1, mainten : 5.6, michaelochurch.wordpress.com : 5.6, taxat : 5.6, 
-		doc = snpt_1499636082228_91770__Thomas the tank engine tribute.mwk	engin : 7.0, heartwarm : 6.0, tank : 6.0, thoma : 6.0, tribut : 6.0, z4oskfs1f9m : 6.0, 
-		doc = snpt_1499636082296_21841__Rohidekar seal of approval.mwk	catalogu : 6.0, coliseum.html : 6.0, seal : 6.0, thewrestlingkingsclassiccovers.weebly.com : 5.6, www.prowrestlinghistory.com : 6.0, 
-		doc = snpt_1499636081060_16676__Being womanly means am.mwk	buttock : 5.6, eager : 6.0, rbcbrhqtloq : 6.0, stick : 5.6, womanli : 5.6, 
-		doc = snpt_1499636081209_32887__Priority 3.mwk	html : 7.2, legaci : 8.0, lesson14 : 8.5, perl : 9.3, sphaerula.com : 8.5, 
-		doc = snpt_1499636081289_51063__Small businesses that d.mwk	deliber : 6.0, map : 4.6, moniet : 6.0, small : 4.4, uniquemedia : 5.3, 
-		doc = snpt_1499636081958_68654__>>>>>>> 11b75f1939adece.mwk	analysi : 5.6, baikal : 5.6, ferri : 5.6, lake : 6.0, siberi : 6.0, workaround : 6.0, 
-		doc = snpt_1499636080358_48865__Los Angeles.mwk	autism : 8.0, plug : 8.5, print : 7.0, ticket : 7.6, www.eventbrite.com : 8.5, 
-		doc = snpt_1499636081555_14284__Priority 3.mwk	brexit : 6.0, fortune.com : 6.0, greatest : 5.6, rivalri : 6.0, www.kayfabenews.com : 6.0, 
-		doc = snpt_1499484802433_21578.mwk	club : 13., googleusercontent.com : 17., i'd : 13., jpg : 12., lh3 : 17., 
-		doc = snpt_1499636082207_5816__priority 3.mwk	attractiveness2 : 6.0, en.wikipedia.org : 5.6, list_of_narrative_techniqu : 6.0, wiki : 5.6, www.viewzone.com : 6.0, 
-		doc = snpt_1499636081659_64550__httpswwwyelpcomse.mwk	advisor : 10., find_desc : 10., find_loc : 10., search : 8.3, www.yelp.com : 10., 
-		doc = snpt_1499636081291_135__Business headquarters.mwk	clara : 5.6, headquart : 4.8, map : 4.6, santa : 5.6, uniquemedia : 5.3, 
-		doc = snpt_1499636080901_76280__watch -n 5  find \| wc.mwk	wc : 6.0, 
-		doc = snpt_1499636080590_793__For my 1994 birthday (p.mwk	birthdai : 7.6, bought : 5.6, chequ : 6.0, light : 5.6, mail : 6.0, resend : 6.0, 
-		doc = snpt_1499636082223_5534__priority 3.mwk	code : 4.9, fail : 5.1, mainten : 5.6, michaelochurch.wordpress.com : 5.6, represent : 4.9, taxat : 5.6, 
-		doc = snpt_1499636082367_74452__Etouch all hands 2013-03-05.mwk	data : 4.4, etouch : 5.3, hand : 4.5, polici : 5.3, posit : 4.5, 
-		doc = snpt_1499636081964_63911__Siberian railroad documentary.mwk	documentari : 8.9, railroad : 10., siberian : 11., tran : 9.3, www.youtube.com : 9.9, 
-	cluster = 72
-		doc = snpt_1499636081117_48593__Life story.mwk	explicitli : 6.0, scholarship : 6.0, standard : 7.0, student : 7.6, superior : 6.0, 
-	cluster = 74
-		doc = snpt_1499636081199_72775__Beachfront celebration.mwk	beachfront : 6.0, believin : 6.0, corr : 6.0, fun : 7.0, heat : 6.0, joyou : 6.0, mmmbop : 6.0, strenuou : 6.0, unwind : 6.0, 
-	cluster = 75
-		doc = snpt_1499636081205_39863__Life story.mwk	chat : 6.0, cousin : 6.0, repli : 5.6, slow : 5.6, unreli : 6.0, 
-	cluster = 76
-		doc = snpt_1499636081207_37947__Obsoleted by smartphone.mwk	black : 5.6, carri : 5.6, compass : 6.0, obsolet : 6.0, pouch : 6.0, 
-	cluster = 78
-		doc = snpt_1499636081215_57056__The purchase of Georgia.mwk	championship : 6.0, georgia : 6.0, region : 6.0, sideshow : 6.0, wrestl : 7.0, 
-	cluster = 79
-		doc = snpt_1499636081216_88118__Every prediction will c.mwk	invest : 7.2, moon : 6.0, predict : 6.0, true : 6.3, will : 7.6, 
-	cluster = 180
-		doc = snpt_1499636081889_5963__company headquarters.mwk	acer : 6.0, asu : 6.0, foxconn : 5.6, link : 5.1, taiwan : 12., 
-	cluster = 182
-		doc = snpt_1499636081897_48853__gentrification is the n.mwk	bui : 6.4, capitalist : 6.0, coloni : 6.0, corpor : 8.0, enforc : 6.0, estat : 6.0, incumb : 6.0, invad : 8.5, polic : 6.0, residenti : 6.0, territori : 6.0, threat : 6.0, villain : 6.0, warfar : 6.0, 
-	cluster = 183
-		doc = snpt_1499636081906_60000__WWE keeps thing simple.mwk	complex : 5.6, ppv : 6.0, split : 5.6, storytel : 6.0, strategi : 5.6, 
-	cluster = 184
-		doc = snpt_1499636081917_51744__Andre Airplane - Moomra.mwk	airplan : 6.0, dancehal : 6.0, edm : 6.0, moombahton : 6.0, moomrak : 6.0, 
-	cluster = 187
-		doc = snpt_1499636081926_44527__defunct companies.mwk	cat : 16., git_files.txt : 10., join : 12., pe : 10., sort : 15., trash : 19., z0 : 10., 
-	cluster = 220
-		doc = snpt_1499636082066_34994__starting your child ear.mwk	cathedr : 6.0, furstrat : 6.0, johnathan : 6.0, school : 6.3, william : 6.0, 
-	cluster = 100
-		doc = snpt_1499636081354_30655__when parents and teache.mwk	cl : 6.0, essenti : 8.5, failur : 6.0, qualifi : 6.0, queri : 6.0, 
-	cluster = 101
-		doc = snpt_1499636081358_24806__hackathon.mwk	beer : 6.0, hackathon : 8.5, pizza : 5.6, reward : 6.0, sole : 5.6, 
-	cluster = 189
-		doc = snpt_1499636081930_14398__defunct companies UK.mwk	depart : 6.0, hypervalu : 6.0, littlewood : 6.0, menzi : 6.0, morgan : 6.0, rumbelow : 6.0, safewai : 6.0, somerfield : 6.0, uk : 10., 
-	cluster = 102
-		doc = snpt_1499636081359_11425__Software engineers don.mwk	deal : 8.0, deliveri : 6.0, mobil : 5.3, smart : 5.6, stream : 6.0, voic : 5.3, 
-	cluster = 223
-		doc = snpt_1499636082070_8581__US highlights.mwk	countdown : 6.0, funk : 6.0, highlight : 5.6, murali : 7.6, randakka : 6.0, ruin : 5.6, tempor : 5.6, 
-	cluster = 103
-		doc = snpt_1499636082341_92899__Business hsitory.mwk	hsitori : 6.0, 
-		doc = snpt_1499636081377_14486__Life story.mwk	ambiti : 6.0, class : 6.8, classmat : 6.0, colloquium : 6.0, commerc : 6.0, os : 6.0, pointless : 6.0, practicum : 6.0, undergrad : 6.0, weren't : 6.0, workload : 6.0, 
-	cluster = 104
-		doc = snpt_1499636081389_65646__Maximize Net profit fal.mwk	fallaci : 5.6, liverpool : 5.6, maxim : 5.6, net : 5.6, paid : 6.0, 
-	cluster = 225
-		doc = snpt_1499636082074_28822__ West Bromwic.mwk	albion : 6.0, bromwich : 6.0, calf : 6.0, cleat : 8.5, cure : 6.0, diagnos : 6.0, excess : 6.0, fasciiti : 6.0, foot : 9.3, hurt : 6.0, infra : 6.0, inject : 6.0, injuri : 7.2, mud : 6.0, nerv : 6.0, outer : 6.0, pain : 9.3, plantar : 6.0, rain : 6.0, randomli : 6.0, sharp : 6.0, soggi : 6.0, tarsal : 6.0, tendon : 6.0, therapi : 6.0, treatment : 6.0, 
-		doc = snpt_1499636082336_49131__Madrid Revisited (Master).mwk	adp : 5.6, advanc : 5.6, cisco : 5.6, darren : 5.6, distribut : 5.6, master : 5.6, pipelin : 5.6, placement : 8.0, pwp : 5.6, 
-	cluster = 105
-		doc = snpt_1499636081402_9434__For amateur work like A.mwk	amateur : 6.0, caption : 6.0, ruin : 5.6, tire : 5.6, unbrand : 6.0, 
-	cluster = 226
-		doc = snpt_1499636082085_474__The other reason why co.mwk	bore : 6.0, galleri : 6.0, instagram : 6.0, novelti : 6.0, perfectli : 6.0, photo : 6.1, picasa : 6.0, rewritten : 6.0, 
-	cluster = 106
-		doc = snpt_1499636081404_20921__Example of unmeasurable.mwk	bentek : 6.0, gabriel : 6.0, lfc : 6.0, loss : 6.0, origi : 6.0, paletta : 6.0, suarez : 6.0, unmeasur : 6.0, 
-	cluster = 80
-		doc = snpt_1499636081220_79442__Heading for a list at t.mwk	column : 6.0, hh:mm : 6.0, owner : 6.0, perm : 6.0, printf : 8.5, 
-	cluster = 228
-		doc = snpt_1499636082111_1085__Classy British celebrit.mwk	barrymor : 6.0, bob : 6.0, cilla : 6.0, classi : 6.0, de : 7.2, denni : 6.0, forsyth : 6.0, le : 6.0, lynam : 6.0, miachael : 6.0, monkhous : 6.0, o'connor : 6.0, 
-	cluster = 229
-		doc = snpt_1499636082114_68200__Automobiles may not off.mwk	allur : 8.5, game : 7.0, man : 7.9, realiz : 7.0, will : 6.8, 
-		doc = snpt_1499636082382_74269__All generalizations ar.mwk	except : 5.1, express : 5.6, fals : 5.3, prove : 4.9, rule : 4.9, 
-	cluster = 109
-		doc = snpt_1499636081424_99239__A business idea that is.mwk	app : 5.6, livescor : 6.0, match : 6.4, notif : 6.0, random : 5.6, unlock : 6.0, 
-	cluster = 83
-		doc = snpt_1499636081245_73951__2 How often do correct.mwk	averag : 11., bear : 12., correct : 8.6, market : 11., percent : 13., 
-	cluster = 85
-		doc = snpt_1499636081262_48615__weve collectively come.mwk	imag : 7.2, photo : 7.5, polly.jpg : 12., riak : 13., we’v : 8.0, 
-	cluster = 87
-		doc = snpt_1499636081273_13090__Heaviness = quality.mwk	cheap : 5.6, heavi : 5.6, seat : 5.6, stupid : 6.0, toilet : 5.6, 
+	5) clusterDocuments() distance = 1.0
 5b)	190 :: [snpt_1499636081966_37079__good positioning.mwk, snpt_1499636081931_2360__<<<<<<< HEAD.mwk, snpt_1499636082349_45358__purchase funnel.mwk]
 			5b) doc = snpt_1499636081966_37079__good positioning.mwk
 			5b) doc = snpt_1499636081931_2360__<<<<<<< HEAD.mwk
@@ -562,15 +45,16 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 			5b) doc = snpt_1499636082047_77460__attractiveness has to b.mwk
 			5b) doc = snpt_1499636081350_31539__log4j is popular even.mwk
 			5b) doc = snpt_1499636081967_39417__when a girl is on high.mwk
-5b)	196 :: [snpt_1499636080362_77568__expenditures on wasting.mwk, snpt_1499636081958_74794__Wifi.mwk]
+5b)	196 :: [snpt_1499636080362_77568__expenditures on wasting.mwk, snpt_1499636082022_19237__disposability via compo.mwk, snpt_1499636081958_74794__Wifi.mwk]
 			5b) doc = snpt_1499636080362_77568__expenditures on wasting.mwk
+			5b) doc = snpt_1499636082022_19237__disposability via compo.mwk
 			5b) doc = snpt_1499636081958_74794__Wifi.mwk
 5b)	112 :: [snpt_1499636081437_41439__Channel branding has be.mwk, snpt_1499636081508_34968__branding.mwk, snpt_1499636080680_84905__Good branding.mwk, snpt_1499636081573_17867__Branding by inventing w.mwk]
 			5b) doc = snpt_1499636081437_41439__Channel branding has be.mwk
 			5b) doc = snpt_1499636081508_34968__branding.mwk
 			5b) doc = snpt_1499636080680_84905__Good branding.mwk
 			5b) doc = snpt_1499636081573_17867__Branding by inventing w.mwk
-5b)	234 :: [snpt_1499636082158_53710__Why people stop what th.mwk, snpt_1499636082323_92898__Rohidekar.mwk]
+5b)	233 :: [snpt_1499636082158_53710__Why people stop what th.mwk, snpt_1499636082323_92898__Rohidekar.mwk]
 			5b) doc = snpt_1499636082158_53710__Why people stop what th.mwk
 			5b) doc = snpt_1499636082323_92898__Rohidekar.mwk
 5b)	115 :: [snpt_1499636081778_25786__Marketing to organized.mwk, snpt_1499636081465_86795__Before writing any furt.mwk, snpt_1499636081896_28949__consequences of capital.mwk, snpt_1499636081897_21257__economics under the gui.mwk, snpt_1499636082021_60851__“You follow your kids.mwk]
@@ -589,14 +73,13 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 			5b) doc = snpt_1499636081241_4732__Immigration lawyer ques.mwk
 			5b) doc = snpt_1499636082088_19143__april 19th - Anshu inte.mwk
 			5b) doc = snpt_1499636080380_21874__Dear Visa Officer.mwk
-5b)	241 :: [snpt_1499636080512_91722__Company headquarters.mwk, snpt_1499636080785_60553__Company headquarters.mwk, snpt_1499636082209_1363__<<<<<<< HEAD.mwk]
+5b)	240 :: [snpt_1499636080512_91722__Company headquarters.mwk, snpt_1499636080785_60553__Company headquarters.mwk, snpt_1499636082209_1363__<<<<<<< HEAD.mwk]
 			5b) doc = snpt_1499636080512_91722__Company headquarters.mwk
 			5b) doc = snpt_1499636080785_60553__Company headquarters.mwk
 			5b) doc = snpt_1499636082209_1363__<<<<<<< HEAD.mwk
-5b)	0 :: [snpt_1499636081268_24511__Survivor Series classic.mwk, snpt_1499636082230_15116__Ashwini movie recommendation.mwk, snpt_1499636081585_33419__Dont chase someone els.mwk, snpt_1499636080846_57946__life story.mwk, snpt_1499636080530_51245__A lot of hot girls le.mwk, snpt_1499636081292_90842__Life story.mwk, snpt_1499484801778_66589.mwk, snpt_1500169560437_78850__Yeah__pedophile_is_a_bi.mwk, snpt_1499636082138_74192__<<<<<<< HEAD.mwk]
+5b)	0 :: [snpt_1499636081268_24511__Survivor Series classic.mwk, snpt_1499636082230_15116__Ashwini movie recommendation.mwk, snpt_1499636080846_57946__life story.mwk, snpt_1499636080530_51245__A lot of hot girls le.mwk, snpt_1499636081292_90842__Life story.mwk, snpt_1499484801778_66589.mwk, snpt_1500169560437_78850__Yeah__pedophile_is_a_bi.mwk, snpt_1499636082138_74192__<<<<<<< HEAD.mwk]
 			5b) doc = snpt_1499636081268_24511__Survivor Series classic.mwk
 			5b) doc = snpt_1499636082230_15116__Ashwini movie recommendation.mwk
-			5b) doc = snpt_1499636081585_33419__Dont chase someone els.mwk
 			5b) doc = snpt_1499636080846_57946__life story.mwk
 			5b) doc = snpt_1499636080530_51245__A lot of hot girls le.mwk
 			5b) doc = snpt_1499636081292_90842__Life story.mwk
@@ -634,7 +117,7 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 			5b) doc = snpt_1499484802363_25953.mwk
 			5b) doc = snpt_1499636081564_10409__Misheard lyrics.mwk
 			5b) doc = snpt_1500169560685_62717__thinking outside the box.mwk
-5b)	249 :: [snpt_1499636082053_75016__products that businesse.mwk, snpt_1499636081953_16123__products that businesse.mwk, snpt_1499636081314_74764__Underlying product that.mwk, snpt_1499636082254_14539__annual accomplishments.mwk]
+5b)	248 :: [snpt_1499636082053_75016__products that businesse.mwk, snpt_1499636081953_16123__products that businesse.mwk, snpt_1499636081314_74764__Underlying product that.mwk, snpt_1499636082254_14539__annual accomplishments.mwk]
 			5b) doc = snpt_1499636082053_75016__products that businesse.mwk
 			5b) doc = snpt_1499636081953_16123__products that businesse.mwk
 			5b) doc = snpt_1499636081314_74764__Underlying product that.mwk
@@ -649,10 +132,10 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 			5b) doc = snpt_1499636082380_5303__PIM.mwk
 			5b) doc = snpt_1499636081074_94133__Lack of customer need.mwk
 			5b) doc = snpt_1499636082378_79257__PIM.mwk
-5b)	251 :: [snpt_1499636082256_96274__academic chronological continuum.mwk, snpt_1499636082069_49965__we are dust in the wind.mwk]
+5b)	250 :: [snpt_1499636082256_96274__academic chronological continuum.mwk, snpt_1499636082069_49965__we are dust in the wind.mwk]
 			5b) doc = snpt_1499636082256_96274__academic chronological continuum.mwk
 			5b) doc = snpt_1499636082069_49965__we are dust in the wind.mwk
-5b)	255 :: [snpt_1499636081288_79943__Luxury brands.mwk, snpt_1499636082319_47862__Marketing - awareness.mwk, snpt_1499636082268_30554__A personal brand is one.mwk, snpt_1499636080511_65771__Luxury brand.mwk]
+5b)	254 :: [snpt_1499636081288_79943__Luxury brands.mwk, snpt_1499636082319_47862__Marketing - awareness.mwk, snpt_1499636082268_30554__A personal brand is one.mwk, snpt_1499636080511_65771__Luxury brand.mwk]
 			5b) doc = snpt_1499636081288_79943__Luxury brands.mwk
 			5b) doc = snpt_1499636082319_47862__Marketing - awareness.mwk
 			5b) doc = snpt_1499636082268_30554__A personal brand is one.mwk
@@ -665,7 +148,7 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 			5b) doc = snpt_1499636080344_67981__the less branding there.mwk
 			5b) doc = snpt_1499636080751_34203__Buy quality used rather.mwk
 			5b) doc = snpt_1499636081641_15952__Brand Groupings A bran.mwk
-5b)	258 :: [snpt_1499636080638_90561__Nikhita sounds sexy b.mwk, snpt_1499636081624_19675__Nikhita is a sexy name.mwk, snpt_1499636082327_52558__Understanding myself.mwk]
+5b)	257 :: [snpt_1499636080638_90561__Nikhita sounds sexy b.mwk, snpt_1499636081624_19675__Nikhita is a sexy name.mwk, snpt_1499636082327_52558__Understanding myself.mwk]
 			5b) doc = snpt_1499636080638_90561__Nikhita sounds sexy b.mwk
 			5b) doc = snpt_1499636081624_19675__Nikhita is a sexy name.mwk
 			5b) doc = snpt_1499636082327_52558__Understanding myself.mwk
@@ -674,13 +157,13 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 			5b) doc = snpt_1499636081645_65493__Portfolio Graphics.mwk
 			5b) doc = snpt_1499636081533_88971__Brands with good produc.mwk
 			5b) doc = snpt_1499636080910_51393__Productivity sheet.mwk
-5b)	261 :: [snpt_1499636081499_59822__Thinking outside the bo.mwk, snpt_1499636082335_65879__Career paradox.mwk]
+5b)	260 :: [snpt_1499636081499_59822__Thinking outside the bo.mwk, snpt_1499636082335_65879__Career paradox.mwk]
 			5b) doc = snpt_1499636081499_59822__Thinking outside the bo.mwk
 			5b) doc = snpt_1499636082335_65879__Career paradox.mwk
-5b)	267 :: [snpt_1499636082392_95361__NSPSEPC01_07_The Conque.mwk, snpt_1499636082361_91826__sshfs -o reconnect -p.mwk]
+5b)	266 :: [snpt_1499636082392_95361__NSPSEPC01_07_The Conque.mwk, snpt_1499636082361_91826__sshfs -o reconnect -p.mwk]
 			5b) doc = snpt_1499636082392_95361__NSPSEPC01_07_The Conque.mwk
 			5b) doc = snpt_1499636082361_91826__sshfs -o reconnect -p.mwk
-5b)	268 :: [snpt_1499484802431_52625.mwk, snpt_1499636082366_20220__Career encouragement.mwk]
+5b)	267 :: [snpt_1499484802431_52625.mwk, snpt_1499636082366_20220__Career encouragement.mwk]
 			5b) doc = snpt_1499484802431_52625.mwk
 			5b) doc = snpt_1499636082366_20220__Career encouragement.mwk
 5b)	148 :: [snpt_1499636081669_48978__import javaio*;.mwk, snpt_1499636081935_83641__public static int facto.mwk, snpt_1499636082024_69072__=======.mwk]
@@ -690,13 +173,13 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 5b)	41 :: [snpt_1499636080412_57996__song tags.mwk, snpt_1499636080669_72019__Roundness implies comfo.mwk]
 			5b) doc = snpt_1499636080412_57996__song tags.mwk
 			5b) doc = snpt_1499636080669_72019__Roundness implies comfo.mwk
-5b)	272 :: [water.mwk, snpt_1499636082372_712__eTouch training 27 Apr 13.mwk, snpt_1499636082342_4164__Career advice from mom 2014-04.mwk, snpt_1499636080621_74121__Career advice (from Jam.mwk, snpt_1499636081969_13193__inconsistent vs intelli.mwk]
+5b)	271 :: [water.mwk, snpt_1499636082372_712__eTouch training 27 Apr 13.mwk, snpt_1499636082342_4164__Career advice from mom 2014-04.mwk, snpt_1499636080621_74121__Career advice (from Jam.mwk, snpt_1499636081969_13193__inconsistent vs intelli.mwk]
 			5b) doc = water.mwk
 			5b) doc = snpt_1499636082372_712__eTouch training 27 Apr 13.mwk
 			5b) doc = snpt_1499636082342_4164__Career advice from mom 2014-04.mwk
 			5b) doc = snpt_1499636080621_74121__Career advice (from Jam.mwk
 			5b) doc = snpt_1499636081969_13193__inconsistent vs intelli.mwk
-5b)	279 :: [snpt_1499636082156_61956__Win some lose some.mwk, snpt_1499636082413_27774__Organization.mwk]
+5b)	278 :: [snpt_1499636082156_61956__Win some lose some.mwk, snpt_1499636082413_27774__Organization.mwk]
 			5b) doc = snpt_1499636082156_61956__Win some lose some.mwk
 			5b) doc = snpt_1499636082413_27774__Organization.mwk
 5b)	50 :: [snpt_1499636081673_1856__staged nudity is less a.mwk, snpt_1499636080801_25344__Breasts function of co.mwk]
@@ -705,7 +188,7 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 5b)	56 :: [snpt_1499636080872_11819__#meritocracy_myth.mwk, snpt_1499636081419_16999__All good rules have exc.mwk]
 			5b) doc = snpt_1499636080872_11819__#meritocracy_myth.mwk
 			5b) doc = snpt_1499636081419_16999__All good rules have exc.mwk
-5b)	283 :: [snpt_1499636082073_34654__im only half joking.mwk, snpt_1499636081855_69391__Life story.mwk, snpt_1500169560734_70060__normal_than_most_people.mwk]
+5b)	282 :: [snpt_1499636082073_34654__im only half joking.mwk, snpt_1499636081855_69391__Life story.mwk, snpt_1500169560734_70060__normal_than_most_people.mwk]
 			5b) doc = snpt_1499636082073_34654__im only half joking.mwk
 			5b) doc = snpt_1499636081855_69391__Life story.mwk
 			5b) doc = snpt_1500169560734_70060__normal_than_most_people.mwk
@@ -725,7 +208,7 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 			5b) doc = snpt_1499636081333_21183__There were two versions.mwk
 			5b) doc = snpt_1499636081870_27310__Titans Hot Ticket.mwk
 			5b) doc = snpt_1499636082035_66527__remove first line of fi.mwk
-5b)	219 :: [snpt_1499636081249_34859__Priority 3.mwk, snpt_1499636082056_68261__Siberian railroad documentary.mwk, snpt_1499636081549_54612__Priority 3.mwk, snpt_1499636082370_64985__government jobs.mwk, snpt_1499636082300_98661__Rohidekar.mwk, snpt_1499636081642_86570__Priority 3.mwk, snpt_1499636082222_33864__Bureaucracy in programming.mwk, snpt_1499636082228_91770__Thomas the tank engine tribute.mwk, snpt_1499636082296_21841__Rohidekar seal of approval.mwk, snpt_1499636081060_16676__Being womanly means am.mwk, snpt_1499636081209_32887__Priority 3.mwk, snpt_1499636081289_51063__Small businesses that d.mwk, snpt_1499636081958_68654__>>>>>>> 11b75f1939adece.mwk, snpt_1499636080358_48865__Los Angeles.mwk, snpt_1499636081555_14284__Priority 3.mwk, snpt_1499484802433_21578.mwk, snpt_1499636082207_5816__priority 3.mwk, snpt_1499636081659_64550__httpswwwyelpcomse.mwk, snpt_1499636081291_135__Business headquarters.mwk, snpt_1499636080901_76280__watch -n 5  find \| wc.mwk, snpt_1499636080590_793__For my 1994 birthday (p.mwk, snpt_1499636082223_5534__priority 3.mwk, snpt_1499636082367_74452__Etouch all hands 2013-03-05.mwk, snpt_1499636081964_63911__Siberian railroad documentary.mwk]
+5b)	218 :: [snpt_1499636081249_34859__Priority 3.mwk, snpt_1499636082056_68261__Siberian railroad documentary.mwk, snpt_1499636081549_54612__Priority 3.mwk, snpt_1499636082370_64985__government jobs.mwk, snpt_1499636082300_98661__Rohidekar.mwk, snpt_1499636081642_86570__Priority 3.mwk, snpt_1499636082222_33864__Bureaucracy in programming.mwk, snpt_1499636082228_91770__Thomas the tank engine tribute.mwk, snpt_1499636082296_21841__Rohidekar seal of approval.mwk, snpt_1499636081060_16676__Being womanly means am.mwk, snpt_1499636081209_32887__Priority 3.mwk, snpt_1499636081289_51063__Small businesses that d.mwk, snpt_1499636081958_68654__>>>>>>> 11b75f1939adece.mwk, snpt_1499636080358_48865__Los Angeles.mwk, snpt_1499636081555_14284__Priority 3.mwk, snpt_1499484802433_21578.mwk, snpt_1499636082207_5816__priority 3.mwk, snpt_1499636081659_64550__httpswwwyelpcomse.mwk, snpt_1499636081291_135__Business headquarters.mwk, snpt_1499636080901_76280__watch -n 5  find \| wc.mwk, snpt_1499636080590_793__For my 1994 birthday (p.mwk, snpt_1499636082223_5534__priority 3.mwk, snpt_1499636082367_74452__Etouch all hands 2013-03-05.mwk, snpt_1499636081964_63911__Siberian railroad documentary.mwk]
 			5b) doc = snpt_1499636081249_34859__Priority 3.mwk
 			5b) doc = snpt_1499636082056_68261__Siberian railroad documentary.mwk
 			5b) doc = snpt_1499636081549_54612__Priority 3.mwk
@@ -753,16 +236,10 @@ MahoutTermFinderMwkSnptRefactoredCluster.main() - begin
 5b)	103 :: [snpt_1499636082341_92899__Business hsitory.mwk, snpt_1499636081377_14486__Life story.mwk]
 			5b) doc = snpt_1499636082341_92899__Business hsitory.mwk
 			5b) doc = snpt_1499636081377_14486__Life story.mwk
-5b)	225 :: [snpt_1499636082074_28822__ West Bromwic.mwk, snpt_1499636082336_49131__Madrid Revisited (Master).mwk]
+5b)	224 :: [snpt_1499636082074_28822__ West Bromwic.mwk, snpt_1499636082336_49131__Madrid Revisited (Master).mwk]
 			5b) doc = snpt_1499636082074_28822__ West Bromwic.mwk
 			5b) doc = snpt_1499636082336_49131__Madrid Revisited (Master).mwk
-5b)	229 :: [snpt_1499636082114_68200__Automobiles may not off.mwk, snpt_1499636082382_74269__All generalizations ar.mwk]
+5b)	228 :: [snpt_1499636082114_68200__Automobiles may not off.mwk, snpt_1499636082382_74269__All generalizations ar.mwk]
 			5b) doc = snpt_1499636082114_68200__Automobiles may not off.mwk
 			5b) doc = snpt_1499636082382_74269__All generalizations ar.mwk
 TODO: I think we need to accept that not everything will be in a cluster, the unclustered documents will be a long-tail. We need to add more documents, reduce the cluster radius, and hope we find some good clusters.
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 01:57 min
-[INFO] Finished at: 2018-09-17T23:45:49-07:00
-[INFO] ------------------------------------------------------------------------
