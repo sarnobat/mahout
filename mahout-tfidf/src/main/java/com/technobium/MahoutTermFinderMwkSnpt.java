@@ -97,7 +97,8 @@ public class MahoutTermFinderMwkSnpt {
                             if (fileInPath.toFile().exists()) {
                             	Text id = new Text(fileInPath.getFileName().toString());
                             	String readFileToString = FileUtils.readFileToString(Paths.get(fileInPath.toUri()).toFile());
-                            	System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::" + readFileToString.substring(0,30));
+                            	System.err.println("SRIDHAR - readFileToString.length() " + readFileToString.length());
+                            	System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::" + readFileToString.substring(0, Math.min(readFileToString.length() - 1, 30)));
                             	// This is wrong, the id is the parent dir, not the file 
 								writer.append(id,
                                         new Text(readFileToString));
