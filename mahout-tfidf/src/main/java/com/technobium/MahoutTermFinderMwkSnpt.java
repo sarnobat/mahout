@@ -70,8 +70,7 @@ public class MahoutTermFinderMwkSnpt {
         {
             SequenceFile.Writer writer = new SequenceFile.Writer(FileSystem.get(configuration), configuration,
                     documentsSequencePath, Text.class, Text.class);
-
-            for (String path : new String[] { System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/aspergers",
+			String[] dirs = new String[] { System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/aspergers",
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/atletico",
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/business",
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/career",
@@ -87,7 +86,8 @@ public class MahoutTermFinderMwkSnpt {
                             + "/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming",
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/travel",
                     System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
-                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling", }) {
+                    System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling" };
+            for (String path : dirs) {
                 DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
                 try {
                     for (java.nio.file.Path fileInPath : stream) {
