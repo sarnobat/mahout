@@ -89,9 +89,9 @@ public class MahoutTermFinderMwkSnptRefactoredComments {
 					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/travel",
 					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
 					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling" };
-		// ----------------------------------------------------------------------
-		// 1) Reading documents
-		// ----------------------------------------------------------------------
+			// ----------------------------------------------------------------------
+			// 1) Reading documents
+			// ----------------------------------------------------------------------
 
 			for (String path : dirs) {
 				DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
