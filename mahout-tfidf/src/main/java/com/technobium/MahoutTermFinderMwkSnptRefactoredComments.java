@@ -90,7 +90,7 @@ public class MahoutTermFinderMwkSnptRefactoredComments {
 					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
 					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling" };
 			// ----------------------------------------------------------------------
-			// 1) Reading documents
+			// 1) Write [doc path, doc content] pairs to a concurrent map
 			// ----------------------------------------------------------------------
 
 			for (String path : dirs) {
