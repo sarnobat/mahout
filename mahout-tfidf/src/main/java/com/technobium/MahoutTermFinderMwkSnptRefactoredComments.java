@@ -89,6 +89,10 @@ public class MahoutTermFinderMwkSnptRefactoredComments {
 					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/travel",
 					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
 					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling" };
+		// ----------------------------------------------------------------------
+		// 1) Reading documents
+		// ----------------------------------------------------------------------
+
 			for (String path : dirs) {
 				DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
 				try {
@@ -116,6 +120,9 @@ public class MahoutTermFinderMwkSnptRefactoredComments {
 
 			writer.close();
 		}
+		// ----------------------------------------------------------------------
+		// 2) Tokenizing documents
+		// ----------------------------------------------------------------------
 		{
 			Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
 			System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Adding tokenized documents to folder "
@@ -135,10 +142,16 @@ public class MahoutTermFinderMwkSnptRefactoredComments {
 			}
 			System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + tokenizedDocumentsPath + " ===> "
 					+ new Path(outputFolder + "/" + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
+			// ----------------------------------------------------------------------
+			// 2) Counting term frequencies
+			// ----------------------------------------------------------------------
 			DictionaryVectorizer.createTermFrequencyVectors(tokenizedDocumentsPath, new Path(outputFolder),
 					DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, configuration, 1, 1, 0.0f,
 					PartialVectorMerger.NO_NORMALIZING, true, 1, 100, false, false);
 //            System.err.println("MahoutTermFinder.calculateTfIdf() - Creating term vectors using input file " + new Path(outputFolder + DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER));
+			// ----------------------------------------------------------------------
+			// 4) Counting document frequencies
+			// ----------------------------------------------------------------------
 			Path tfidfPath = new Path(outputFolder + "tfidf");
 			System.err.println("MahoutTermFinder.calculateTfIdf() - adding document frequencies to file " + tfidfPath);
 			{
@@ -176,6 +189,9 @@ public class MahoutTermFinderMwkSnptRefactoredComments {
 			dictionary = termToOrdinalMappings2;
 		}
 
+		// ----------------------------------------------------------------------
+		// 5) Clustering
+		// ----------------------------------------------------------------------
 		System.err.println("MahoutTermFinder.main() - Creating TFIDF Vectors");
 		Map<String, Object> tfidf;
 		{
