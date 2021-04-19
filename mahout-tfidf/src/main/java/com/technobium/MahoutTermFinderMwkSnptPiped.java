@@ -53,8 +53,7 @@ import com.google.common.collect.HashBiMap;
  */
 // This was un-abstracted so that we can try and find phrases for the clustering code.
 // This doesn't fail, but the documents are wrong.
-@Deprecated // - use {@link MahoutTermFinderMwkSnptPiped}.
-public class MahoutTermFinderMwkSnptRefactoredComments {
+public class MahoutTermFinderMwkSnptPiped {
 
 	private static final int THRESHOLD = 1;
 
