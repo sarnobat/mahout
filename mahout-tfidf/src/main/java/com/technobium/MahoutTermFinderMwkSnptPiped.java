@@ -1,6 +1,8 @@
 package com.technobium;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -95,30 +97,50 @@ public class MahoutTermFinderMwkSnptPiped {
 			// 1) Write [doc path, doc content] pairs to a concurrent map
 			// ----------------------------------------------------------------------
 
-			for (String path : dirs) {
-				DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
-				try {
-					for (java.nio.file.Path fileInPath : stream) {
-						if (Files.isDirectory(fileInPath)) {
-							// listFiles(entry);
-						} else {
-							if (fileInPath.toFile().exists()) {
-								Text id = new Text(fileInPath.getFileName().toString());
-								String readFileToString = FileUtils
-										.readFileToString(Paths.get(fileInPath.toUri()).toFile());
-								System.err.println("SRIDHAR - readFileToString.length() " + readFileToString.length());
-								System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::"
-										+ readFileToString.substring(0, Math.min(readFileToString.length() - 1, 30)));
-								// This is wrong, the id is the parent dir, not the file
-								writer.append(id, new Text(readFileToString));
-							}
-						}
+			BufferedReader br = null;
+			br = new BufferedReader(new InputStreamReader(System.in));
+			String line;
+			while ((line = br.readLine()) != null) {
+				java.nio.file.Path mwkFilePath = Paths.get(line);
+				if (Files.isDirectory(mwkFilePath)) {
+					// Do nothing
+				} else {
+					if (mwkFilePath.toFile().exists()) {
+						Text id = new Text(mwkFilePath.getFileName().toString());
+						String readFileToString = FileUtils.readFileToString(Paths.get(mwkFilePath.toUri()).toFile());
+						System.err.println("SRIDHAR - readFileToString.length() " + readFileToString.length());
+						System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::"
+								+ readFileToString.substring(0, Math.min(readFileToString.length() - 1, 30)));
+						// This is wrong, the id is the parent dir, not the file
+						writer.append(id, new Text(readFileToString));
 					}
-				} catch (IOException e3) {
-					throw e3;
-				} finally {
 				}
 			}
+
+//			for (String path : dirs) {
+//				DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
+//				try {
+//					for (java.nio.file.Path fileInPath : stream) {
+//						if (Files.isDirectory(fileInPath)) {
+//							// listFiles(entry);
+//						} else {
+//							if (fileInPath.toFile().exists()) {
+//								Text id = new Text(fileInPath.getFileName().toString());
+//								String readFileToString = FileUtils
+//										.readFileToString(Paths.get(fileInPath.toUri()).toFile());
+//								System.err.println("SRIDHAR - readFileToString.length() " + readFileToString.length());
+//								System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::"
+//										+ readFileToString.substring(0, Math.min(readFileToString.length() - 1, 30)));
+//								// This is wrong, the id is the parent dir, not the file
+//								writer.append(id, new Text(readFileToString));
+//							}
+//						}
+//					}
+//				} catch (IOException e3) {
+//					throw e3;
+//				} finally {
+//				}
+//			}
 
 			writer.close();
 		}
