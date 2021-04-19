@@ -284,9 +284,14 @@ public class MahoutTermFinderMwkSnptPiped {
 					return e1.getValue().compareTo(e2.getValue());
 				}
 			});
-			// TODO: print the final x entries
-			// TODO: parameterize 5
+
 //			for (Entry<String, Double> e : sortedEntries) {
+//				Integer number = (int) (e.getValue() * 10);
+//				String s = StringUtils.leftPad(number.toString(), 3);
+//				System.out.println(filename + ": " + s + " " + e.getKey());
+//			}
+			
+			// TODO: parameterize 5
 			for (int i = sortedEntries.size() - 1; i > 5; i--) {
 				Entry<String, Double> e = sortedEntries.get(i);
 				Integer number = (int) (e.getValue() * 10);
