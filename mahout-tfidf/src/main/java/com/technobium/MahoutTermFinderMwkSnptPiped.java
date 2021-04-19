@@ -285,15 +285,15 @@ public class MahoutTermFinderMwkSnptPiped {
 				}
 			});
 
-			for (Entry<String, Double> e : sortedEntries1) {
-				Integer number = (int) (e.getValue() * 10);
-				String s = StringUtils.leftPad(number.toString(), 3);
-				System.err.println("MahoutTermFinderMwkSnptPiped.main() (untruncated) " + filename + ": " + s + " " + e.getKey());
-			}
+//			for (Entry<String, Double> e : sortedEntries1) {
+//				Integer number = (int) (e.getValue() * 10);
+//				String s = StringUtils.leftPad(number.toString(), 3);
+//				System.err.println("MahoutTermFinderMwkSnptPiped.main() (untruncated) " + filename + ": " + s + " " + e.getKey());
+//			}
 			
 			// TODO: parameterize 5
 			
-			List<Entry<String, Double>> sortedEntries = sortedEntries1.stream().skip(Math.max(0, sortedEntries1.size() - 5)).collect(Collectors.toList());
+			List<Entry<String, Double>> sortedEntries = sortedEntries1.stream().skip(Math.max(0, sortedEntries1.size() - Integer.valueOf(System.getProperty("termLimitPerFile","5")))).collect(Collectors.toList());
 			System.err.println("MahoutTermFinderMwkSnptPiped.main() truncated " + sortedEntries1.size() + " to " + sortedEntries.size());
 			for (int i = 0; i < sortedEntries.size(); i++) {
 				Entry<String, Double> e = sortedEntries.get(i);
