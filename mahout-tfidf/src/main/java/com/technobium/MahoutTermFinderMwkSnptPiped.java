@@ -104,7 +104,7 @@ public class MahoutTermFinderMwkSnptPiped {
 		// ----------------------------------------------------------------------
 		// 2) Tokenize each document into a list of terms
 		// ----------------------------------------------------------------------
-		
+
 		{
 			Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
 			System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Adding tokenized documents to folder "
@@ -267,8 +267,9 @@ public class MahoutTermFinderMwkSnptPiped {
 		// Print the most insightful terms
 		// -------------------------------------------------
 
-		// Note: training data already sorted isn't needed for this. Only the clustering. 
-		
+		// Note: training data already sorted isn't needed for this. Only the
+		// clustering.
+
 		Map<String, Map<String, Double>> filter = fileToHighScoreTermsToScores;
 		System.err.println("MahoutTermFinderMwkSnpt.main() - printing terms that satisfy the minimum score.");
 		for (String filename : filter.keySet()) {
@@ -284,7 +285,10 @@ public class MahoutTermFinderMwkSnptPiped {
 				}
 			});
 			// TODO: print the final x entries
-			for (Entry<String, Double> e : sortedEntries) {
+			// TODO: parameterize 5
+//			for (Entry<String, Double> e : sortedEntries) {
+			for (int i = sortedEntries.size() - 1; i > 5; i--) {
+				Entry<String, Double> e = sortedEntries.get(i);
 				Integer number = (int) (e.getValue() * 10);
 				String s = StringUtils.leftPad(number.toString(), 3);
 				System.out.println(filename + ": " + s + " " + e.getKey());
