@@ -71,28 +71,10 @@ public class MahoutTermFinderMwkSnptPiped {
 		System.err.println(
 				"SRIDHAR MahoutTermFinderMwkSnpt.main() - Creating sequence file from mwk snippet files, outputting files to sequence file "
 						+ documentsSequencePath + " (large)");
-		// TODO: we should use stdin to get the list of mwk files. Then we can run
-		// smaller quicker jobs using unix pipe filtering
 		{
 			SequenceFile.Writer writer = new SequenceFile.Writer(FileSystem.get(configuration), configuration,
 					documentsSequencePath, Text.class, Text.class);
-			String[] dirs = new String[] { System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/aspergers",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/atletico",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/business",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/career",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/equalizer",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/productivity",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/self",
-					System.getProperty("user.home")
-							+ "/sarnobat.git/mwk/snippets/self/approval_attention_social_status",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/self/cliquology_and_bullying/",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/soccer",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/tech/programming_tips",
-					System.getProperty("user.home")
-							+ "/sarnobat.git/mwk/snippets/tech/programming_tips/functional_programming",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/travel",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/video_editing",
-					System.getProperty("user.home") + "/sarnobat.git/mwk/snippets/wrestling" };
+
 			// ----------------------------------------------------------------------
 			// 1) Write [doc path, doc content] pairs to a concurrent map
 			// ----------------------------------------------------------------------
@@ -110,43 +92,19 @@ public class MahoutTermFinderMwkSnptPiped {
 						String readFileToString = FileUtils.readFileToString(Paths.get(mwkFilePath.toUri()).toFile());
 						System.err.println("SRIDHAR - readFileToString.length() " + readFileToString.length());
 						System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::"
-								+ readFileToString.substring(0, Math.min(readFileToString.length() - 1, 30)));
+								+ readFileToString.substring(0, Math.min(readFileToString.length(), 30)));
 						// This is wrong, the id is the parent dir, not the file
 						writer.append(id, new Text(readFileToString));
 					}
 				}
 			}
 
-//			for (String path : dirs) {
-//				DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(Paths.get(path));
-//				try {
-//					for (java.nio.file.Path fileInPath : stream) {
-//						if (Files.isDirectory(fileInPath)) {
-//							// listFiles(entry);
-//						} else {
-//							if (fileInPath.toFile().exists()) {
-//								Text id = new Text(fileInPath.getFileName().toString());
-//								String readFileToString = FileUtils
-//										.readFileToString(Paths.get(fileInPath.toUri()).toFile());
-//								System.err.println("SRIDHAR - readFileToString.length() " + readFileToString.length());
-//								System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::"
-//										+ readFileToString.substring(0, Math.min(readFileToString.length() - 1, 30)));
-//								// This is wrong, the id is the parent dir, not the file
-//								writer.append(id, new Text(readFileToString));
-//							}
-//						}
-//					}
-//				} catch (IOException e3) {
-//					throw e3;
-//				} finally {
-//				}
-//			}
-
 			writer.close();
 		}
 		// ----------------------------------------------------------------------
 		// 2) Tokenize each document into a list of terms
 		// ----------------------------------------------------------------------
+		
 		{
 			Path tokenizedDocumentsPath = new Path(outputFolder, DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
 			System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - Adding tokenized documents to folder "
@@ -305,6 +263,12 @@ public class MahoutTermFinderMwkSnptPiped {
 				throw new RuntimeException("No terms found for " + file);
 			}
 		}
+		// -------------------------------------------------
+		// Print the most insightful terms
+		// -------------------------------------------------
+
+		// Note: training data already sorted isn't needed for this. Only the clustering. 
+		
 		Map<String, Map<String, Double>> filter = fileToHighScoreTermsToScores;
 		System.err.println("MahoutTermFinderMwkSnpt.main() - printing terms that satisfy the minimum score.");
 		for (String filename : filter.keySet()) {
@@ -319,6 +283,7 @@ public class MahoutTermFinderMwkSnptPiped {
 					return e1.getValue().compareTo(e2.getValue());
 				}
 			});
+			// TODO: print the final x entries
 			for (Entry<String, Double> e : sortedEntries) {
 				Integer number = (int) (e.getValue() * 10);
 				String s = StringUtils.leftPad(number.toString(), 3);
