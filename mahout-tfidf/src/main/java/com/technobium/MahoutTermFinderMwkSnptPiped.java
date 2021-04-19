@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -88,7 +89,7 @@ public class MahoutTermFinderMwkSnptPiped {
 					// Do nothing
 				} else {
 					if (mwkFilePath.toFile().exists()) {
-						Text id = new Text(mwkFilePath.getFileName().toString());
+						Text id = new Text(mwkFilePath.toString());
 						String readFileToString = FileUtils.readFileToString(Paths.get(mwkFilePath.toUri()).toFile());
 						System.err.println("SRIDHAR - readFileToString.length() " + readFileToString.length());
 						System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - " + id + "::"
@@ -273,26 +274,28 @@ public class MahoutTermFinderMwkSnptPiped {
 		Map<String, Map<String, Double>> filter = fileToHighScoreTermsToScores;
 		System.err.println("MahoutTermFinderMwkSnpt.main() - printing terms that satisfy the minimum score.");
 		for (String filename : filter.keySet()) {
-			// System.err.println("MahoutTermFinder.main()");
 			Map<String, Double> scoresForDocument = filter.get(filename);
-			List<Entry<String, Double>> sortedEntries = new ArrayList<Entry<String, Double>>(
+			List<Entry<String, Double>> sortedEntries1 = new ArrayList<Entry<String, Double>>(
 					scoresForDocument.entrySet()).subList(0, Math.min(20, scoresForDocument.size()));
 
-			Collections.sort(sortedEntries, new Comparator<Entry<String, Double>>() {
+			Collections.sort(sortedEntries1, new Comparator<Entry<String, Double>>() {
 				// @Override
 				public int compare(Entry<String, Double> e1, Entry<String, Double> e2) {
 					return e1.getValue().compareTo(e2.getValue());
 				}
 			});
 
-//			for (Entry<String, Double> e : sortedEntries) {
-//				Integer number = (int) (e.getValue() * 10);
-//				String s = StringUtils.leftPad(number.toString(), 3);
-//				System.out.println(filename + ": " + s + " " + e.getKey());
-//			}
+			for (Entry<String, Double> e : sortedEntries1) {
+				Integer number = (int) (e.getValue() * 10);
+				String s = StringUtils.leftPad(number.toString(), 3);
+				System.err.println("MahoutTermFinderMwkSnptPiped.main() (untruncated) " + filename + ": " + s + " " + e.getKey());
+			}
 			
 			// TODO: parameterize 5
-			for (int i = sortedEntries.size() - 1; i > 5; i--) {
+			
+			List<Entry<String, Double>> sortedEntries = sortedEntries1.stream().skip(Math.max(0, sortedEntries1.size() - 5)).collect(Collectors.toList());
+			System.err.println("MahoutTermFinderMwkSnptPiped.main() truncated " + sortedEntries1.size() + " to " + sortedEntries.size());
+			for (int i = 0; i < sortedEntries.size(); i++) {
 				Entry<String, Double> e = sortedEntries.get(i);
 				Integer number = (int) (e.getValue() * 10);
 				String s = StringUtils.leftPad(number.toString(), 3);
