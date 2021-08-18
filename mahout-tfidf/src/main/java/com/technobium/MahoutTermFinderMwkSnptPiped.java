@@ -169,8 +169,13 @@ public class MahoutTermFinderMwkSnptPiped {
 			for (Pair<Writable, Writable> sequenceFile : sequenceFiles2) {
 				// System.err.println("SRIDHAR MahoutTermFinderMwkSnpt.main() - sequenceFile = "
 				// + sequenceFile);
-				// System.err.format("%10s -> %s\n", pair.getFirst(), pair.getSecond());
-				termToOrdinalMappings2.put(sequenceFile.getFirst().toString(), sequenceFile.getSecond());
+//				 System.err.format("%10s -> %s\n", sequenceFile.getFirst(), sequenceFile.getSecond());
+				if (sequenceFile.getFirst().toString().matches("^[0-9]+$")) {
+					// numbers shouldn't usually be terms
+					System.err.format("MahoutTermFinderMwkSnptPiped.exclude() ignored term: %10s -> %s\n", sequenceFile.getFirst(), sequenceFile.getSecond());
+				} else {
+					termToOrdinalMappings2.put(sequenceFile.getFirst().toString(), sequenceFile.getSecond());
+				}
 			}
 			dictionary = termToOrdinalMappings2;
 		}
@@ -226,7 +231,9 @@ public class MahoutTermFinderMwkSnptPiped {
 				for (Element scoreElement : tfidf2.get().all()) {
 					int id = scoreElement.index();
 					if (!terms1.containsKey(id)) {
-						throw new RuntimeException("Couldn't find key " + id + ", only found " + terms1.keySet());
+						//throw new RuntimeException("Couldn't find key " + id + ", only found " + terms1.keySet());
+						//System.err.println("[DEBUG] Couldn't find key " + id);
+						continue;
 					}
 					String term = (String) terms1.get(id);
 					double score = scoreElement.get();
@@ -290,11 +297,15 @@ public class MahoutTermFinderMwkSnptPiped {
 //				String s = StringUtils.leftPad(number.toString(), 3);
 //				System.err.println("MahoutTermFinderMwkSnptPiped.main() (untruncated) " + filename + ": " + s + " " + e.getKey());
 //			}
-			
+
 			// TODO: parameterize 5
-			
-			List<Entry<String, Double>> sortedEntries = sortedEntries1.stream().skip(Math.max(0, sortedEntries1.size() - Integer.valueOf(System.getProperty("termLimitPerFile","5")))).collect(Collectors.toList());
-			System.err.println("MahoutTermFinderMwkSnptPiped.main() truncated " + sortedEntries1.size() + " to " + sortedEntries.size());
+
+			List<Entry<String, Double>> sortedEntries = sortedEntries1.stream()
+					.skip(Math.max(0,
+							sortedEntries1.size() - Integer.valueOf(System.getProperty("termLimitPerFile", "5"))))
+					.collect(Collectors.toList());
+			System.err.println("MahoutTermFinderMwkSnptPiped.main() truncated " + sortedEntries1.size() + " to "
+					+ sortedEntries.size());
 			for (int i = 0; i < sortedEntries.size(); i++) {
 				Entry<String, Double> e = sortedEntries.get(i);
 				Integer number = (int) (e.getValue() * 10);
